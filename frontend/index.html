@@ -1,0 +1,2801 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPH — Université Polyvalente d'Haïti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1628;
+  --navy-mid: #112240;
+  --navy-light: #1e3a5f;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-pale: #fdf5e1;
+  --cream: #faf8f3;
+  --white: #ffffff;
+  --gray-50: #f8f9fa;
+  --gray-100: #f1f3f5;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-500: #6c757d;
+  --gray-700: #495057;
+  --gray-900: #212529;
+  --green: #1a7a4a;
+  --green-light: #d4edda;
+  --red: #c0392b;
+  --red-light: #fde8e8;
+  --blue: #1565c0;
+  --blue-light: #e3f0ff;
+  --orange: #e07b2a;
+  --orange-light: #fff0e1;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --transition: all 0.2s ease;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: var(--font-body); background: var(--cream); color: var(--gray-900); overflow-x:hidden; }
+h1,h2,h3 { font-family: var(--font-display); }
+
+/* ===== VIEWS ===== */
+.view { display:none; min-height:100vh; }
+.view.active { display:block; }
+
+/* ===== NAV ===== */
+nav.main-nav {
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  background: rgba(10,22,40,0.97); backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,168,76,0.2);
+  padding:0 2rem; height:68px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-brand { display:flex; align-items:center; gap:12px; cursor:pointer; }
+.nav-logo-circle {
+  width:40px; height:40px; border-radius:50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-display); font-size:14px; font-weight:700; color:var(--navy);
+}
+.nav-brand-text { color:white; }
+.nav-brand-text .brand-name { font-family: var(--font-display); font-size:18px; font-weight:600; color:var(--gold-light); line-height:1.1; }
+.nav-brand-text .brand-sub { font-size:10px; color:rgba(255,255,255,0.5); letter-spacing:2px; text-transform:uppercase; }
+.nav-links { display:flex; gap:8px; align-items:center; }
+.nav-link { color:rgba(255,255,255,0.7); text-decoration:none; padding:8px 14px; border-radius:6px; font-size:14px; font-weight:500; cursor:pointer; transition:var(--transition); border:none; background:none; }
+.nav-link:hover { color:white; background:rgba(255,255,255,0.08); }
+.nav-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color:var(--navy); padding:8px 20px; border-radius:6px; font-size:14px; font-weight:600; cursor:pointer; border:none; transition:var(--transition); }
+.nav-btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(201,168,76,0.4); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height:100vh; position:relative; overflow:hidden;
+  background: var(--navy);
+  display:flex; align-items:center;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse at 20% 60%, rgba(30,58,95,0.8) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.12) 0%, transparent 50%),
+              linear-gradient(160deg, #0a1628 0%, #112240 50%, #0d1f3a 100%);
+}
+.hero-pattern {
+  position:absolute; inset:0; opacity:0.04;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,1) 60px, rgba(255,255,255,1) 61px),
+                    repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,1) 60px, rgba(255,255,255,1) 61px);
+}
+.hero-content { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:120px 2rem 80px; width:100%; }
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.3);
+  color:var(--gold-light); padding:6px 16px; border-radius:100px; font-size:13px; font-weight:500;
+  margin-bottom:2rem; letter-spacing:0.5px;
+}
+.hero-badge-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.hero-title { font-family: var(--font-display); font-size:clamp(36px,5vw,68px); font-weight:700; color:white; line-height:1.05; margin-bottom:1.5rem; }
+.hero-title span { color:var(--gold-light); }
+.hero-desc { font-size:18px; color:rgba(255,255,255,0.65); max-width:560px; line-height:1.75; margin-bottom:2.5rem; font-weight:300; }
+.hero-actions { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:5rem; }
+.btn-hero-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color:var(--navy); padding:14px 32px; border-radius:8px; font-size:16px; font-weight:600;
+  cursor:pointer; border:none; transition:var(--transition); display:inline-flex; align-items:center; gap:8px;
+}
+.btn-hero-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(201,168,76,0.5); }
+.btn-hero-secondary {
+  background:transparent; color:white; padding:14px 32px; border-radius:8px; font-size:16px; font-weight:500;
+  cursor:pointer; border:1px solid rgba(255,255,255,0.2); transition:var(--transition);
+}
+.btn-hero-secondary:hover { border-color:rgba(255,255,255,0.5); background:rgba(255,255,255,0.06); }
+.hero-stats { display:flex; gap:3rem; flex-wrap:wrap; }
+.hero-stat .num { font-family: var(--font-display); font-size:36px; font-weight:700; color:var(--gold-light); }
+.hero-stat .lbl { font-size:13px; color:rgba(255,255,255,0.5); margin-top:2px; letter-spacing:0.5px; }
+
+/* ===== SECTIONS ===== */
+.section { padding:100px 2rem; }
+.section-inner { max-width:1200px; margin:0 auto; }
+.section-label { font-size:12px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+.section-title { font-family: var(--font-display); font-size:clamp(28px,3.5vw,48px); font-weight:700; color:var(--navy); margin-bottom:1.5rem; line-height:1.15; }
+.section-desc { font-size:17px; color:var(--gray-500); max-width:560px; line-height:1.75; }
+
+/* ===== FACULTIES GRID ===== */
+.faculties-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:24px; margin-top:3rem; }
+.faculty-card {
+  background:white; border-radius:var(--radius-lg); padding:2rem; border:1px solid var(--gray-200);
+  transition:var(--transition); cursor:pointer; position:relative; overflow:hidden;
+}
+.faculty-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+.faculty-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--gold); }
+.faculty-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; margin-bottom:1.25rem; }
+.faculty-card h3 { font-family: var(--font-display); font-size:20px; color:var(--navy); margin-bottom:0.5rem; }
+.faculty-card p { font-size:14px; color:var(--gray-500); line-height:1.65; }
+.faculty-count { margin-top:1.25rem; font-size:13px; font-weight:600; color:var(--gold); }
+
+/* ===== ABOUT SECTION ===== */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+.about-visual {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  border-radius:var(--radius-lg); padding:3rem; color:white; position:relative; overflow:hidden;
+}
+.about-visual::before {
+  content:''; position:absolute; top:-40px; right:-40px; width:200px; height:200px;
+  border-radius:50%; background:rgba(201,168,76,0.08);
+}
+.about-numbers { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:2rem; }
+.about-number { background:rgba(255,255,255,0.06); border-radius:10px; padding:1.25rem; border:1px solid rgba(255,255,255,0.08); }
+.about-number .n { font-family: var(--font-display); font-size:32px; font-weight:700; color:var(--gold-light); }
+.about-number .l { font-size:13px; color:rgba(255,255,255,0.5); margin-top:4px; }
+.about-features { list-style:none; margin-top:2rem; }
+.about-features li { padding:10px 0; border-bottom:1px solid var(--gray-100); font-size:15px; color:var(--gray-700); display:flex; align-items:center; gap:10px; }
+.about-features li::before { content:''; width:20px; height:20px; border-radius:50%; background:var(--green-light); display:flex; flex-shrink:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a7a4a'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E"); background-size:14px; background-repeat:no-repeat; background-position:center; }
+
+/* ===== NEWS SECTION ===== */
+.news-section { background: var(--navy); }
+.news-section .section-title { color:white; }
+.news-section .section-label { color:var(--gold); }
+.news-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:24px; margin-top:3rem; }
+.news-card { background:rgba(255,255,255,0.04); border-radius:var(--radius-lg); overflow:hidden; border:1px solid rgba(255,255,255,0.07); transition:var(--transition); }
+.news-card:hover { border-color:rgba(201,168,76,0.3); transform:translateY(-3px); }
+.news-img { height:180px; display:flex; align-items:center; justify-content:center; font-size:48px; }
+.news-body { padding:1.5rem; }
+.news-tag { font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); margin-bottom:0.75rem; }
+.news-card h4 { font-family: var(--font-display); font-size:18px; color:white; margin-bottom:0.75rem; line-height:1.35; }
+.news-card p { font-size:14px; color:rgba(255,255,255,0.5); line-height:1.65; }
+.news-date { font-size:13px; color:rgba(255,255,255,0.3); margin-top:1rem; }
+
+/* ===== FOOTER ===== */
+footer {
+  background:var(--navy); border-top:1px solid rgba(255,255,255,0.06);
+  padding:60px 2rem 30px; color:rgba(255,255,255,0.5);
+}
+.footer-inner { max-width:1200px; margin:0 auto; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
+.footer-brand .brand-name { font-family: var(--font-display); font-size:22px; color:var(--gold-light); margin-bottom:1rem; }
+.footer-brand p { font-size:14px; line-height:1.7; }
+.footer-col h5 { font-size:14px; font-weight:600; color:white; margin-bottom:1.25rem; letter-spacing:0.5px; }
+.footer-col a { display:block; font-size:14px; color:rgba(255,255,255,0.45); text-decoration:none; margin-bottom:8px; cursor:pointer; transition:var(--transition); }
+.footer-col a:hover { color:var(--gold-light); }
+.footer-bottom { border-top:1px solid rgba(255,255,255,0.06); padding-top:1.5rem; display:flex; justify-content:space-between; font-size:13px; }
+
+/* ===== AUTH MODAL ===== */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);
+  z-index:2000; display:none; align-items:center; justify-content:center; padding:1rem;
+}
+.modal-overlay.active { display:flex; }
+.modal { background:white; border-radius:var(--radius-lg); width:100%; max-width:480px; overflow:hidden; box-shadow:var(--shadow-lg); animation:modalIn 0.3s ease; max-height:90vh; display:flex; flex-direction:column; }
+@keyframes modalIn { from{opacity:0;transform:scale(0.95)translateY(10px)} to{opacity:1;transform:scale(1)translateY(0)} }
+.modal-header { background: var(--navy); padding:2rem 2rem 1.5rem; position:relative; }
+.modal-header h2 { font-family: var(--font-display); font-size:26px; color:white; margin-bottom:0.25rem; }
+.modal-header p { font-size:14px; color:rgba(255,255,255,0.5); }
+.modal-close { position:absolute; top:1rem; right:1rem; background:rgba(255,255,255,0.1); border:none; color:white; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:var(--transition); }
+.modal-close:hover { background:rgba(255,255,255,0.2); }
+.modal-body { padding:2rem; overflow-y:auto; flex:1; }
+.modal-tabs { display:flex; gap:0; margin-bottom:2rem; background:var(--gray-100); border-radius:8px; padding:3px; }
+.modal-tab { flex:1; padding:9px; text-align:center; font-size:14px; font-weight:500; cursor:pointer; border-radius:6px; border:none; background:transparent; color:var(--gray-500); transition:var(--transition); }
+.modal-tab.active { background:white; color:var(--navy); box-shadow:var(--shadow-sm); }
+.form-group { margin-bottom:1.25rem; }
+.form-label { display:block; font-size:13px; font-weight:600; color:var(--gray-700); margin-bottom:6px; letter-spacing:0.3px; }
+.form-input, .form-select, .form-textarea {
+  width:100%; padding:11px 14px; border:1.5px solid var(--gray-200); border-radius:8px;
+  font-family: var(--font-body); font-size:15px; color:var(--gray-900); transition:var(--transition);
+  background:white; outline:none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--navy); box-shadow:0 0 0 3px rgba(10,22,40,0.08); }
+.form-textarea { resize:vertical; min-height:100px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.btn-primary {
+  width:100%; padding:13px; background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color:white; border:none; border-radius:8px; font-size:15px; font-weight:600;
+  cursor:pointer; transition:var(--transition); font-family: var(--font-body);
+}
+.btn-primary:hover { transform:translateY(-1px); box-shadow:var(--shadow-md); }
+.btn-gold {
+  padding:10px 24px; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color:var(--navy); border:none; border-radius:8px; font-size:14px; font-weight:600;
+  cursor:pointer; transition:var(--transition); font-family: var(--font-body);
+}
+.btn-gold:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(201,168,76,0.4); }
+.btn-outline { padding:10px 24px; background:transparent; color:var(--navy); border:1.5px solid var(--gray-200); border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; transition:var(--transition); font-family: var(--font-body); }
+.btn-outline:hover { border-color:var(--navy); }
+.btn-sm { padding:7px 16px; font-size:13px; }
+.btn-danger { padding:8px 16px; background:var(--red-light); color:var(--red); border:none; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; transition:var(--transition); }
+.btn-danger:hover { background:var(--red); color:white; }
+.btn-success { padding:8px 16px; background:var(--green-light); color:var(--green); border:none; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; transition:var(--transition); }
+.btn-success:hover { background:var(--green); color:white; }
+.form-error { color:var(--red); font-size:13px; margin-top:8px; }
+.form-divider { text-align:center; color:var(--gray-500); font-size:13px; margin:1.5rem 0; position:relative; }
+.form-divider::before { content:''; position:absolute; left:0; top:50%; width:43%; height:1px; background:var(--gray-200); }
+.form-divider::after { content:''; position:absolute; right:0; top:50%; width:43%; height:1px; background:var(--gray-200); }
+
+/* ===== DASHBOARD LAYOUT ===== */
+.dash-layout { display:flex; min-height:100vh; background:var(--gray-50); }
+.dash-sidebar {
+  width:260px; flex-shrink:0; background:var(--navy); min-height:100vh;
+  display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+.dash-sidebar-header { padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.07); }
+.dash-sidebar-header .logo { display:flex; align-items:center; gap:10px; }
+.dash-sidebar-header .logo-circle { width:36px; height:36px; border-radius:50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:12px; font-weight:700; color:var(--navy); flex-shrink:0; }
+.dash-sidebar-header .logo-text { font-family: var(--font-display); font-size:16px; font-weight:600; color:var(--gold-light); line-height:1.1; }
+.dash-sidebar-header .logo-sub { font-size:10px; color:rgba(255,255,255,0.4); }
+.dash-user-card { padding:1.25rem 1.5rem; border-bottom:1px solid rgba(255,255,255,0.07); }
+.dash-user-avatar { width:44px; height:44px; border-radius:50%; background: linear-gradient(135deg, var(--gold), #e8c97a); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:16px; font-weight:700; color:var(--navy); margin-bottom:0.75rem; }
+.dash-user-name { font-size:15px; font-weight:600; color:white; }
+.dash-user-role { font-size:12px; color:rgba(255,255,255,0.4); margin-top:2px; }
+.dash-user-badge { display:inline-block; background:rgba(201,168,76,0.15); color:var(--gold-light); font-size:10px; font-weight:600; padding:2px 8px; border-radius:100px; margin-top:6px; letter-spacing:1px; text-transform:uppercase; border:1px solid rgba(201,168,76,0.3); }
+.dash-nav { padding:1rem 0; flex:1; }
+.dash-nav-section { padding:0.75rem 1.5rem 0.25rem; font-size:10px; font-weight:700; letter-spacing:2px; color:rgba(255,255,255,0.25); text-transform:uppercase; }
+.dash-nav-item {
+  display:flex; align-items:center; gap:10px; padding:11px 1.5rem;
+  color:rgba(255,255,255,0.55); font-size:14px; font-weight:500;
+  cursor:pointer; transition:var(--transition); border:none; background:none; width:100%; text-align:left;
+  position:relative;
+}
+.dash-nav-item:hover { color:white; background:rgba(255,255,255,0.05); }
+.dash-nav-item.active { color:white; background:rgba(201,168,76,0.12); }
+.dash-nav-item.active::before { content:''; position:absolute; left:0; top:20%; bottom:20%; width:3px; background: linear-gradient(180deg, var(--gold), var(--gold-light)); border-radius:0 2px 2px 0; }
+.dash-nav-icon { width:18px; height:18px; opacity:0.7; flex-shrink:0; font-size:16px; text-align:center; }
+.dash-nav-item.active .dash-nav-icon { opacity:1; }
+.nav-badge { margin-left:auto; background:var(--gold); color:var(--navy); font-size:10px; font-weight:700; padding:2px 7px; border-radius:100px; }
+.dash-sidebar-footer { padding:1.25rem 1.5rem; border-top:1px solid rgba(255,255,255,0.07); }
+.btn-logout { width:100%; padding:10px; background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:8px; cursor:pointer; font-size:14px; font-family:var(--font-body); transition:var(--transition); display:flex; align-items:center; justify-content:center; gap:8px; }
+.btn-logout:hover { background:rgba(192,57,43,0.15); color:var(--red-light); border-color:rgba(192,57,43,0.3); }
+
+/* ===== DASH MAIN ===== */
+.dash-main { flex:1; overflow-y:auto; }
+.dash-topbar { background:white; border-bottom:1px solid var(--gray-200); padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+.dash-topbar-title { font-family: var(--font-display); font-size:20px; font-weight:600; color:var(--navy); }
+.dash-topbar-actions { display:flex; align-items:center; gap:12px; }
+.dash-notif-btn { position:relative; background:var(--gray-100); border:none; width:38px; height:38px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px; transition:var(--transition); }
+.dash-notif-btn:hover { background:var(--gray-200); }
+.notif-dot { position:absolute; top:6px; right:6px; width:8px; height:8px; border-radius:50%; background:var(--red); border:2px solid white; }
+.dash-content { padding:2rem; }
+
+/* ===== DASH PANELS ===== */
+.dash-panel { display:none; }
+.dash-panel.active { display:block; }
+
+/* ===== STAT CARDS ===== */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:20px; margin-bottom:2rem; }
+.stat-card { background:white; border-radius:var(--radius); padding:1.5rem; border:1px solid var(--gray-200); transition:var(--transition); }
+.stat-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
+.stat-card-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:1rem; }
+.stat-card-icon.blue { background:var(--blue-light); }
+.stat-card-icon.green { background:var(--green-light); }
+.stat-card-icon.gold { background:var(--gold-pale); }
+.stat-card-icon.red { background:var(--red-light); }
+.stat-card-icon.orange { background:var(--orange-light); }
+.stat-value { font-family: var(--font-display); font-size:32px; font-weight:700; color:var(--navy); line-height:1; }
+.stat-label { font-size:13px; color:var(--gray-500); margin-top:4px; }
+.stat-change { font-size:12px; margin-top:8px; font-weight:500; }
+.stat-change.up { color:var(--green); }
+.stat-change.down { color:var(--red); }
+
+/* ===== TABLES ===== */
+.card { background:white; border-radius:var(--radius); border:1px solid var(--gray-200); overflow:hidden; }
+.card-header { padding:1.25rem 1.5rem; border-bottom:1px solid var(--gray-100); display:flex; align-items:center; justify-content:space-between; }
+.card-title { font-family: var(--font-display); font-size:17px; font-weight:600; color:var(--navy); }
+.card-body { padding:1.5rem; }
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th { background:var(--gray-50); padding:12px 16px; text-align:left; font-size:12px; font-weight:700; color:var(--gray-500); letter-spacing:0.5px; text-transform:uppercase; border-bottom:1px solid var(--gray-200); white-space:nowrap; }
+td { padding:14px 16px; border-bottom:1px solid var(--gray-100); color:var(--gray-700); vertical-align:middle; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:var(--gray-50); }
+
+/* ===== BADGES ===== */
+.badge { display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border-radius:100px; font-size:12px; font-weight:600; white-space:nowrap; }
+.badge-green { background:var(--green-light); color:var(--green); }
+.badge-red { background:var(--red-light); color:var(--red); }
+.badge-blue { background:var(--blue-light); color:var(--blue); }
+.badge-gold { background:var(--gold-pale); color:#8a6a00; }
+.badge-gray { background:var(--gray-100); color:var(--gray-500); }
+.badge-orange { background:var(--orange-light); color:var(--orange); }
+.badge::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+/* ===== PROFILE ===== */
+.profile-card { background:white; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--gray-200); }
+.profile-banner { height:140px; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); position:relative; }
+.profile-banner-pattern { position:absolute; inset:0; opacity:0.05; background-image: repeating-linear-gradient(45deg, white 0, white 1px, transparent 0, transparent 50%); background-size:10px 10px; }
+.profile-avatar-wrap { position:absolute; bottom:-36px; left:2rem; }
+.profile-avatar { width:80px; height:80px; border-radius:50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); border:4px solid white; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:28px; font-weight:700; color:var(--navy); }
+.profile-info { padding:3rem 2rem 2rem; }
+.profile-name { font-family: var(--font-display); font-size:26px; font-weight:700; color:var(--navy); }
+.profile-meta { display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:0.5rem; }
+.profile-meta span { font-size:14px; color:var(--gray-500); display:flex; align-items:center; gap:5px; }
+.profile-details { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:1.5rem; margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--gray-100); }
+
+.profile-detail-label { font-size:12px; font-weight:600; color:var(--gray-500); letter-spacing:0.5px; text-transform:uppercase; margin-bottom:4px; }
+.profile-detail-value { font-size:15px; color:var(--gray-900); font-weight:500; }
+
+/* ===== GRADES ===== */
+.grades-grid { display:grid; gap:16px; }
+.grade-row { background:white; border-radius:var(--radius); border:1px solid var(--gray-200); padding:1.25rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; transition:var(--transition); }
+.grade-row:hover { box-shadow:var(--shadow-sm); }
+.grade-course { font-weight:600; color:var(--navy); font-size:15px; }
+.grade-code { font-family: var(--font-mono); font-size:12px; color:var(--gray-500); margin-top:2px; }
+.grade-value { font-family: var(--font-display); font-size:28px; font-weight:700; min-width:60px; text-align:center; }
+.grade-excellent { color:var(--green); }
+.grade-good { color:var(--blue); }
+.grade-average { color:var(--orange); }
+.grade-fail { color:var(--red); }
+.grade-bar-wrap { flex:1; max-width:200px; }
+.grade-bar-bg { background:var(--gray-100); border-radius:4px; height:8px; overflow:hidden; }
+.grade-bar { height:100%; border-radius:4px; transition:width 0.6s ease; }
+
+/* ===== SCHEDULE ===== */
+.schedule-grid { display:grid; grid-template-columns: 80px repeat(5, 1fr); gap:1px; background:var(--gray-200); border-radius:var(--radius); overflow:hidden; }
+.schedule-cell { background:white; padding:10px; min-height:60px; }
+.schedule-header { background:var(--navy); color:white; font-size:13px; font-weight:600; text-align:center; }
+.schedule-time { background:var(--gray-50); font-size:12px; color:var(--gray-500); font-weight:500; display:flex; align-items:center; justify-content:center; font-family: var(--font-mono); }
+.schedule-course { border-radius:6px; padding:8px; height:100%; }
+.schedule-course-name { font-size:12px; font-weight:600; line-height:1.3; }
+.schedule-course-room { font-size:11px; margin-top:2px; opacity:0.7; }
+
+/* ===== MESSAGES ===== */
+.msg-list { display:grid; gap:1px; background:var(--gray-200); border-radius:var(--radius); overflow:hidden; }
+.msg-item { background:white; padding:1rem 1.5rem; cursor:pointer; transition:var(--transition); display:flex; gap:12px; align-items:flex-start; }
+.msg-item:hover { background:var(--gray-50); }
+.msg-item.unread { border-left:3px solid var(--navy); }
+.msg-avatar { width:40px; height:40px; border-radius:50%; background:var(--blue-light); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:var(--blue); flex-shrink:0; }
+.msg-content { flex:1; min-width:0; }
+.msg-from { font-size:14px; font-weight:600; color:var(--gray-900); }
+.msg-subject { font-size:13px; color:var(--gray-500); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.msg-time { font-size:12px; color:var(--gray-500); flex-shrink:0; }
+
+/* ===== NOTIFICATIONS ===== */
+.notif-list { display:grid; gap:12px; }
+.notif-item { background:white; border-radius:var(--radius); border:1px solid var(--gray-200); padding:1rem 1.25rem; display:flex; gap:12px; align-items:flex-start; transition:var(--transition); }
+.notif-item.unread { border-left:3px solid var(--navy); }
+.notif-icon { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.notif-text { flex:1; }
+.notif-text strong { font-size:14px; color:var(--navy); }
+.notif-text p { font-size:13px; color:var(--gray-500); margin-top:2px; line-height:1.5; }
+.notif-time { font-size:12px; color:var(--gray-400); }
+
+/* ===== FORM SECTION ===== */
+.form-section { background:white; border-radius:var(--radius); border:1px solid var(--gray-200); padding:2rem; }
+.form-section-title { font-family:var(--font-display); font-size:20px; font-weight:600; color:var(--navy); margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--gray-100); }
+
+/* ===== APPLICATION FORM ===== */
+.apply-page { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%); min-height:100vh; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:768px) {
+  .about-grid { grid-template-columns:1fr; }
+  .footer-grid { grid-template-columns:1fr 1fr; }
+  .dash-sidebar { width:220px; }
+  .form-row { grid-template-columns:1fr; }
+  .hero-stats { gap:1.5rem; }
+  .schedule-grid { font-size:11px; }
+}
+@media (max-width:640px) {
+  .nav-links .nav-link { display:none; }
+  .dash-sidebar { position:fixed; left:-260px; z-index:500; transition:var(--transition); }
+  .dash-sidebar.open { left:0; }
+  .dash-main { margin-left:0; }
+}
+
+/* ===== CHARTS (pure CSS) ===== */
+.chart-bar-wrap { display:flex; align-items:flex-end; gap:8px; height:160px; padding:0 8px; }
+.chart-bar { flex:1; border-radius:4px 4px 0 0; transition:height 0.6s ease; position:relative; min-height:4px; cursor:pointer; }
+.chart-bar:hover { filter:brightness(1.1); }
+.chart-bar-label { position:absolute; bottom:-24px; left:50%; transform:translateX(-50%); font-size:11px; color:var(--gray-500); white-space:nowrap; }
+.chart-bar-val { position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-size:11px; font-weight:600; color:var(--gray-700); white-space:nowrap; }
+.chart-wrap { padding:16px 16px 40px; }
+.donut-wrap { display:flex; align-items:center; gap:2rem; padding:1rem; }
+.donut-legend { display:grid; gap:8px; }
+.donut-legend-item { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--gray-700); }
+.donut-legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+
+/* Progress circles */
+.progress-ring { transform:rotate(-90deg); }
+.activity-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--gray-100); }
+.activity-row:last-child { border-bottom:none; }
+.activity-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.activity-text { flex:1; font-size:14px; color:var(--gray-700); }
+.activity-text strong { color:var(--gray-900); }
+.activity-time { font-size:12px; color:var(--gray-400); }
+
+/* ===== TOAST ===== */
+.toast-container { position:fixed; bottom:24px; right:24px; z-index:3000; display:flex; flex-direction:column; gap:10px; }
+.toast { background:var(--navy); color:white; padding:14px 20px; border-radius:10px; font-size:14px; font-weight:500; box-shadow:var(--shadow-lg); animation:toastIn 0.3s ease; display:flex; align-items:center; gap:10px; min-width:280px; }
+.toast.success { background:var(--green); }
+.toast.error { background:var(--red); }
+.toast.gold { background: linear-gradient(135deg, #8a6a00, #c9a84c); }
+@keyframes toastIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes toastOut { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(10px)} }
+.toast-icon { font-size:18px; }
+
+/* ===== MISC ===== */
+.mt-1{margin-top:0.5rem}.mt-2{margin-top:1rem}.mt-3{margin-top:1.5rem}.mt-4{margin-top:2rem}
+.mb-1{margin-bottom:0.5rem}.mb-2{margin-bottom:1rem}.mb-3{margin-bottom:1.5rem}
+.flex{display:flex}.gap-1{gap:8px}.gap-2{gap:16px}.gap-3{gap:24px}
+.align-center{align-items:center}.justify-between{justify-content:space-between}
+.text-muted{color:var(--gray-500);font-size:14px}
+.text-sm{font-size:13px}
+.empty-state { text-align:center; padding:3rem 1rem; color:var(--gray-500); }
+.empty-state .empty-icon { font-size:48px; margin-bottom:1rem; }
+.empty-state h3 { font-size:18px; color:var(--gray-700); margin-bottom:0.5rem; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+@media(max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.search-input-wrap { position:relative; }
+.search-input-wrap input { padding-left:36px; }
+.search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--gray-400); font-size:16px; }
+
+/* Course enrollment cards */
+.course-card { background:white; border-radius:var(--radius); border:1px solid var(--gray-200); padding:1.5rem; transition:var(--transition); }
+.course-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
+.course-card-code { font-family:var(--font-mono); font-size:12px; color:var(--gold); font-weight:600; letter-spacing:1px; }
+.course-card-name { font-family:var(--font-display); font-size:18px; color:var(--navy); margin:4px 0 8px; }
+.course-card-prof { font-size:13px; color:var(--gray-500); }
+.course-card-info { display:flex; gap:12px; margin-top:1rem; flex-wrap:wrap; }
+.course-card-info span { font-size:12px; background:var(--gray-100); padding:4px 10px; border-radius:100px; color:var(--gray-600); }
+.courses-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:20px; margin-top:1.5rem; }
+</style>
+</head>
+<body>
+
+<!-- ===== PUBLIC WEBSITE ===== -->
+<div id="view-home" class="view active">
+  <nav class="main-nav">
+    <div class="nav-brand" onclick="showView('home')">
+      <div class="nav-logo-circle">UPH</div>
+      <div class="nav-brand-text">
+        <div class="brand-name">UPH</div>
+        <div class="brand-sub">Université Polyvalente d'Haïti</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="scrollTo(0,0)">Accueil</button>
+      <button class="nav-link" onclick="document.getElementById('faculties').scrollIntoView({behavior:'smooth'})">Facultés</button>
+      <button class="nav-link" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'})">À Propos</button>
+      <button class="nav-link" onclick="showView('apply')">Candidature</button>
+      <button class="nav-btn" onclick="openModal('login')">Se Connecter</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="hero-badge-dot"></span> Inscription Ouverte — Promotion 2025–2026</div>
+      <h1 class="hero-title">Façonnez<br>l'Avenir<br>d'<span>Haïti</span></h1>
+      <p class="hero-desc">L'Université Polyvalente d'Haïti forme la prochaine génération de leaders, d'innovateurs et de bâtisseurs d'une nation prospère.</p>
+      <div class="hero-actions">
+        <button class="btn-hero-primary" onclick="showView('apply')">📋 Déposer une Candidature</button>
+        <button class="btn-hero-secondary" onclick="document.getElementById('faculties').scrollIntoView({behavior:'smooth'})">Découvrir les Facultés</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">4,800+</div><div class="lbl">Étudiants</div></div>
+        <div class="hero-stat"><div class="num">12</div><div class="lbl">Facultés</div></div>
+        <div class="hero-stat"><div class="num">320</div><div class="lbl">Professeurs</div></div>
+        <div class="hero-stat"><div class="num">25 ans</div><div class="lbl">d'Excellence</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faculties" style="background:white;">
+    <div class="section-inner">
+      <div class="section-label">Nos Programmes</div>
+      <h2 class="section-title">Facultés & Départements</h2>
+      <p class="section-desc">Des formations d'excellence dans les domaines les plus porteurs pour le développement d'Haïti.</p>
+      <div class="faculties-grid">
+        <div class="faculty-card"><div class="faculty-icon" style="background:#e3f0ff">💻</div><h3>Sciences et Technologies</h3><p>Informatique, Génie Logiciel, Télécommunications, Intelligence Artificielle.</p><div class="faculty-count">↗ 1,200 étudiants</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#d4edda">🏥</div><h3>Médecine & Santé</h3><p>Médecine Générale, Pharmacie, Soins Infirmiers, Santé Publique.</p><div class="faculty-count">↗ 850 étudiants</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#fff0e1">📊</div><h3>Sciences Économiques</h3><p>Économie, Finance, Comptabilité, Gestion des Entreprises.</p><div class="faculty-count">↗ 980 étudiants</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#fde8e8">⚖️</div><h3>Droit & Sciences Politiques</h3><p>Droit Civil, Droit International, Science Politique, Relations Internationales.</p><div class="faculty-count">↗ 650 étudiants</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#f0e6ff">🏗️</div><h3>Architecture & Génie Civil</h3><p>Architecture, Génie Civil, Urbanisme, Construction Parasismique.</p><div class="faculty-count">↗ 520 étudiants</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#e1f5ee">🌱</div><h3>Agronomie & Environnement</h3><p>Agronomie, Sciences de l'Environnement, Développement Rural.</p><div class="faculty-count">↗ 420 étudiants</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about-section" style="background:var(--cream);">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div>
+          <div class="section-label">Notre Mission</div>
+          <h2 class="section-title" style="max-width:400px;">Une Université au Service de la Nation</h2>
+          <p class="section-desc" style="max-width:100%;">Depuis 2000, l'UPH s'engage à offrir une éducation de qualité, accessible et tournée vers l'avenir d'Haïti. Nos diplômés occupent des postes clés dans les secteurs public et privé.</p>
+          <ul class="about-features" style="margin-top:1.5rem;">
+            <li>Corps professoral hautement qualifié (PhDs internationaux)</li>
+            <li>Partenariats avec des universités en France et aux États-Unis</li>
+            <li>Laboratoires modernes et bibliothèque numérique</li>
+            <li>Programme de bourses pour étudiants méritants</li>
+            <li>Insertion professionnelle accompagnée</li>
+            <li>Campus sécurisé à Port-au-Prince</li>
+          </ul>
+        </div>
+        <div class="about-visual">
+          <div style="position:relative;z-index:1;">
+            <h3 style="font-family:var(--font-display);font-size:24px;color:var(--gold-light);margin-bottom:0.5rem;">UPH en Chiffres</h3>
+            <p style="font-size:14px;color:rgba(255,255,255,0.5);">Données académiques 2024–2025</p>
+            <div class="about-numbers">
+              <div class="about-number"><div class="n">4,800</div><div class="l">Étudiants inscrits</div></div>
+              <div class="about-number"><div class="n">320</div><div class="l">Professeurs</div></div>
+              <div class="about-number"><div class="n">12</div><div class="l">Facultés</div></div>
+              <div class="about-number"><div class="n">94%</div><div class="l">Taux d'emploi</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section news-section">
+    <div class="section-inner">
+      <div class="section-label">Actualités</div>
+      <h2 class="section-title">Vie du Campus</h2>
+      <div class="news-grid">
+        <div class="news-card"><div class="news-img" style="background:rgba(201,168,76,0.1)">🎓</div><div class="news-body"><div class="news-tag">Académique</div><h4>Remise des diplômes — Promotion 2024</h4><p>Plus de 600 diplômés ont reçu leurs parchemins lors d'une cérémonie grandiose.</p><div class="news-date">15 Janvier 2025</div></div></div>
+        <div class="news-card"><div class="news-img" style="background:rgba(30,58,95,0.2)">🔬</div><div class="news-body"><div class="news-tag">Recherche</div><h4>Nouveau Laboratoire de Biotechnologie Inauguré</h4><p>Un investissement de 2M$ pour renforcer la recherche scientifique à l'UPH.</p><div class="news-date">8 Février 2025</div></div></div>
+        <div class="news-card"><div class="news-img" style="background:rgba(26,122,74,0.1)">🌍</div><div class="news-body"><div class="news-tag">Partenariat</div><h4>Accord de Coopération avec l'Université de Paris</h4><p>Échanges d'étudiants et de professeurs pour renforcer l'excellence académique.</p><div class="news-date">20 Mars 2025</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-name">Université Polyvalente d'Haïti</div>
+          <p>Former les leaders de demain pour bâtir une Haïti prospère, équitable et souveraine.</p>
+          <p style="margin-top:1rem;">📍 Route de Delmas 60, Port-au-Prince, Haïti<br>📞 +509 2940-0000<br>✉️ contact@uph.edu.ht</p>
+        </div>
+        <div class="footer-col"><h5>Facultés</h5><a>Sciences & Technologies</a><a>Médecine</a><a>Économie</a><a>Droit</a><a>Architecture</a><a>Agronomie</a></div>
+        <div class="footer-col"><h5>Université</h5><a>À Propos</a><a onclick="showView('apply')">Candidature</a><a>Bourses</a><a>Recherche</a><a>International</a></div>
+        <div class="footer-col"><h5>Portails</h5><a onclick="openModal('login')">Espace Étudiant</a><a onclick="openModal('login')">Espace Professeur</a><a onclick="openModal('login')">Administration</a><a>Bibliothèque</a></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Université Polyvalente d'Haïti. Tous droits réservés.</span>
+        <span>Conçu avec ❤️ pour Haïti</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== APPLICATION PAGE ===== -->
+<div id="view-apply" class="view">
+  <nav class="main-nav">
+    <div class="nav-brand" onclick="showView('home')">
+      <div class="nav-logo-circle">UPH</div>
+      <div class="nav-brand-text">
+        <div class="brand-name">UPH</div>
+        <div class="brand-sub">Université Polyvalente d'Haïti</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="showView('home')">← Retour</button>
+      <button class="nav-btn" onclick="openModal('login')">Se Connecter</button>
+    </div>
+  </nav>
+  <div style="padding-top:88px;background:var(--cream);min-height:100vh;">
+    <div style="max-width:740px;margin:0 auto;padding:3rem 1.5rem;">
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div class="section-label" style="justify-content:center;display:flex;">Dossier d'Inscription</div>
+        <h1 style="font-family:var(--font-display);font-size:36px;color:var(--navy);margin-bottom:1rem;">Candidature en Ligne</h1>
+        <p style="color:var(--gray-500);font-size:16px;line-height:1.7;">Remplissez ce formulaire pour soumettre votre candidature. Notre équipe examinera votre dossier sous 5 jours ouvrables.</p>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">📋 Informations Personnelles</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Prénom *</label><input class="form-input" id="app-prenom" placeholder="Prénom" /></div>
+          <div class="form-group"><label class="form-label">Nom de Famille *</label><input class="form-input" id="app-nom" placeholder="Nom de famille" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Date de Naissance *</label><input class="form-input" id="app-dob" type="date" /></div>
+          <div class="form-group"><label class="form-label">Genre</label>
+            <select class="form-select" id="app-genre">
+              <option>Masculin</option><option>Féminin</option><option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Adresse Email *</label><input class="form-input" id="app-email" type="email" placeholder="prenom@email.com" /></div>
+          <div class="form-group"><label class="form-label">Téléphone *</label><input class="form-input" id="app-phone" placeholder="+509 3700-0000" /></div>
+        </div>
+        <div class="form-group"><label class="form-label">Adresse</label><input class="form-input" id="app-address" placeholder="Rue, Ville, Département" /></div>
+
+        <div class="form-section-title" style="margin-top:2rem;">🎓 Programme Demandé</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Faculté *</label>
+            <select class="form-select" id="app-faculty">
+              <option value="">— Choisir —</option>
+              <option>Sciences et Technologies</option>
+              <option>Médecine & Santé</option>
+              <option>Sciences Économiques</option>
+              <option>Droit & Sciences Politiques</option>
+              <option>Architecture & Génie Civil</option>
+              <option>Agronomie & Environnement</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Niveau</label>
+            <select class="form-select" id="app-level">
+              <option>Licence (Bac+3)</option><option>Master (Bac+5)</option><option>Doctorat</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section-title" style="margin-top:2rem;">📚 Parcours Académique</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Dernier Diplôme</label>
+            <select class="form-select" id="app-diploma">
+              <option>Baccalauréat</option><option>BTS / DUT</option><option>Licence</option><option>Master</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Établissement d'Origine</label><input class="form-input" id="app-school" placeholder="Lycée Pétion..." /></div>
+        </div>
+        <div class="form-group"><label class="form-label">Lettre de Motivation</label>
+          <textarea class="form-textarea" id="app-motivation" placeholder="Expliquez vos motivations, vos projets professionnels, et pourquoi vous souhaitez rejoindre l'UPH..."></textarea>
+        </div>
+
+        <div id="app-error" class="form-error" style="display:none;margin-bottom:1rem;padding:12px;background:var(--red-light);border-radius:8px;"></div>
+        <button class="btn-primary" onclick="submitApplication()">📤 Soumettre ma Candidature</button>
+        <p style="text-align:center;margin-top:1rem;font-size:13px;color:var(--gray-500);">Déjà inscrit? <a href="#" onclick="openModal('login')" style="color:var(--navy);font-weight:600;">Se connecter</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STUDENT DASHBOARD ===== -->
+<div id="view-student" class="view">
+  <div class="dash-layout">
+    <aside class="dash-sidebar">
+      <div class="dash-sidebar-header">
+        <div class="logo">
+          <div class="logo-circle">UPH</div>
+          <div><div class="logo-text">UPH</div><div class="logo-sub">Portail Étudiant</div></div>
+        </div>
+      </div>
+      <div class="dash-user-card">
+        <div class="dash-user-avatar" id="std-avatar">—</div>
+        <div class="dash-user-name" id="std-name">—</div>
+        <div class="dash-user-role" id="std-faculty">Sciences et Technologies</div>
+        <div class="dash-user-badge">Étudiant</div>
+      </div>
+      <nav class="dash-nav">
+        <div class="dash-nav-section">Principal</div>
+        <button class="dash-nav-item active" onclick="showPanel('student','dashboard')"><span class="dash-nav-icon">🏠</span> Tableau de Bord</button>
+        <button class="dash-nav-item" onclick="showPanel('student','profile')"><span class="dash-nav-icon">👤</span> Mon Profil</button>
+        <button class="dash-nav-item" onclick="showPanel('student','grades')"><span class="dash-nav-icon">📊</span> Mes Notes</button>
+        <button class="dash-nav-item" onclick="showPanel('student','schedule')"><span class="dash-nav-icon">📅</span> Emploi du Temps</button>
+        <div class="dash-nav-section">Cours</div>
+        <button class="dash-nav-item" onclick="showPanel('student','enroll')"><span class="dash-nav-icon">📚</span> S'inscrire aux Cours</button>
+        <button class="dash-nav-item" onclick="showPanel('student','mycourses')"><span class="dash-nav-icon">✅</span> Mes Cours</button>
+        <div class="dash-nav-section">Communication</div>
+        <button class="dash-nav-item" onclick="showPanel('student','messages')"><span class="dash-nav-icon">✉️</span> Messages <span class="nav-badge" id="std-msg-badge">2</span></button>
+        <button class="dash-nav-item" onclick="showPanel('student','notifications')"><span class="dash-nav-icon">🔔</span> Notifications <span class="nav-badge" id="std-notif-badge">3</span></button>
+      </nav>
+      <div class="dash-sidebar-footer">
+        <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
+      </div>
+    </aside>
+    <main class="dash-main">
+      <div class="dash-topbar">
+        <div class="dash-topbar-title" id="std-panel-title">Tableau de Bord</div>
+        <div class="dash-topbar-actions">
+          <button class="dash-notif-btn" onclick="showPanel('student','notifications')">🔔<span class="notif-dot"></span></button>
+          <span style="font-size:14px;color:var(--gray-500)" id="std-topbar-user">—</span>
+        </div>
+      </div>
+      <div class="dash-content">
+
+        <!-- STUDENT: DASHBOARD -->
+        <div class="dash-panel active" id="student-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-card-icon blue">📚</div><div class="stat-value" id="std-stat-courses">5</div><div class="stat-label">Cours Inscrits</div></div>
+            <div class="stat-card"><div class="stat-card-icon green">📊</div><div class="stat-value" id="std-stat-avg">15.8</div><div class="stat-label">Moyenne Générale</div></div>
+            <div class="stat-card"><div class="stat-card-icon gold">🏅</div><div class="stat-value">2ème</div><div class="stat-label">Rang de Promotion</div></div>
+            <div class="stat-card"><div class="stat-card-icon orange">⏱️</div><div class="stat-value" id="std-stat-semester">—</div><div class="stat-label">Semestre Actuel</div></div>
+          </div>
+          <div class="grid-2 mt-3">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Résultats Récents</span><span class="badge badge-green">S3 2025</span></div>
+              <div class="card-body">
+                <div id="std-recent-grades"></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Prochains Cours</span></div>
+              <div class="card-body" id="std-upcoming"></div>
+            </div>
+          </div>
+          <div class="card mt-3">
+            <div class="card-header"><span class="card-title">Activité Récente</span></div>
+            <div class="card-body" id="std-activity"></div>
+          </div>
+        </div>
+
+        <!-- STUDENT: PROFILE -->
+        <div class="dash-panel" id="student-profile">
+          <div class="profile-card">
+            <div class="profile-banner"><div class="profile-banner-pattern"></div><div class="profile-avatar-wrap"><div class="profile-avatar" id="std-profile-avatar">—</div></div></div>
+            <div class="profile-info">
+              <div class="profile-name" id="std-profile-name">—</div>
+              <div class="profile-meta">
+                <span id="std-profile-faculty">🎓 —</span>
+                <span id="std-profile-code">📋 —</span>
+                <span id="std-profile-status"></span>
+              </div>
+              <div class="profile-details" id="std-profile-details"></div>
+              <div style="margin-top:1.5rem;">
+                <button class="btn-gold btn-sm" onclick="toggleEditProfile()">✏️ Modifier mon Profil</button>
+              </div>
+            </div>
+          </div>
+          <!-- Inline edit form -->
+          <div class="card mt-3" id="std-edit-card" style="display:none;">
+            <div class="card-header"><span class="card-title">✏️ Modifier mon Profil</span></div>
+            <div class="card-body">
+
+              <!-- Photo upload section -->
+              <div style="margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-200);">
+                <label class="form-label" style="margin-bottom:0.75rem;display:block;">📷 Photo de Profil</label>
+                <div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">
+                  <div id="photo-preview" style="width:72px;height:72px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:white;font-family:var(--font-display);font-size:22px;font-weight:700;overflow:hidden;flex-shrink:0;border:3px solid var(--gold);"></div>
+                  <div>
+                    <input type="file" id="photoInput" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none;" onchange="previewPhoto(this)" />
+                    <label for="photoInput" class="btn-gold btn-sm" style="cursor:pointer;display:inline-block;margin-bottom:0.5rem;">Choisir une photo</label>
+                    <button id="upload-photo-btn" onclick="uploadPhoto()" style="display:none;margin-left:0.5rem;background:var(--green);color:white;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;">&#8593; Téléverser</button>
+                    <div id="upload-progress" style="display:none;font-size:12px;color:var(--gray-500);margin-top:4px;">Téléversement en cours...</div>
+                    <div style="font-size:11px;color:var(--gray-500);margin-top:4px;">JPG, PNG, GIF, WEBP — max 5 Mo</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contact info -->
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Téléphone</label><input class="form-input" id="edit-std-phone" placeholder="+509 ..." /></div>
+                <div class="form-group"><label class="form-label">Adresse</label><input class="form-input" id="edit-std-address" placeholder="Ex: Delmas 33, Port-au-Prince" /></div>
+              </div>
+              <div style="display:flex;gap:1rem;margin-top:0.5rem;">
+                <button class="btn-gold" onclick="saveStudentProfile()">💾 Sauvegarder</button>
+                <button onclick="toggleEditProfile()" style="background:none;border:1px solid var(--gray-300);border-radius:6px;padding:8px 16px;cursor:pointer;font-size:14px;">Annuler</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- STUDENT: GRADES -->
+        <div class="dash-panel" id="student-grades">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📊 Bulletin de Notes</span>
+              <select class="form-select" style="width:auto;padding:6px 12px;font-size:14px;" onchange="renderGrades()">
+                <option>Semestre 3 — 2025</option><option>Semestre 2 — 2024</option><option>Semestre 1 — 2024</option>
+              </select>
+            </div>
+            <div class="card-body"><div class="grades-grid" id="grades-list"></div></div>
+          </div>
+        </div>
+
+        <!-- STUDENT: SCHEDULE -->
+        <div class="dash-panel" id="student-schedule">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📅 Emploi du Temps — Semestre 3</span><span class="badge badge-blue">Sem. du 7 Avril 2025</span></div>
+            <div class="card-body"><div class="table-wrap"><div id="student-schedule-grid" class="schedule-grid"></div></div></div>
+          </div>
+        </div>
+
+        <!-- STUDENT: ENROLL -->
+        <div class="dash-panel" id="student-enroll">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📚 Inscription aux Cours Disponibles</span></div>
+            <div class="card-body">
+              <p style="font-size:14px;color:var(--gray-500);margin-bottom:1.5rem;">Cliquez sur "S'inscrire" pour vous inscrire à un cours. Consultez votre conseiller pédagogique en cas de doute.</p>
+              <div class="courses-grid" id="available-courses"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STUDENT: MY COURSES -->
+        <div class="dash-panel" id="student-mycourses">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">✅ Mes Cours Inscrits <span id="my-courses-count" style="font-size:13px;font-weight:400;color:var(--gray-500);font-family:var(--font-body);margin-left:6px;"></span></span>
+              <button class="btn-gold btn-sm" onclick="showPanel('student','enroll')">+ S&#39;inscrire à un cours</button>
+            </div>
+            <div class="card-body"><div class="courses-grid" id="my-courses-list"></div></div>
+          </div>
+        </div>
+
+        <!-- STUDENT: MESSAGES -->
+        <div class="dash-panel" id="student-messages">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header"><span class="card-title">📬 Messagerie</span><button class="btn-gold btn-sm" onclick="showComposeForm()">+ Nouveau</button></div>
+              <div class="card-body" style="padding:0;"><div class="msg-list" id="student-msg-list"></div></div>
+            </div>
+            <div class="card" id="compose-card">
+              <div class="card-header"><span class="card-title">✉️ Envoyer un Message</span></div>
+              <div class="card-body">
+                <div class="form-group"><label class="form-label">Destinataire</label>
+                  <select class="form-select" id="msg-to"><option>Administration</option><option>Doyen de Faculté</option><option>Service Financier</option><option>Scolarité</option></select>
+                </div>
+                <div class="form-group"><label class="form-label">Objet</label><input class="form-input" id="msg-subject" placeholder="Objet du message..."/></div>
+                <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="msg-body" placeholder="Rédigez votre message ici..."></textarea></div>
+                <button class="btn-primary" onclick="sendMessage()">📤 Envoyer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STUDENT: NOTIFICATIONS -->
+        <div class="dash-panel" id="student-notifications">
+          <div class="card">
+            <div class="card-header"><span class="card-title">🔔 Notifications</span><button class="btn-outline btn-sm" onclick="markAllRead()">Tout marquer lu</button></div>
+            <div class="card-body"><div class="notif-list" id="student-notif-list"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===== PROFESSOR DASHBOARD ===== -->
+<div id="view-prof" class="view">
+  <div class="dash-layout">
+    <aside class="dash-sidebar">
+      <div class="dash-sidebar-header">
+        <div class="logo">
+          <div class="logo-circle">UPH</div>
+          <div><div class="logo-text">UPH</div><div class="logo-sub">Portail Professeur</div></div>
+        </div>
+      </div>
+      <div class="dash-user-card">
+        <div class="dash-user-avatar" id="prof-avatar">MP</div>
+        <div class="dash-user-name" id="prof-name">Prof. Marie Paul</div>
+        <div class="dash-user-role" id="prof-dept">Sciences et Technologies</div>
+        <div class="dash-user-badge" style="background:rgba(21,101,192,0.15);color:#90caf9;border-color:rgba(21,101,192,0.3);">Professeur</div>
+      </div>
+      <nav class="dash-nav">
+        <div class="dash-nav-section">Principal</div>
+        <button class="dash-nav-item active" onclick="showPanel('prof','dashboard')"><span class="dash-nav-icon">🏠</span> Tableau de Bord</button>
+        <button class="dash-nav-item" onclick="showPanel('prof','profile')"><span class="dash-nav-icon">👤</span> Mon Profil</button>
+        <button class="dash-nav-item" onclick="showPanel('prof','courses')"><span class="dash-nav-icon">📚</span> Mes Cours</button>
+        <button class="dash-nav-item" onclick="showPanel('prof','students')"><span class="dash-nav-icon">👥</span> Mes Étudiants</button>
+        <div class="dash-nav-section">Académique</div>
+        <button class="dash-nav-item" onclick="showPanel('prof','grades')"><span class="dash-nav-icon">📝</span> Saisie des Notes</button>
+        <button class="dash-nav-item" onclick="showPanel('prof','schedule')"><span class="dash-nav-icon">📅</span> Mon Planning</button>
+        <div class="dash-nav-section">Communication</div>
+        <button class="dash-nav-item" onclick="showPanel('prof','messages')"><span class="dash-nav-icon">✉️</span> Messages</button>
+      </nav>
+      <div class="dash-sidebar-footer">
+        <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
+      </div>
+    </aside>
+    <main class="dash-main">
+      <div class="dash-topbar">
+        <div class="dash-topbar-title" id="prof-panel-title">Tableau de Bord</div>
+        <div class="dash-topbar-actions">
+          <span style="font-size:14px;color:var(--gray-500)" id="prof-topbar-user">Prof. Marie</span>
+        </div>
+      </div>
+      <div class="dash-content">
+
+        <!-- PROF: DASHBOARD -->
+        <div class="dash-panel active" id="prof-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-card-icon blue">📚</div><div class="stat-value" id="prof-stat-courses">—</div><div class="stat-label">Cours Assignés</div></div>
+            <div class="stat-card"><div class="stat-card-icon green">👥</div><div class="stat-value" id="prof-stat-students">—</div><div class="stat-label">Étudiants Inscrits</div></div>
+            <div class="stat-card"><div class="stat-card-icon gold">📝</div><div class="stat-value" id="prof-stat-grades">—</div><div class="stat-label">Notes Saisies</div></div>
+            <div class="stat-card"><div class="stat-card-icon orange">⏳</div><div class="stat-value" id="prof-stat-ungraded">—</div><div class="stat-label">À Évaluer</div></div>
+          </div>
+          <div class="grid-2 mt-3">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Mes Cours Assignés</span></div>
+              <div class="card-body" id="prof-courses-overview"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Activité Récente</span></div>
+              <div class="card-body" id="prof-activity"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROF: PROFILE -->
+        <div class="dash-panel" id="prof-profile">
+          <div class="profile-card">
+            <div class="profile-banner"><div class="profile-banner-pattern"></div><div class="profile-avatar-wrap"><div class="profile-avatar" id="prof-profile-avatar">MP</div></div></div>
+            <div class="profile-info">
+              <div class="profile-name" id="prof-profile-name">—</div>
+              <div class="profile-meta">
+                <span id="prof-profile-dept">🏫 —</span>
+                <span id="prof-profile-title">🎓 —</span>
+                <span id="prof-profile-status"></span>
+              </div>
+              <div class="profile-details" id="prof-profile-details"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROF: COURSES -->
+        <div class="dash-panel" id="prof-courses">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📚 Mes Cours</span></div>
+            <div class="card-body"><div class="courses-grid" id="prof-courses-list"></div></div>
+          </div>
+        </div>
+
+        <!-- PROF: STUDENTS -->
+        <div class="dash-panel" id="prof-students">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">👥 Liste des Étudiants</span>
+              <select class="form-select" style="width:auto;padding:6px 12px;font-size:14px;" id="prof-filter-course" onchange="renderProfStudents()">
+                <option value="">Tous les cours</option>
+              </select>
+            </div>
+            <div class="card-body" style="padding:0;"><div class="table-wrap"><table><thead><tr><th>Étudiant</th><th>ID</th><th>Cours</th><th>Dernière Note</th><th>Statut</th></tr></thead><tbody id="prof-students-body"></tbody></table></div></div>
+          </div>
+        </div>
+
+        <!-- PROF: GRADES INPUT -->
+        <div class="dash-panel" id="prof-grades">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📝 Saisie & Modification des Notes</span>
+              <select class="form-select" style="width:auto;padding:6px 12px;font-size:14px;" id="grade-course-select" onchange="renderGradeInput()">
+                <option value="">— Choisir un cours —</option>
+              </select>
+            </div>
+            <div class="card-body" style="padding:0;"><div class="table-wrap">
+              <table><thead><tr><th>Étudiant</th><th>Note Actuelle</th><th>Nouvelle Note (/20)</th><th>Appréciation</th><th>Action</th></tr></thead><tbody id="grade-input-body"></tbody></table>
+            </div></div>
+          </div>
+        </div>
+
+        <!-- PROF: SCHEDULE -->
+        <div class="dash-panel" id="prof-schedule">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📅 Mon Planning</span><button class="btn-gold btn-sm" onclick="showAddScheduleForm()">+ Ajouter</button></div>
+            <div class="card-body"><div id="prof-schedule-grid" class="schedule-grid"></div></div>
+          </div>
+          <div class="card mt-3" id="add-schedule-form" style="display:none;">
+            <div class="card-header"><span class="card-title">Ajouter un Cours au Planning</span></div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Cours</label><select class="form-select" id="sched-course"><option>Algorithmique Avancée</option><option>Programmation Web</option></select></div>
+                <div class="form-group"><label class="form-label">Jour</label><select class="form-select" id="sched-day"><option>Lundi</option><option>Mardi</option><option>Mercredi</option><option>Jeudi</option><option>Vendredi</option></select></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Heure</label><select class="form-select" id="sched-time"><option>7h00</option><option>8h00</option><option>9h00</option><option>10h00</option><option>11h00</option><option>13h00</option><option>14h00</option><option>15h00</option></select></div>
+                <div class="form-group"><label class="form-label">Salle</label><input class="form-input" id="sched-room" placeholder="ex: Salle B-201"/></div>
+              </div>
+              <button class="btn-gold" onclick="addScheduleEntry()">Enregistrer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROF: MESSAGES -->
+        <div class="dash-panel" id="prof-messages">
+          <div class="card">
+            <div class="card-header"><span class="card-title">✉️ Messages Reçus</span></div>
+            <div class="card-body" style="padding:0;"><div class="msg-list" id="prof-msg-list"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD ===== -->
+<div id="view-admin" class="view">
+  <div class="dash-layout">
+    <aside class="dash-sidebar">
+      <div class="dash-sidebar-header">
+        <div class="logo">
+          <div class="logo-circle">UPH</div>
+          <div><div class="logo-text">UPH</div><div class="logo-sub">Administration</div></div>
+        </div>
+      </div>
+      <div class="dash-user-card">
+        <div class="dash-user-avatar" id="admin-avatar" style="background:linear-gradient(135deg,#c0392b,#e74c3c)">AD</div>
+        <div class="dash-user-name" id="admin-user-name">Administrateur</div>
+        <div class="dash-user-role">Contrôle Total</div>
+        <div class="dash-user-badge" style="background:rgba(192,57,43,0.2);color:#ff9c8f;border-color:rgba(192,57,43,0.4);">Admin</div>
+      </div>
+      <nav class="dash-nav">
+        <div class="dash-nav-section">Vue d'Ensemble</div>
+        <button class="dash-nav-item active" onclick="showPanel('admin','dashboard')"><span class="dash-nav-icon">🏠</span> Tableau de Bord</button>
+        <div class="dash-nav-section">Gestion</div>
+        <button class="dash-nav-item" onclick="showPanel('admin','applications')"><span class="dash-nav-icon">📋</span> Candidatures <span class="nav-badge" id="admin-app-badge">?</span></button>
+        <button class="dash-nav-item" onclick="showPanel('admin','students')"><span class="dash-nav-icon">🎓</span> Étudiants</button>
+        <button class="dash-nav-item" onclick="showPanel('admin','professors')"><span class="dash-nav-icon">👨‍🏫</span> Professeurs <span class="nav-badge" id="admin-prof-badge" style="display:none;background:var(--orange,#e67e22)">0</span></button>
+        <button class="dash-nav-item" onclick="showPanel('admin','courses')"><span class="dash-nav-icon">📚</span> Cours</button>
+        <button class="dash-nav-item" onclick="showPanel('admin','schedules')"><span class="dash-nav-icon">📅</span> Emplois du Temps</button>
+        <div class="dash-nav-section">Système</div>
+        <button class="dash-nav-item" onclick="showPanel('admin','messages')"><span class="dash-nav-icon">✉️</span> Messages</button>
+        <button class="dash-nav-item" onclick="showPanel('admin','activity')"><span class="dash-nav-icon">📈</span> Activité</button>
+      </nav>
+      <div class="dash-sidebar-footer">
+        <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
+      </div>
+    </aside>
+    <main class="dash-main">
+      <div class="dash-topbar">
+        <div class="dash-topbar-title" id="admin-panel-title">Tableau de Bord</div>
+        <div class="dash-topbar-actions">
+          <span style="font-size:14px;color:var(--gray-500)">Super Admin</span>
+        </div>
+      </div>
+      <div class="dash-content">
+
+        <!-- ADMIN: DASHBOARD -->
+        <div class="dash-panel active" id="admin-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-card-icon blue">🎓</div><div class="stat-value" id="admin-stat-students">0</div><div class="stat-label">Étudiants Actifs</div></div>
+            <div class="stat-card"><div class="stat-card-icon green">👨‍🏫</div><div class="stat-value" id="admin-stat-profs">0</div><div class="stat-label">Professeurs</div></div>
+            <div class="stat-card"><div class="stat-card-icon gold">📋</div><div class="stat-value" id="admin-stat-pending">0</div><div class="stat-label">Candidatures en Attente</div></div>
+            <div class="stat-card"><div class="stat-card-icon orange">📚</div><div class="stat-value" id="admin-stat-courses">0</div><div class="stat-label">Cours Actifs</div></div>
+          </div>
+          <div class="grid-2 mt-3">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Inscriptions par Faculté</span></div>
+              <div class="card-body">
+                <div class="chart-wrap"><div class="chart-bar-wrap" id="admin-faculty-chart"></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Dernières Candidatures</span></div>
+              <div class="card-body" style="padding:0;"><table><thead><tr><th>Nom</th><th>Faculté</th><th>Statut</th><th>Action</th></tr></thead><tbody id="admin-recent-apps"></tbody></table></div>
+            </div>
+          </div>
+          <div class="card mt-3">
+            <div class="card-header"><span class="card-title">Activité du Système</span></div>
+            <div class="card-body" id="admin-activity-feed"></div>
+          </div>
+        </div>
+
+        <!-- ADMIN: APPLICATIONS -->
+        <div class="dash-panel" id="admin-applications">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📋 Dossiers de Candidature</span>
+              <div class="flex gap-1 align-center">
+                <select class="form-select" style="width:auto;padding:6px 12px;font-size:14px;" id="app-filter" onchange="renderApplications()">
+                  <option value="">Tous</option><option value="pending">En Attente</option><option value="approved">Approuvés</option><option value="rejected">Refusés</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body" style="padding:0;"><div class="table-wrap"><table>
+              <thead><tr><th>Candidat</th><th>Email</th><th>Faculté</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+              <tbody id="applications-body"></tbody>
+            </table></div></div>
+          </div>
+        </div>
+
+        <!-- ADMIN: STUDENTS -->
+        <div class="dash-panel" id="admin-students">
+          <div class="card">
+            <div class="card-header"><span class="card-title">🎓 Gestion des Étudiants</span><button class="btn-gold btn-sm" onclick="showAddStudentForm()">+ Ajouter</button></div>
+            <div class="card-body" style="padding:0;"><div class="table-wrap"><table>
+              <thead><tr><th>Étudiant</th><th>ID Étudiant</th><th>Email</th><th>Faculté</th><th>Semestre</th><th>Statut</th><th>Actions</th></tr></thead>
+              <tbody id="admin-students-body"></tbody>
+            </table></div></div>
+          </div>
+          <div class="card mt-3" id="add-student-form-card" style="display:none;">
+            <div class="card-header"><span class="card-title">Créer un Compte Étudiant</span></div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Prénom</label><input class="form-input" id="new-std-prenom" /></div>
+                <div class="form-group"><label class="form-label">Nom</label><input class="form-input" id="new-std-nom" /></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="new-std-email" type="email" /></div>
+                <div class="form-group"><label class="form-label">Mot de Passe</label><input class="form-input" id="new-std-pass" type="password" /></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Faculté</label>
+                  <select class="form-select" id="new-std-faculty">
+                    <option>Sciences et Technologies</option><option>Médecine & Santé</option><option>Sciences Économiques</option><option>Droit & Sciences Politiques</option><option>Architecture & Génie Civil</option><option>Agronomie & Environnement</option>
+                  </select>
+                </div>
+                <div class="form-group"><label class="form-label">Semestre</label>
+                  <select class="form-select" id="new-std-semester"><option>S1</option><option>S2</option><option>S3</option><option>S4</option><option>S5</option><option>S6</option></select>
+                </div>
+              </div>
+              <button class="btn-gold" onclick="addStudent()">Créer l'Étudiant</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN: PROFESSORS -->
+        <div class="dash-panel" id="admin-professors">
+
+          <!-- Pending professor registration requests -->
+          <div class="card" style="margin-bottom:1.5rem;" id="pending-profs-card">
+            <div class="card-header">
+              <span class="card-title">⏳ Demandes en Attente <span id="pending-profs-count" style="font-size:13px;font-weight:400;color:var(--gray-500)"></span></span>
+              <button class="btn-sm" style="background:var(--gray-100,#f5f5f5);border:1px solid var(--gray-200);border-radius:6px;padding:4px 10px;cursor:pointer;" onclick="renderPendingProfessors()">🔄 Rafraîchir</button>
+            </div>
+            <div class="card-body" style="padding:0;">
+              <div class="table-wrap"><table>
+                <thead><tr><th>Nom</th><th>Email</th><th>Département</th><th>Date</th><th>Actions</th></tr></thead>
+                <tbody id="admin-pending-profs-body">
+                  <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--gray-500)">Chargement...</td></tr>
+                </tbody>
+              </table></div>
+            </div>
+          </div>
+
+          <!-- Active professors -->
+          <div class="card">
+            <div class="card-header"><span class="card-title">👨‍🏫 Gestion des Professeurs</span><button class="btn-gold btn-sm" onclick="showAddProfForm()">+ Ajouter</button></div>
+            <div class="card-body" style="padding:0;"><div class="table-wrap"><table>
+              <thead><tr><th>Professeur</th><th>Email</th><th>Département</th><th>Cours Assignés</th><th>Statut</th><th>Actions</th></tr></thead>
+              <tbody id="admin-profs-body"></tbody>
+            </table></div></div>
+          </div>
+          <div class="card mt-3" id="add-prof-form-card" style="display:none;">
+            <div class="card-header"><span class="card-title">Créer un Compte Admin / Professeur</span></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Rôle du Compte</label>
+                <select class="form-select" id="new-prof-role" onchange="toggleAdminProfFields()">
+                  <option value="professor">Professeur</option>
+                  <option value="admin">Administrateur</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Prénom</label><input class="form-input" id="new-prof-prenom" /></div>
+                <div class="form-group"><label class="form-label">Nom</label><input class="form-input" id="new-prof-nom" /></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="new-prof-email" type="email" /></div>
+                <div class="form-group"><label class="form-label">Mot de Passe</label><input class="form-input" id="new-prof-pass" type="password" /></div>
+              </div>
+              <div class="form-group" id="new-prof-dept-group"><label class="form-label">Département</label>
+                <select class="form-select" id="new-prof-dept">
+                  <option>Sciences et Technologies</option><option>Médecine &amp; Santé</option><option>Sciences Économiques</option><option>Droit &amp; Sciences Politiques</option>
+                </select>
+              </div>
+              <button class="btn-gold" onclick="addProfessor()">Créer le Compte</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN: COURSES -->
+        <div class="dash-panel" id="admin-courses">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📚 Gestion des Cours</span><button class="btn-gold btn-sm" onclick="showAddCourseForm()">+ Nouveau Cours</button></div>
+            <div class="card-body" style="padding:0;"><div class="table-wrap"><table>
+              <thead><tr><th>Code</th><th>Cours</th><th>Professeur</th><th>Faculté</th><th>Étudiants</th><th>Crédits</th><th>Actions</th></tr></thead>
+              <tbody id="admin-courses-body"></tbody>
+            </table></div></div>
+          </div>
+          <div class="card mt-3" id="add-course-form-card" style="display:none;">
+            <div class="card-header"><span class="card-title">Créer un Nouveau Cours</span></div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Code du Cours</label><input class="form-input" id="new-c-code" placeholder="INFO-301"/></div>
+                <div class="form-group"><label class="form-label">Intitulé du Cours</label><input class="form-input" id="new-c-name" placeholder="Algorithmique Avancée"/></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Faculté</label>
+                  <select class="form-select" id="new-c-faculty"><option>Sciences et Technologies</option><option>Médecine & Santé</option><option>Sciences Économiques</option><option>Droit & Sciences Politiques</option></select>
+                </div>
+                <div class="form-group"><label class="form-label">Crédits</label>
+                  <select class="form-select" id="new-c-credits"><option>2</option><option>3</option><option>4</option><option>6</option></select>
+                </div>
+              </div>
+              <div class="form-group"><label class="form-label">Assigner un Professeur</label>
+                <select class="form-select" id="new-c-prof"><option value="">— Non assigné —</option></select>
+              </div>
+              <button class="btn-gold" onclick="addCourse()">Créer le Cours</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN: SCHEDULES -->
+        <div class="dash-panel" id="admin-schedules">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📅 Emploi du Temps Global</span></div>
+            <div class="card-body"><div id="admin-schedule-grid" class="schedule-grid"></div></div>
+          </div>
+        </div>
+
+        <!-- ADMIN: MESSAGES -->
+        <div class="dash-panel" id="admin-messages">
+          <div class="card">
+            <div class="card-header"><span class="card-title">✉️ Messages Reçus des Étudiants</span></div>
+            <div class="card-body" style="padding:0;"><div class="msg-list" id="admin-msg-list"></div></div>
+          </div>
+        </div>
+
+        <!-- ADMIN: ACTIVITY -->
+        <div class="dash-panel" id="admin-activity">
+          <div class="card">
+            <div class="card-header"><span class="card-title">📈 Journal d'Activité du Système</span></div>
+            <div class="card-body" id="admin-full-activity"></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===== LOGIN MODAL ===== -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Connexion</h2>
+      <p>Accédez à votre espace UPH</p>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- ── Login form (shown by default) ── -->
+      <div id="login-main-content">
+        <div class="modal-tabs">
+          <button class="modal-tab active" onclick="setLoginType('student')">🎓 Étudiant</button>
+          <button class="modal-tab" onclick="setLoginType('professor')">👨‍🏫 Professeur</button>
+          <button class="modal-tab" onclick="setLoginType('admin')">🛠️ Admin</button>
+        </div>
+        <div class="form-group"><label class="form-label">Email / Identifiant</label><input class="form-input" id="login-email" placeholder="votre@email.com" /></div>
+        <div class="form-group"><label class="form-label">Mot de Passe</label><input class="form-input" id="login-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" /></div>
+        <div id="login-error" class="form-error" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;"></div>
+        <div style="background:var(--blue-light);border-radius:8px;padding:12px;font-size:13px;color:var(--blue);margin-bottom:1rem;">
+          ℹ️ Utilisez vos identifiants UPH. Les étudiants reçoivent leurs accès après approbation de leur candidature.
+        </div>
+        <div style="background:var(--gold-pale,#fdf5e1);border:1px solid var(--gold,#c9a84c);border-radius:8px;padding:11px 14px;font-size:14px;text-align:center;margin-bottom:1.25rem;">
+          👨‍🏫 Professeur à UPH?&nbsp;&nbsp;<a href="#" onclick="showProfRegistration()" style="color:var(--navy);font-weight:700;text-decoration:none;">Créer un compte →</a>
+        </div>
+        <button class="btn-primary" onclick="doLogin()">Se Connecter</button>
+        <div class="form-divider">ou</div>
+        <p style="text-align:center;font-size:14px;color:var(--gray-500);">Pas encore de compte? <a href="#" onclick="closeModal();showView('apply')" style="color:var(--navy);font-weight:600;">Déposer une candidature</a></p>
+      </div>
+
+      <!-- ── Professor self-registration panel (hidden by default) ── -->
+      <div id="prof-reg-panel" style="display:none;">
+        <h3 style="margin-bottom:1rem;font-size:17px;font-weight:700;color:var(--navy);">📝 Compte Professeur</h3>
+        <div style="background:var(--gold-light,#fff8e1);border-radius:8px;padding:12px;margin-bottom:1rem;font-size:13px;color:var(--gray-700,#444);">
+          Votre demande sera examinée par un administrateur avant activation de votre compte.
+        </div>
+        <div class="form-group"><label class="form-label">Nom Complet *</label><input class="form-input" id="reg-prof-name" placeholder="Prof. Marie Pierre" /></div>
+        <div class="form-group"><label class="form-label">Email *</label><input class="form-input" id="reg-prof-email" type="email" placeholder="m.pierre@email.com" /></div>
+        <div class="form-group"><label class="form-label">Mot de Passe * <span style="font-weight:400;font-size:12px;color:var(--gray-500)">(min. 6 caractères)</span></label><input class="form-input" id="reg-prof-pass" type="password" placeholder="••••••••" /></div>
+        <div class="form-group"><label class="form-label">Département *</label>
+          <select class="form-select" id="reg-prof-dept">
+            <option>Sciences et Technologies</option><option>Médecine &amp; Santé</option><option>Sciences Économiques</option><option>Droit &amp; Sciences Politiques</option><option>Architecture &amp; Génie Civil</option><option>Agronomie &amp; Environnement</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Téléphone</label><input class="form-input" id="reg-prof-phone" placeholder="+509 ..." /></div>
+        <div id="prof-reg-error" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;font-size:13px;color:var(--red,#c0392b);"></div>
+        <div id="prof-reg-success" style="display:none;margin-bottom:1rem;padding:12px;background:#d4edda;border-radius:8px;font-size:13px;color:#155724;line-height:1.5;"></div>
+        <button class="btn-gold" onclick="submitProfRegistration()">📤 Envoyer la Demande</button>
+        <div class="form-divider"></div>
+        <p style="text-align:center;font-size:13px;"><a href="#" onclick="hideProfRegistration()" style="color:var(--navy);font-weight:600;">← Retour à la connexion</a></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+// ============================================================
+// DATABASE (LocalStorage-based)
+// ============================================================
+const DB = {
+  get(key) { try { return JSON.parse(localStorage.getItem('uph_'+key)) || null; } catch { return null; } },
+  set(key, val) { localStorage.setItem('uph_'+key, JSON.stringify(val)); },
+  getArr(key) { return this.get(key) || []; },
+  push(key, item) { const arr = this.getArr(key); arr.push(item); this.set(key, arr); return item; },
+  update(key, id, patch) {
+    const arr = this.getArr(key);
+    const i = arr.findIndex(x => x.id === id);
+    if (i >= 0) { arr[i] = {...arr[i], ...patch}; this.set(key, arr); return arr[i]; }
+    return null;
+  },
+  delete(key, id) { const arr = this.getArr(key).filter(x => x.id !== id); this.set(key, arr); }
+};
+
+// ============================================================
+// INITIAL DATA SEED
+// ============================================================
+function seedData() {
+  // v2: all real data comes from MySQL — clear any old localStorage fake data
+  if (DB.get('seeded_v2')) return;
+  const staleKeys = ['users','professors','students','courses','enrollments',
+                     'grades','schedules','applications','messages','notifications','activity'];
+  staleKeys.forEach(k => localStorage.removeItem('uph_' + k));
+  DB.set('seeded_v2', true);
+}
+
+// ============================================================
+// AUTH STATE
+// ============================================================
+let currentUser  = null;
+let studentData  = null;   // full profile from GET /api/students/:id
+let currentLoginType = 'student';
+
+function setLoginType(type) {
+  currentLoginType = type;
+  document.querySelectorAll('.modal-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['student','professor','admin'][i] === type);
+  });
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+
+  if (!email || !pass) {
+    errEl.style.display  = 'block';
+    errEl.textContent    = '❌ Veuillez saisir votre email et mot de passe.';
+    return;
+  }
+
+  try {
+    const res  = await fetch('http://localhost:3000/api/auth/login', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    console.log('[doLogin] API response:', data);
+
+    if (!data.success) {
+      errEl.style.display = 'block';
+      errEl.textContent   = '❌ ' + (data.message || 'Email ou mot de passe incorrect.');
+      return;
+    }
+
+    // Success — set global user and route to the right dashboard
+    currentUser = data.user;
+    logActivity('Connexion', data.user.email, 'Connexion ' + data.user.role);
+    closeModal();
+    if (data.user.role === 'admin')      { showView('admin');     initAdmin(); }
+    else if (data.user.role === 'professor') { showView('prof'); initProfessor(data.user); }
+    else                                 { showView('student');   initStudent(data.user); }
+    toast('Bienvenue, ' + data.user.name.split(' ')[0] + '! 👋', 'success');
+
+  } catch (err) {
+    console.error('[doLogin] fetch error:', err);
+    errEl.style.display = 'block';
+    errEl.textContent   = '❌ Impossible de contacter le serveur. Vérifiez que le backend est démarré.';
+  }
+}
+
+function logout() {
+  currentUser = null;
+  showView('home');
+  toast('Déconnexion réussie.', '');
+}
+
+// ============================================================
+// VIEW SYSTEM
+// ============================================================
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function openModal(name) {
+  document.getElementById(name+'-modal').classList.add('active');
+  if (name === 'login') setLoginType('student');
+}
+function closeModal() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+}
+
+// ============================================================
+// PANEL SYSTEM
+// ============================================================
+function showPanel(portal, panel) {
+  const container = document.getElementById('view-'+portal);
+  container.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById(portal+'-'+panel) || document.getElementById(portal[0]+'rof-'+panel);
+  if (el) el.classList.add('active');
+
+  // Update nav
+  container.querySelectorAll('.dash-nav-item').forEach(item => item.classList.remove('active'));
+  const clicked = event?.currentTarget || container.querySelectorAll('.dash-nav-item')[0];
+  if (event?.currentTarget) event.currentTarget.classList.add('active');
+
+  // Update title
+  const titles = {
+    dashboard:'Tableau de Bord', profile:'Mon Profil', grades:'Mes Notes / Saisie des Notes',
+    schedule:'Emploi du Temps', enroll:'Inscription aux Cours', mycourses:'Mes Cours',
+    messages:'Messagerie', notifications:'Notifications', courses:'Mes Cours / Gestion Cours',
+    students:'Étudiants', professors:'Professeurs', applications:'Candidatures',
+    schedules:'Emplois du Temps', activity:'Journal d\'Activité'
+  };
+  const titleEl = document.getElementById(portal+'-panel-title') || document.getElementById('prof-panel-title') || document.getElementById('std-panel-title');
+  if (titleEl) titleEl.textContent = titles[panel] || panel;
+
+  // Load data for panel
+  if (portal === 'student') renderStudentPanel(panel);
+  if (portal === 'prof') renderProfPanel(panel);
+  if (portal === 'admin') renderAdminPanel(panel);
+}
+
+// ============================================================
+// STUDENT INIT & RENDER
+// ============================================================
+async function initStudent(user) {
+  console.log('[initStudent] user from login:', user);
+
+  // Show initials immediately while we fetch full profile
+  const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  document.getElementById('std-avatar').textContent          = initials;
+  document.getElementById('std-profile-avatar').textContent = initials;
+  document.getElementById('std-name').textContent           = user.name;
+  document.getElementById('std-faculty').textContent        = user.faculty || '';
+  document.getElementById('std-topbar-user').textContent    = user.name.split(' ')[0];
+
+  // Load full profile from MySQL (includes photo URL)
+  await reloadStudentData();
+  // Update avatars with real photo as soon as data is ready
+  if (studentData) updateStudentAvatars(studentData);
+  renderStudentPanel('dashboard');
+}
+
+// Update sidebar + profile-panel avatars with photo or initials
+function updateStudentAvatars(std) {
+  const name     = std.name || (currentUser && currentUser.name) || '';
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+  const sideAv    = document.getElementById('std-avatar');
+  const profileAv = document.getElementById('std-profile-avatar');
+
+  [sideAv, profileAv].forEach(el => {
+    if (!el) return;
+    el.style.overflow = 'hidden';
+    el.innerHTML = '';
+    if (std.photo) {
+      const img = document.createElement('img');
+      img.src   = std.photo;
+      img.alt   = 'photo';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+      img.onerror = function() {
+        el.removeChild(img);
+        el.textContent = initials;
+      };
+      el.appendChild(img);
+    } else {
+      el.textContent = initials;
+    }
+  });
+}
+
+async function reloadStudentData() {
+  if (!currentUser || !currentUser.id) return;
+  try {
+    const res  = await fetch('http://localhost:3000/api/students/me?user_id=' + currentUser.id);
+    const data = await res.json();
+    console.log('[reloadStudentData]:', data);
+    if (data.success) {
+      studentData = data.data;
+      // Keep currentUser.student_id in sync for enrollCourse calls
+      currentUser.student_id = data.data.id;
+    } else {
+      console.warn('[reloadStudentData] no profile:', data.message);
+    }
+  } catch (err) {
+    console.error('[reloadStudentData] error:', err);
+  }
+}
+
+function renderStudentPanel(panel) {
+  const std = studentData;
+  if (!std) { console.warn('[renderStudentPanel] no studentData yet'); return; }
+  if (panel === 'dashboard')     renderStudentDashboard(std);
+  if (panel === 'profile')       renderStudentProfile(std);
+  if (panel === 'grades')        renderGrades(std);
+  if (panel === 'schedule')      renderSchedule('student-schedule-grid', std);
+  if (panel === 'enroll')        renderEnroll(std);
+  if (panel === 'mycourses')     renderMyCourses(std);
+  if (panel === 'messages')      renderMessages('student');
+  if (panel === 'notifications') renderNotifications(std);
+}
+
+function renderStudentDashboard(std) {
+  const grades      = std.grades      || [];
+  const enrollments = std.enrollments || [];
+
+  document.getElementById('std-stat-courses').textContent  = enrollments.length;
+  document.getElementById('std-stat-semester').textContent = std.semester || '—';
+  document.getElementById('std-stat-avg').textContent =
+    grades.length > 0
+      ? (grades.reduce((s, g) => s + Number(g.grade), 0) / grades.length).toFixed(1)
+      : '—';
+
+  // Recent grades
+  let rg = '';
+  grades.slice(-4).reverse().forEach(g => {
+    const val = Number(g.grade);
+    const cls = val >= 16 ? 'grade-excellent' : val >= 14 ? 'grade-good' : val >= 10 ? 'grade-average' : 'grade-fail';
+    rg += `<div class="activity-row">
+      <div class="activity-icon" style="background:var(--blue-light)">📊</div>
+      <div class="activity-text"><strong>${g.course_name || 'Cours'}</strong><br><span style="font-size:12px;color:var(--gray-500)">${g.course_code || ''}</span></div>
+      <div class="activity-time"><span class="${cls}" style="font-family:var(--font-display);font-size:22px;font-weight:700">${g.grade}/20</span></div>
+    </div>`;
+  });
+  document.getElementById('std-recent-grades').innerHTML = rg || '<p class="text-muted">Aucune note disponible.</p>';
+
+  document.getElementById('std-upcoming').innerHTML = '<p class="text-muted">Aucun cours planifié.</p>';
+
+  const acts = [
+    {icon:'🎓', txt:'Bienvenue à l\'<strong>UPH</strong>! Votre compte est actif.', time:'', bg:'var(--green-light)'},
+    {icon:'📚', txt:'Inscrivez-vous à des cours via <strong>S\'inscrire aux Cours</strong>.', time:'', bg:'var(--blue-light)'},
+  ];
+  document.getElementById('std-activity').innerHTML = acts.map(a =>
+    `<div class="activity-row"><div class="activity-icon" style="background:${a.bg}">${a.icon}</div><div class="activity-text">${a.txt}</div><div class="activity-time">${a.time}</div></div>`
+  ).join('');
+}
+
+function renderStudentProfile(std) {
+  const name = std.name || currentUser.name;
+
+  // Update both avatars (sidebar + profile panel)
+  updateStudentAvatars(std);
+
+  document.getElementById('std-profile-name').textContent    = name;
+  document.getElementById('std-profile-faculty').textContent = '🎓 ' + (std.faculty || '—');
+  document.getElementById('std-profile-code').textContent    = '📋 ' + (std.student_code || '—');
+  document.getElementById('std-profile-status').innerHTML    = '<span class="badge badge-green">● Actif</span>';
+
+  document.getElementById('std-profile-details').innerHTML = `
+    <div class="profile-detail-item"><div class="profile-detail-label">Code Étudiant</div><div class="profile-detail-value" style="font-family:var(--font-mono)">${std.student_code || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Email</div><div class="profile-detail-value">${std.email || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Faculté</div><div class="profile-detail-value">${std.faculty || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Niveau</div><div class="profile-detail-value">${std.level || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Semestre</div><div class="profile-detail-value">${std.semester || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Téléphone</div><div class="profile-detail-value">${std.phone || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Adresse</div><div class="profile-detail-value">${std.address || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Date de Naissance</div><div class="profile-detail-value">${std.dob || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">École d'origine</div><div class="profile-detail-value">${std.school || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Diplôme</div><div class="profile-detail-value">${std.diploma || '—'}</div></div>
+    <div class="profile-detail-item"><div class="profile-detail-label">Statut</div><div class="profile-detail-value"><span class="badge badge-green">Actif</span></div></div>
+  `;
+}
+
+function toggleEditProfile() {
+  const card = document.getElementById('std-edit-card');
+  if (card.style.display === 'none' || !card.style.display) {
+    document.getElementById('edit-std-phone').value   = studentData.phone   || '';
+    document.getElementById('edit-std-address').value = studentData.address || '';
+
+    // Populate photo preview with current photo or initials
+    const preview  = document.getElementById('photo-preview');
+    const name     = studentData.name || (currentUser && currentUser.name) || '';
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    preview.style.overflow = 'hidden';
+    if (studentData.photo) {
+      preview.innerHTML = '<img src="' + studentData.photo + '" alt="photo" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.textContent=\'' + initials + '\'"/>';
+    } else {
+      preview.textContent = initials;
+    }
+
+    // Reset upload controls
+    document.getElementById('photoInput').value        = '';
+    document.getElementById('upload-photo-btn').style.display  = 'none';
+    document.getElementById('upload-progress').style.display   = 'none';
+
+    card.style.display = 'block';
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    card.style.display = 'none';
+  }
+}
+
+async function saveStudentProfile() {
+  const phone   = document.getElementById('edit-std-phone').value.trim();
+  const address = document.getElementById('edit-std-address').value.trim();
+  try {
+    const res  = await fetch('http://localhost:3000/api/students/me', {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ user_id: currentUser.id, phone, address })
+    });
+    const data = await res.json();
+    console.log('[saveStudentProfile]:', data);
+    if (!data.success) throw new Error(data.message);
+    toast('Profil mis à jour!', 'success');
+    await reloadStudentData();
+    document.getElementById('std-edit-card').style.display = 'none';
+    renderStudentProfile(studentData);
+  } catch (err) {
+    console.error('[saveStudentProfile] error:', err);
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+// Called when user picks a file — shows local preview, reveals Upload button
+function previewPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  const preview   = document.getElementById('photo-preview');
+  const uploadBtn = document.getElementById('upload-photo-btn');
+  const objectUrl = URL.createObjectURL(input.files[0]);
+  preview.style.overflow = 'hidden';
+  preview.innerHTML = '<img src="' + objectUrl + '" alt="preview" style="width:100%;height:100%;object-fit:cover;" />';
+  uploadBtn.style.display = 'inline-block';
+}
+
+// Sends the chosen file to the server via FormData (real multipart upload, no base64)
+async function uploadPhoto() {
+  const input  = document.getElementById('photoInput');
+  const btn    = document.getElementById('upload-photo-btn');
+  const prog   = document.getElementById('upload-progress');
+  if (!input.files || !input.files[0]) { toast('Choisissez une photo.', ''); return; }
+
+  btn.style.display  = 'none';
+  prog.style.display = 'block';
+
+  const formData = new FormData();
+  formData.append('photo', input.files[0]);
+  formData.append('user_id', currentUser.id);
+
+  try {
+    const res  = await fetch('http://localhost:3000/api/students/upload-photo', {
+      method: 'POST',
+      body:   formData          // do NOT set Content-Type — browser sets it with boundary
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+
+    // Apply the photo URL immediately — don't wait for the DB round-trip
+    if (studentData) studentData.photo = data.photoUrl;
+    updateStudentAvatars(studentData || { photo: data.photoUrl, name: currentUser && currentUser.name });
+    toast('Photo mise à jour! ✅', 'success');
+
+    // Reset upload controls before the background reload
+    input.value        = '';
+    prog.style.display = 'none';
+
+    // Background reload to sync full profile (does not block avatar display)
+    reloadStudentData().then(() => renderStudentProfile(studentData));
+  } catch (err) {
+    console.error('[uploadPhoto] error:', err);
+    toast('Erreur: ' + err.message, '');
+    btn.style.display  = 'inline-block';
+    prog.style.display = 'none';
+  }
+}
+
+function renderGrades(std) {
+  const grades = std.grades || [];
+  let html = '';
+  if (!grades.length) { document.getElementById('grades-list').innerHTML = '<p class="text-muted">Aucune note disponible.</p>'; return; }
+  grades.forEach(g => {
+    const val      = Number(g.grade);
+    const cls      = val >= 16 ? 'grade-excellent' : val >= 14 ? 'grade-good' : val >= 10 ? 'grade-average' : 'grade-fail';
+    const barColor = val >= 16 ? 'var(--green)' : val >= 14 ? 'var(--blue)' : val >= 10 ? 'var(--orange)' : 'var(--red)';
+    const mention = val >= 16 ? 'Tres Bien' : val >= 14 ? 'Bien' : val >= 12 ? 'Assez Bien' : val >= 10 ? 'Passable' : 'Insuffisant';
+    html += `<div class="grade-row">
+      <div><div class="grade-course">${g.course_name || 'Cours'}</div><div class="grade-code">${g.course_code || ''}</div></div>
+      <div class="grade-bar-wrap"><div class="grade-bar-bg"><div class="grade-bar" style="width:${(val/20)*100}%;background:${barColor}"></div></div><div style="font-size:11px;color:var(--gray-500);margin-top:3px">${mention}</div></div>
+      <div class="grade-value ${cls}">${g.grade}</div>
+    </div>`;
+  });
+  document.getElementById('grades-list').innerHTML = html;
+}
+
+function renderSchedule(gridId, std) {
+  const schedules = DB.getArr('schedules');
+  const days = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi'];
+  const times = ['7h00','8h00','9h00','10h00','11h00','13h00','14h00'];
+  let html = '<div class="schedule-cell schedule-header"></div>';
+  days.forEach(d => html += `<div class="schedule-cell schedule-header">${d}</div>`);
+  times.forEach(t => {
+    html += `<div class="schedule-cell schedule-time">${t}</div>`;
+    days.forEach(d => {
+      const s = schedules.find(s => s.day === d && s.time === t);
+      if (s) {
+        html += `<div class="schedule-cell"><div class="schedule-course" style="background:${s.color}18;border-left:3px solid ${s.color}"><div class="schedule-course-name" style="color:${s.color}">${s.courseName}</div><div class="schedule-course-room">${s.room}</div></div></div>`;
+      } else {
+        html += '<div class="schedule-cell"></div>';
+      }
+    });
+  });
+  document.getElementById(gridId).innerHTML = html;
+}
+
+async function renderEnroll(std) {
+  const container = document.getElementById('available-courses');
+  container.innerHTML = '<p style="color:var(--gray-500);padding:1rem;">Chargement des cours...</p>';
+  try {
+    const res  = await fetch('http://localhost:3000/api/courses');
+    const data = await res.json();
+    console.log('[renderEnroll] courses:', data);
+    if (!data.success) throw new Error(data.message);
+    const courses     = data.data;
+    const enrolledIds = (std.enrollments || []).map(e => e.course_id);
+    if (!courses.length) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon">📚</div><h3>Aucun cours disponible.</h3></div>';
+      return;
+    }
+    container.innerHTML = courses.map(c => {
+      const enrolled = enrolledIds.includes(c.id);
+      const full     = Number(c.enrolled_count) >= Number(c.max_students);
+      return `<div class="course-card">
+        <div class="course-card-code">${c.code}</div>
+        <div class="course-card-name">${c.name}</div>
+        <div class="course-card-prof">👨‍🏫 ${c.professor_name || '—'}</div>
+        <div class="course-card-info"><span>📚 ${c.credits} cr.</span><span>👥 ${c.enrolled_count}/${c.max_students}</span></div>
+        <div style="margin-top:1rem">
+          ${enrolled
+            ? '<span class="badge badge-green">✓ Inscrit</span>'
+            : full
+              ? '<span class="badge" style="background:var(--gray-200);color:var(--gray-700)">Complet</span>'
+              : `<button class="btn-gold btn-sm" onclick="enrollCourse(${c.id}, ${std.id}, this)">S&#39;inscrire</button>`}
+        </div>
+      </div>`;
+    }).join('');
+  } catch (err) {
+    console.error('[renderEnroll] error:', err);
+    container.innerHTML = `<p style="color:var(--red);padding:1rem">Erreur: ${err.message}</p>`;
+  }
+}
+
+async function enrollCourse(courseId, studentId, btn) {
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+  const semester = (studentData.semester || currentUser.semester || 'S1') + '-' + new Date().getFullYear();
+  try {
+    const res  = await fetch('http://localhost:3000/api/enrollments', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ student_id: studentId, course_id: courseId, semester })
+    });
+    const data = await res.json();
+    console.log('[enrollCourse]:', data);
+    if (!data.success) {
+      toast('Erreur: ' + data.message, '');
+      if (btn) { btn.disabled = false; btn.textContent = "S'inscrire"; }
+      return;
+    }
+    toast('Inscription réussie! 🎉', 'success');
+    await reloadStudentData();
+    renderEnroll(studentData);
+  } catch (err) {
+    console.error('[enrollCourse] error:', err);
+    toast('Impossible de contacter le serveur.', '');
+    if (btn) { btn.disabled = false; btn.textContent = "S'inscrire"; }
+  }
+}
+
+function renderMyCourses(std) {
+  const enrollments = std.enrollments || [];
+  const container   = document.getElementById('my-courses-list');
+  const countEl     = document.getElementById('my-courses-count');
+  if (countEl) countEl.textContent = enrollments.length ? '(' + enrollments.length + ' cours)' : '';
+  if (!enrollments.length) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📚</div>
+      <h3>Aucun cours</h3>
+      <p>Inscrivez-vous via l'onglet "S'inscrire aux Cours".</p>
+      <button class="btn-gold btn-sm" style="margin-top:1rem" onclick="showPanel('student','enroll')">Voir les cours disponibles</button>
+    </div>`;
+    return;
+  }
+  const grades = std.grades || [];
+  container.innerHTML = enrollments.map(e => {
+    const g       = grades.find(g => g.course_id === e.course_id);
+    const gradeEl = g
+      ? `<span style="font-family:var(--font-display);font-size:20px;font-weight:700;color:${Number(g.grade)>=14?'var(--blue)':'var(--orange)'}">${g.grade}/20</span>`
+      : '<span class="badge" style="background:var(--gray-200);color:var(--gray-700)">Note en attente</span>';
+    return `<div class="course-card">
+      <div class="course-card-code">${e.code}</div>
+      <div class="course-card-name">${e.course_name}</div>
+      <div class="course-card-prof">👨‍🏫 ${e.professor_name || '—'}</div>
+      <div class="course-card-info"><span>📚 ${e.credits} cr.</span><span>📅 ${e.semester}</span></div>
+      <div style="margin-top:1rem;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+        ${gradeEl}
+        <button onclick="unenrollCourse(${e.id}, this)" style="background:none;border:1px solid var(--red);color:var(--red);border-radius:6px;padding:4px 12px;font-size:12px;cursor:pointer;">Se désinscrire</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function unenrollCourse(enrollmentId, btn) {
+  if (!confirm('Confirmer la désinscription de ce cours?')) return;
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+  try {
+    const res  = await fetch('http://localhost:3000/api/enrollments/' + enrollmentId, { method: 'DELETE' });
+    const data = await res.json();
+    if (!data.success) { toast('Erreur: ' + data.message, ''); if (btn) { btn.disabled = false; btn.textContent = 'Se désinscrire'; } return; }
+    toast('Désinscription effectuée.', 'success');
+    await reloadStudentData();
+    renderMyCourses(studentData);
+  } catch (err) {
+    console.error('[unenrollCourse] error:', err);
+    toast('Impossible de contacter le serveur.', '');
+    if (btn) { btn.disabled = false; btn.textContent = 'Se désinscrire'; }
+  }
+}
+
+function renderMessages(portal) {
+  const messages = DB.getArr('messages');
+  const userId = portal === 'student' ? 's1' : portal === 'prof' ? 'p1' : 'admin';
+  const relevant = portal === 'admin' ? messages : messages.filter(m => 
+    portal === 'student' ? (m.fromRole === 'admin' || m.to === 'Administration') : m.to !== 'Administration'
+  );
+  const listId = portal+'-msg-list';
+  document.getElementById(listId).innerHTML = relevant.length === 0 
+    ? '<div class="empty-state"><div class="empty-icon">✉️</div><h3>Aucun message</h3></div>'
+    : relevant.map(m => `<div class="msg-item ${m.read ? '' : 'unread'}">
+        <div class="msg-avatar">${m.from.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
+        <div class="msg-content"><div class="msg-from">${m.from}</div><div class="msg-subject">${m.subject}</div></div>
+        <div class="msg-time">${m.date}</div>
+      </div>`).join('');
+}
+
+function renderNotifications(std) {
+  const notifs = DB.getArr('notifications').filter(n => n.userId === std.id);
+  const typeMap = { success:'🎉', info:'ℹ️', warning:'⚠️', error:'❌' };
+  const bgMap = { success:'var(--green-light)', info:'var(--blue-light)', warning:'var(--orange-light)', error:'var(--red-light)' };
+  document.getElementById('student-notif-list').innerHTML = notifs.map(n => `
+    <div class="notif-item ${n.read ? '' : 'unread'}">
+      <div class="notif-icon" style="background:${bgMap[n.type]}">${typeMap[n.type]}</div>
+      <div class="notif-text"><strong>${n.title}</strong><p>${n.text}</p></div>
+      <div class="notif-time">${n.date}</div>
+    </div>`).join('');
+  document.getElementById('std-notif-badge').textContent = notifs.filter(n=>!n.read).length;
+  document.getElementById('std-msg-badge').textContent = DB.getArr('messages').filter(m=>!m.read).length;
+}
+
+function showComposeForm() {}
+function sendMessage() {
+  const to = document.getElementById('msg-to').value;
+  const subject = document.getElementById('msg-subject').value;
+  const body = document.getElementById('msg-body').value;
+  if (!subject || !body) { toast('Remplissez l\'objet et le message.', 'error'); return; }
+  const senderName = (currentUser && currentUser.name) || 'Étudiant';
+  DB.push('messages', { id:'m'+Date.now(), from: senderName, fromRole:'student', to, subject, body, date:new Date().toISOString().split('T')[0], read:false });
+  document.getElementById('msg-subject').value = '';
+  document.getElementById('msg-body').value = '';
+  toast('Message envoyé avec succès! ✉️', 'success');
+  renderMessages('student');
+}
+
+function markAllRead() {
+  DB.set('notifications', []);
+  document.getElementById('std-notif-badge').textContent = '0';
+  toast('Toutes les notifications marquées comme lues.', '');
+}
+
+// ============================================================
+// PROFESSOR INIT & RENDER
+// ============================================================
+async function renderProfProfile() {
+  if (!currentUser) return;
+  const name     = currentUser.name || '';
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  document.getElementById('prof-profile-avatar').textContent = initials;
+  document.getElementById('prof-profile-name').textContent   = name;
+  document.getElementById('prof-profile-dept').textContent   = '🏫 ' + (currentUser.department || '—');
+  document.getElementById('prof-profile-status').innerHTML   = '<span class="badge badge-green">● Actif</span>';
+
+  if (!currentUser.prof_id) return;
+  try {
+    const res  = await fetch('http://localhost:3000/api/professors/' + currentUser.prof_id);
+    const data = await res.json();
+    if (!data.success) return;
+    const p = data.data;
+    document.getElementById('prof-profile-title').textContent = '🎓 ' + (p.title || 'Professeur');
+    document.getElementById('prof-profile-details').innerHTML = `
+      <div class="profile-detail-item"><div class="profile-detail-label">Nom Complet</div><div class="profile-detail-value">${p.name || '—'}</div></div>
+      <div class="profile-detail-item"><div class="profile-detail-label">Email</div><div class="profile-detail-value">${p.email || '—'}</div></div>
+      <div class="profile-detail-item"><div class="profile-detail-label">Département</div><div class="profile-detail-value">${p.department || '—'}</div></div>
+      <div class="profile-detail-item"><div class="profile-detail-label">Titre</div><div class="profile-detail-value">${p.title || 'Professeur'}</div></div>
+      <div class="profile-detail-item"><div class="profile-detail-label">Téléphone</div><div class="profile-detail-value">${p.phone || '—'}</div></div>
+      <div class="profile-detail-item"><div class="profile-detail-label">Statut</div><div class="profile-detail-value"><span class="badge badge-green">Actif</span></div></div>
+      <div class="profile-detail-item"><div class="profile-detail-label">Membre depuis</div><div class="profile-detail-value">${new Date(p.created_at).toLocaleDateString('fr-FR')}</div></div>
+    `;
+  } catch (err) {
+    console.error('[renderProfProfile] error:', err);
+  }
+}
+
+async function initProfessor(user) {
+  console.log('[initProfessor] user:', user);
+  const name     = user.name       || '';
+  const dept     = user.department || '';
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+  document.getElementById('prof-avatar').textContent      = initials;
+  document.getElementById('prof-name').textContent        = name;
+  document.getElementById('prof-dept').textContent        = dept;
+  document.getElementById('prof-topbar-user').textContent = name.split(' ')[0];
+
+  // Load courses assigned to this professor from MySQL
+  if (user.prof_id) {
+    await loadProfCourseSelects(user.prof_id);
+  }
+
+  renderProfPanel('dashboard');
+}
+
+async function loadProfCourseSelects(profId) {
+  try {
+    const res  = await fetch('http://localhost:3000/api/professors/' + profId + '/courses');
+    const data = await res.json();
+    console.log('[loadProfCourseSelects]:', data);
+    if (!data.success) return;
+    const courses = data.data;
+    const opts = courses.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    document.getElementById('grade-course-select').innerHTML = '<option value="">— Choisir un cours —</option>' + opts;
+    document.getElementById('prof-filter-course').innerHTML  = '<option value="">Tous les cours</option>'         + opts;
+  } catch (err) {
+    console.error('[loadProfCourseSelects] error:', err);
+  }
+}
+
+function renderProfPanel(panel) {
+  if (!currentUser) return;
+  console.log('[renderProfPanel] panel:', panel);
+  if (panel === 'dashboard') renderProfDashboard();
+  if (panel === 'profile')   renderProfProfile();
+  if (panel === 'courses')   renderProfCourses();
+  if (panel === 'students')  renderProfStudents();
+  if (panel === 'grades')    renderGradeInput();
+  if (panel === 'schedule')  renderSchedule('prof-schedule-grid', null);
+  if (panel === 'messages')  renderMessages('prof');
+}
+
+async function renderProfDashboard() {
+  if (!currentUser || !currentUser.prof_id) {
+    ['prof-stat-courses','prof-stat-students','prof-stat-grades','prof-stat-ungraded'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.textContent = '—';
+    });
+    return;
+  }
+  try {
+    const [statsRes, coursesRes] = await Promise.all([
+      fetch('http://localhost:3000/api/professors/' + currentUser.prof_id + '/stats'),
+      fetch('http://localhost:3000/api/professors/' + currentUser.prof_id + '/courses')
+    ]);
+    const statsData   = await statsRes.json();
+    const coursesData = await coursesRes.json();
+    console.log('[renderProfDashboard] stats:', statsData, 'courses:', coursesData);
+    const stats   = statsData.success   ? statsData.data   : {};
+    const courses = coursesData.success ? coursesData.data : [];
+
+    document.getElementById('prof-stat-courses').textContent  = stats.courses        ?? 0;
+    document.getElementById('prof-stat-students').textContent = stats.students       ?? 0;
+    document.getElementById('prof-stat-grades').textContent   = stats.grades_entered ?? 0;
+    const ungradedEl = document.getElementById('prof-stat-ungraded');
+    if (ungradedEl) ungradedEl.textContent = Math.max(0, (Number(stats.students) || 0) - (Number(stats.grades_entered) || 0));
+
+    document.getElementById('prof-courses-overview').innerHTML = courses.map(c => `
+      <div class="activity-row">
+        <div class="activity-icon" style="background:var(--blue-light)">📚</div>
+        <div class="activity-text"><strong>${c.name}</strong><br><span class="text-sm" style="color:var(--gray-500)">${c.code} · ${c.enrolled_count} étudiant(s)</span></div>
+        <span class="badge badge-blue">${c.credits} cr.</span>
+      </div>`).join('') || '<p class="text-muted">Aucun cours assigné.</p>';
+
+    document.getElementById('prof-activity').innerHTML = `
+      <div class="activity-row"><div class="activity-icon" style="background:var(--green-light)">🎓</div><div class="activity-text">Connecté — <strong>${currentUser.name}</strong></div><div class="activity-time">Maintenant</div></div>
+      <div class="activity-row"><div class="activity-icon" style="background:var(--blue-light)">📚</div><div class="activity-text"><strong>${courses.length} cours</strong> assignés · ${currentUser.department || ''}</div><div class="activity-time"></div></div>
+      <div class="activity-row"><div class="activity-icon" style="background:var(--gold-light,#fef9e7)">📝</div><div class="activity-text"><strong>${stats.grades_entered ?? 0} notes</strong> saisies sur ${stats.students ?? 0} étudiants</div><div class="activity-time"></div></div>`;
+  } catch (err) {
+    console.error('[renderProfDashboard] error:', err);
+  }
+}
+
+async function renderProfCourses() {
+  if (!currentUser || !currentUser.prof_id) return;
+  const container = document.getElementById('prof-courses-list');
+  container.innerHTML = '<p style="color:var(--gray-500);padding:1rem">Chargement...</p>';
+  try {
+    const res  = await fetch('http://localhost:3000/api/professors/' + currentUser.prof_id + '/courses');
+    const data = await res.json();
+    const courses = data.success ? data.data : [];
+    container.innerHTML = courses.map(c => `
+      <div class="course-card">
+        <div class="course-card-code">${c.code}</div>
+        <div class="course-card-name">${c.name}</div>
+        <div class="course-card-info"><span>📚 ${c.credits} crédits</span><span>👥 ${c.enrolled_count} étudiants</span><span style="font-size:12px">${c.faculty.substring(0,18)}</span></div>
+        <div style="margin-top:1rem"><span class="badge badge-green">Actif</span></div>
+      </div>`).join('') || '<div class="empty-state"><div class="empty-icon">📚</div><h3>Aucun cours assigné.</h3></div>';
+  } catch (err) {
+    container.innerHTML = '<p style="color:var(--red);padding:1rem">Erreur de chargement.</p>';
+  }
+}
+
+async function renderProfStudents() {
+  if (!currentUser || !currentUser.prof_id) return;
+  const tbody       = document.getElementById('prof-students-body');
+  const filterCourse = document.getElementById('prof-filter-course')?.value || '';
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:1.5rem">Chargement...</td></tr>';
+  try {
+    const res  = await fetch('http://localhost:3000/api/professors/' + currentUser.prof_id + '/students');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    let rows = data.data;
+    if (filterCourse) rows = rows.filter(r => String(r.course_id) === String(filterCourse));
+    tbody.innerHTML = rows.map(s => `<tr>
+      <td><div style="font-weight:600">${s.name}</div><div class="text-sm" style="color:var(--gray-500)">${s.email}</div></td>
+      <td style="font-family:var(--font-mono);font-size:13px">${s.student_code}</td>
+      <td>${s.course_name}</td>
+      <td>${s.grade != null ? '<span style="font-weight:700;color:' + (Number(s.grade)>=14?'var(--blue)':'var(--orange)') + '">' + s.grade + '/20</span>' : '—'}</td>
+      <td><span class="badge badge-green">Actif</span></td>
+    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">Aucun étudiant inscrit.</td></tr>';
+  } catch (err) {
+    console.error('[renderProfStudents] error:', err);
+    tbody.innerHTML = '<tr><td colspan="5" style="color:var(--red);padding:1rem">Erreur: ' + err.message + '</td></tr>';
+  }
+}
+
+async function renderGradeInput() {
+  const courseId = document.getElementById('grade-course-select')?.value || '';
+  const tbody    = document.getElementById('grade-input-body');
+  if (!courseId) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">Sélectionnez un cours.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:1rem">Chargement...</td></tr>';
+  try {
+    const res  = await fetch('http://localhost:3000/api/grades?course_id=' + courseId);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    const students = data.data;
+    tbody.innerHTML = students.map(s => {
+      const hasGrade = s.grade != null;
+      const gradeColor = Number(s.grade) >= 14 ? 'var(--blue)' : 'var(--orange)';
+      return '<tr>' +
+        '<td><div style="font-weight:600">' + s.name + '</div><div class="text-sm" style="color:var(--gray-500)">' + s.student_code + '</div></td>' +
+        '<td>' + (hasGrade ? '<span style="font-weight:700;color:' + gradeColor + '">' + s.grade + '/20</span>' : '<span class="text-muted">—</span>') + '</td>' +
+        '<td><input class="form-input" style="width:100px;padding:6px 10px" type="number" min="0" max="20" step="0.5" id="grade-in-' + s.student_id + '" value="' + (hasGrade ? s.grade : '') + '" placeholder="0-20"/></td>' +
+        '<td><input class="form-input" style="width:140px;padding:6px 10px;font-size:13px" id="comment-in-' + s.student_id + '" value="' + (s.comment || '') + '" placeholder="Appréciation..."/></td>' +
+        '<td><button class="btn-success btn-sm" onclick="saveGrade(' + s.student_id + ',' + courseId + ',this)">💾 Sauvegarder</button></td>' +
+        '</tr>';
+    }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">Aucun étudiant inscrit.</td></tr>';
+  } catch (err) {
+    console.error('[renderGradeInput] error:', err);
+    tbody.innerHTML = '<tr><td colspan="5" style="color:var(--red);padding:1rem">Erreur: ' + err.message + '</td></tr>';
+  }
+}
+
+async function saveGrade(studentId, courseId, btn) {
+  const val     = parseFloat(document.getElementById('grade-in-' + studentId)?.value);
+  const comment = document.getElementById('comment-in-' + studentId)?.value || '';
+  if (isNaN(val) || val < 0 || val > 20) { toast('Note invalide (0-20).', 'error'); return; }
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+  try {
+    const res  = await fetch('http://localhost:3000/api/grades', {
+      method:  'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ student_id: studentId, course_id: courseId, grade: val, comment, professor_id: currentUser?.prof_id || null })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    toast('Note ' + val + '/20 sauvegardée! ✅', 'success');
+    renderGradeInput();
+  } catch (err) {
+    console.error('[saveGrade] error:', err);
+    toast('Erreur: ' + err.message, '');
+    if (btn) { btn.disabled = false; btn.textContent = '💾 Sauvegarder'; }
+  }
+}
+
+function showAddScheduleForm() {
+  const f = document.getElementById('add-schedule-form');
+  f.style.display = f.style.display==='none'?'block':'none';
+}
+function addScheduleEntry() {
+  const course = document.getElementById('sched-course').value;
+  const day = document.getElementById('sched-day').value;
+  const time = document.getElementById('sched-time').value;
+  const room = document.getElementById('sched-room').value;
+  DB.push('schedules', { id:'sch'+Date.now(), courseId:'c_custom', courseName:course, day, time, room, color:'#1565c0' });
+  toast('Cours ajouté au planning! 📅', 'success');
+  renderSchedule('prof-schedule-grid', null);
+}
+
+// ============================================================
+// ADMIN INIT & RENDER
+// ============================================================
+function initAdmin() {
+  if (currentUser) {
+    const initials = currentUser.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    document.getElementById('admin-avatar').textContent    = initials;
+    document.getElementById('admin-user-name').textContent = currentUser.name;
+  }
+  updateAdminBadges();
+  renderAdminPanel('dashboard');
+}
+
+async function updateAdminBadges() {
+  try {
+    const res  = await fetch('http://localhost:3000/api/applications?status=pending');
+    const data = await res.json();
+    const pending = data.success ? data.data.length : 0;
+    document.getElementById('admin-app-badge').textContent = pending;
+    document.getElementById('admin-stat-pending').textContent = pending;
+  } catch {
+    document.getElementById('admin-app-badge').textContent = '?';
+  }
+  try {
+    const res2  = await fetch('http://localhost:3000/api/professors/pending');
+    const data2 = await res2.json();
+    const pendingProfs = data2.success ? data2.data.length : 0;
+    const badge = document.getElementById('admin-prof-badge');
+    if (badge) {
+      badge.textContent = pendingProfs;
+      badge.style.display = pendingProfs > 0 ? 'inline-block' : 'none';
+    }
+  } catch { /* ignore */ }
+  try {
+    const [studRes, profRes, courseRes] = await Promise.all([
+      fetch('http://localhost:3000/api/students'),
+      fetch('http://localhost:3000/api/professors'),
+      fetch('http://localhost:3000/api/courses')
+    ]);
+    const [studData, profData, courseData] = await Promise.all([studRes.json(), profRes.json(), courseRes.json()]);
+    document.getElementById('admin-stat-students').textContent = studData.success  ? studData.data.length  : '—';
+    document.getElementById('admin-stat-profs').textContent    = profData.success  ? profData.data.length  : '—';
+    document.getElementById('admin-stat-courses').textContent  = courseData.success ? courseData.data.length : '—';
+  } catch { /* ignore */ }
+}
+
+function renderAdminPanel(panel) {
+  if (panel === 'dashboard') renderAdminDashboard();
+  if (panel === 'applications') renderApplications();
+  if (panel === 'students') renderAdminStudents();
+  if (panel === 'professors') renderAdminProfessors();
+  if (panel === 'courses') renderAdminCourses();
+  if (panel === 'schedules') renderSchedule('admin-schedule-grid', null);
+  if (panel === 'messages') renderMessages('admin');
+  if (panel === 'activity') renderAdminActivity();
+  updateAdminBadges();
+}
+
+async function renderAdminDashboard() {
+  updateAdminBadges();
+  // Faculty chart (static distribution — real enrollment data is phase 2)
+  const faculties = ['ST','Méd.','Éco.','Droit','Arch.','Agro.'];
+  const colors = ['#1565c0','#1a7a4a','#c9a84c','#c0392b','#6a1b9a','#00695c'];
+  document.getElementById('admin-faculty-chart').innerHTML = faculties.map((f,i)=>`
+    <div class="chart-bar" style="background:${colors[i]};height:${[140,100,120,80,64,52][i]}px" title="${f}">
+      <span class="chart-bar-label">${f}</span>
+    </div>`).join('');
+
+  // Recent pending applications from MySQL
+  const appsEl = document.getElementById('admin-recent-apps');
+  try {
+    const res  = await fetch('http://localhost:3000/api/applications?status=pending');
+    const data = await res.json();
+    const apps = (data.success ? data.data : []).slice(0, 4);
+    appsEl.innerHTML = apps.length
+      ? apps.map(a=>`<tr>
+          <td><div style="font-weight:600">${a.first_name} ${a.last_name}</div></td>
+          <td style="font-size:13px;color:var(--gray-500)">${a.faculty}</td>
+          <td>${getBadge(a.status)}</td>
+          <td><button class="btn-success btn-sm" onclick="approveApp(${a.id})">✓ Approuver</button></td>
+        </tr>`).join('')
+      : '<tr><td colspan="4" style="text-align:center;padding:1rem;color:var(--gray-500)">Aucune candidature en attente.</td></tr>';
+  } catch(e) {
+    appsEl.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--red)">Erreur de chargement.</td></tr>';
+  }
+
+  // Recent activity from MySQL
+  const actEl = document.getElementById('admin-activity-feed');
+  try {
+    const res  = await fetch('http://localhost:3000/api/admin/activity?limit=5');
+    const data = await res.json();
+    const acts = data.success ? data.data : [];
+    actEl.innerHTML = acts.length
+      ? acts.map(a=>`
+          <div class="activity-row">
+            <div class="activity-icon" style="background:var(--blue-light)">📌</div>
+            <div class="activity-text"><strong>${a.action}</strong><br><span class="text-sm" style="color:var(--gray-500)">${a.user_email||'Système'} — ${a.details||''}</span></div>
+            <div class="activity-time">${new Date(a.logged_at).toLocaleString('fr-HT')}</div>
+          </div>`).join('')
+      : '<div style="text-align:center;padding:1rem;color:var(--gray-500)">Aucune activité récente.</div>';
+  } catch(e) {
+    actEl.innerHTML = '<div style="text-align:center;color:var(--red)">Erreur de chargement.</div>';
+  }
+}
+
+async function renderApplications() {
+  const filter = document.getElementById('app-filter')?.value || '';
+  const url = 'http://localhost:3000/api/applications' + (filter ? '?status=' + filter : '');
+
+  document.getElementById('applications-body').innerHTML =
+    '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray-500)">Chargement...</td></tr>';
+
+  try {
+    const res  = await fetch(url);
+    const data = await res.json();
+    console.log('[renderApplications] fetched:', data);
+
+    if (!data.success) throw new Error(data.message || 'Erreur serveur');
+
+    const apps = data.data;
+    document.getElementById('applications-body').innerHTML = apps.length
+      ? apps.map(a => `<tr>
+          <td><div style="font-weight:600">${a.first_name} ${a.last_name}</div><div class="text-sm" style="color:var(--gray-500)">${a.phone || ''}</div></td>
+          <td>${a.email}</td>
+          <td style="font-size:13px">${a.faculty}</td>
+          <td style="font-size:13px">${new Date(a.submitted_at).toLocaleDateString('fr-FR')}</td>
+          <td>${getBadge(a.status)}</td>
+          <td>
+            ${a.status === 'pending'
+              ? `<button class="btn-success btn-sm" onclick="approveApp(${a.id})">✓ Approuver</button> <button class="btn-danger btn-sm" onclick="rejectApp(${a.id})">✗ Refuser</button>`
+              : '—'}
+          </td>
+        </tr>`).join('')
+      : '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray-500)">Aucune candidature.</td></tr>';
+
+  } catch (err) {
+    console.error('[renderApplications] error:', err);
+    document.getElementById('applications-body').innerHTML =
+      `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Erreur de chargement: ${err.message}</td></tr>`;
+  }
+}
+
+function getBadge(status) {
+  return { pending:'<span class="badge badge-gold">En Attente</span>', approved:'<span class="badge badge-green">Approuvé</span>', rejected:'<span class="badge badge-red">Refusé</span>' }[status] || '';
+}
+
+async function approveApp(appId) {
+  console.log('Approving application id:', appId);
+  try {
+    const res  = await fetch(`http://localhost:3000/api/applications/${appId}/approve`, {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const data = await res.json();
+    console.log('[approveApp] response:', data);
+    if (!data.success) throw new Error(data.message || 'Erreur serveur');
+
+    const c = data.credentials;
+    logActivity('Application approuvée', currentUser && currentUser.email, c.name + ' (' + c.student_code + ')');
+    toast('✅ Candidature approuvée! Compte étudiant créé.', 'success');
+    alert(
+      `✅ Compte étudiant créé avec succès!\n\n` +
+      `Nom:          ${c.name}\n` +
+      `Code:         ${c.student_code}\n` +
+      `Email:        ${c.email}\n` +
+      `Mot de passe: ${c.password}\n\n` +
+      `Communiquez ces informations à l'étudiant.`
+    );
+    updateAdminBadges();
+    renderApplications();
+    renderAdminDashboard();
+  } catch (err) {
+    console.error('[approveApp] error:', err);
+    toast('❌ ' + err.message, 'error');
+  }
+}
+
+async function rejectApp(appId) {
+  try {
+    const res  = await fetch(`http://localhost:3000/api/applications/${appId}/reject`, {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const data = await res.json();
+    console.log('[rejectApp] response:', data);
+    if (!data.success) throw new Error(data.message || 'Erreur serveur');
+    toast('Candidature refusée.', '');
+    updateAdminBadges();
+    renderApplications();
+  } catch (err) {
+    console.error('[rejectApp] error:', err);
+    toast('❌ ' + err.message, '');
+  }
+}
+
+async function renderAdminStudents() {
+  const tbody = document.getElementById('admin-students-body');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--gray-500)">Chargement...</td></tr>';
+  try {
+    const res  = await fetch('http://localhost:3000/api/students');
+    const data = await res.json();
+    console.log('Fetched students:', data);
+    if (!data.success) throw new Error(data.message);
+    const students = data.data;
+    tbody.innerHTML = students.length
+      ? students.map(s => `<tr>
+          <td><div style="font-weight:600">${s.name}</div><div class="text-sm" style="color:var(--gray-500)">${s.phone || ''}</div></td>
+          <td style="font-family:var(--font-mono);font-size:13px;color:var(--gold)">${s.student_code}</td>
+          <td style="font-size:13px">${s.email}</td>
+          <td style="font-size:13px">${s.faculty || '—'}</td>
+          <td><span class="badge badge-blue">${s.semester || '—'}</span></td>
+          <td><span class="badge ${s.status === 'active' ? 'badge-green' : 'badge-gray'}">${s.status === 'active' ? 'Actif' : s.status}</span></td>
+          <td><button class="btn-danger btn-sm" onclick="deleteStudent(${s.id})">Supprimer</button></td>
+        </tr>`).join('')
+      : '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--gray-500)">Aucun étudiant inscrit.</td></tr>';
+  } catch (err) {
+    console.error('[renderAdminStudents] error:', err);
+    tbody.innerHTML = '<tr><td colspan="7" style="color:var(--red);padding:1rem">Erreur: ' + err.message + '</td></tr>';
+  }
+}
+
+async function deleteStudent(id) {
+  if (!confirm('Supprimer cet étudiant ? Son compte et toutes ses données seront perdus.')) return;
+  try {
+    const res  = await fetch('http://localhost:3000/api/students/' + id, { method: 'DELETE' });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    toast('Étudiant supprimé.', 'success');
+    renderAdminStudents();
+    updateAdminBadges();
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+function showAddStudentForm() {
+  const f = document.getElementById('add-student-form-card');
+  f.style.display = f.style.display==='none'?'block':'none';
+}
+
+async function addStudent() {
+  const prenom  = document.getElementById('new-std-prenom').value.trim();
+  const nom     = document.getElementById('new-std-nom').value.trim();
+  const email   = document.getElementById('new-std-email').value.trim();
+  const pass    = document.getElementById('new-std-pass').value;
+  const faculty = document.getElementById('new-std-faculty').value;
+  if (!prenom || !nom || !email || !pass) { toast('Remplissez tous les champs.', 'error'); return; }
+  try {
+    const res  = await fetch('http://localhost:3000/api/admin/users', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ name: prenom + ' ' + nom, email, password: pass, role: 'student', department: faculty })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    toast('✅ Étudiant ' + prenom + ' ' + nom + ' créé.', 'success');
+    document.getElementById('new-std-prenom').value = '';
+    document.getElementById('new-std-nom').value    = '';
+    document.getElementById('new-std-email').value  = '';
+    document.getElementById('new-std-pass').value   = '';
+    showAddStudentForm();
+    renderAdminStudents();
+    updateAdminBadges();
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+async function renderAdminProfessors() {
+  document.getElementById('admin-profs-body').innerHTML =
+    '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--gray-500)">Chargement...</td></tr>';
+  try {
+    const res  = await fetch('http://localhost:3000/api/professors');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    const profs = data.data;
+    document.getElementById('admin-profs-body').innerHTML = profs.length
+      ? profs.map(p => `<tr>
+          <td><div style="font-weight:600">${p.name}</div><div class="text-sm" style="color:var(--gray-500)">${p.title || 'Professeur'}</div></td>
+          <td style="font-size:13px">${p.email}</td>
+          <td style="font-size:13px">${p.department || '—'}</td>
+          <td><span class="badge badge-green">Actif</span></td>
+          <td><button class="btn-danger btn-sm" onclick="deleteProf(${p.id})">Supprimer</button></td>
+        </tr>`).join('')
+      : '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--gray-500)">Aucun professeur actif.</td></tr>';
+  } catch (err) {
+    document.getElementById('admin-profs-body').innerHTML =
+      `<tr><td colspan="5" style="color:var(--red);padding:1rem">Erreur: ${err.message}</td></tr>`;
+  }
+  renderPendingProfessors();
+}
+
+async function deleteProf(id) {
+  if (!confirm('Supprimer ce professeur?')) return;
+  try {
+    const res  = await fetch(`http://localhost:3000/api/professors/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    toast('Professeur supprime.', '');
+    renderAdminProfessors();
+    updateAdminBadges();
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+function showAddProfForm() {
+  const f = document.getElementById('add-prof-form-card');
+  f.style.display = f.style.display==='none'?'block':'none';
+}
+
+function toggleAdminProfFields() {
+  const role = document.getElementById('new-prof-role').value;
+  document.getElementById('new-prof-dept-group').style.display = role === 'professor' ? 'block' : 'none';
+}
+
+async function addProfessor() {
+  const role   = document.getElementById('new-prof-role').value;
+  const prenom = document.getElementById('new-prof-prenom').value.trim();
+  const nom    = document.getElementById('new-prof-nom').value.trim();
+  const email  = document.getElementById('new-prof-email').value.trim();
+  const pass   = document.getElementById('new-prof-pass').value;
+  const dept   = document.getElementById('new-prof-dept').value;
+  if (!prenom || !nom || !email || !pass) { toast('Remplissez tous les champs.', 'error'); return; }
+  if (role === 'professor' && !dept) { toast('Departement requis pour un professeur.', 'error'); return; }
+  try {
+    const body = { name: prenom + ' ' + nom, email, password: pass, role };
+    if (role === 'professor') body.department = dept;
+    const res  = await fetch('http://localhost:3000/api/admin/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    const label = role === 'admin' ? 'Administrateur' : 'Professeur';
+    toast(label + ' ' + prenom + ' ' + nom + ' cree avec succes.', 'success');
+    document.getElementById('new-prof-prenom').value = '';
+    document.getElementById('new-prof-nom').value    = '';
+    document.getElementById('new-prof-email').value  = '';
+    document.getElementById('new-prof-pass').value   = '';
+    showAddProfForm();
+    renderAdminProfessors();
+    updateAdminBadges();
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+async function renderPendingProfessors() {
+  const tbody = document.getElementById('admin-pending-profs-body');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1rem;color:var(--gray-500)">Chargement...</td></tr>';
+  try {
+    const res  = await fetch('http://localhost:3000/api/professors/pending');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    const profs = data.data;
+    const countEl = document.getElementById('pending-profs-count');
+    if (countEl) countEl.textContent = profs.length ? '(' + profs.length + ')' : '';
+    const badge = document.getElementById('admin-prof-badge');
+    if (badge) {
+      badge.textContent = profs.length;
+      badge.style.display = profs.length > 0 ? 'inline-block' : 'none';
+    }
+    tbody.innerHTML = profs.length
+      ? profs.map(p => `<tr>
+          <td><div style="font-weight:600">${p.name}</div><div class="text-sm" style="color:var(--gray-500)">${p.email}</div></td>
+          <td style="font-size:13px">${p.department || '—'}</td>
+          <td style="font-size:13px">${p.phone || '—'}</td>
+          <td>${new Date(p.created_at).toLocaleDateString('fr-FR')}</td>
+          <td>
+            <button class="btn-success btn-sm" onclick="approveProfessor(${p.id})">✓ Approuver</button>
+            <button class="btn-danger btn-sm"  onclick="rejectProfessor(${p.id})">✗ Refuser</button>
+          </td>
+        </tr>`).join('')
+      : '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--gray-500)">Aucune demande en attente.</td></tr>';
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="5" style="color:var(--red);padding:1rem">Erreur: ${err.message}</td></tr>`;
+  }
+}
+
+async function approveProfessor(id) {
+  try {
+    const res  = await fetch(`http://localhost:3000/api/professors/${id}/approve`, { method: 'PATCH' });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    toast('Compte professeur approuve.', 'success');
+    renderAdminProfessors();
+    updateAdminBadges();
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+async function rejectProfessor(id) {
+  if (!confirm('Refuser cette demande?')) return;
+  try {
+    const res  = await fetch(`http://localhost:3000/api/professors/${id}/reject`, { method: 'PATCH' });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    toast('Demande refusee.', '');
+    renderAdminProfessors();
+    updateAdminBadges();
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+function showProfRegistration() {
+  document.getElementById('login-main-content').style.display = 'none';
+  document.getElementById('prof-reg-panel').style.display = 'block';
+  document.getElementById('prof-reg-error').style.display   = 'none';
+  document.getElementById('prof-reg-success').style.display = 'none';
+}
+
+function hideProfRegistration() {
+  document.getElementById('prof-reg-panel').style.display     = 'none';
+  document.getElementById('login-main-content').style.display = 'block';
+}
+
+async function submitProfRegistration() {
+  const name  = document.getElementById('reg-prof-name').value.trim();
+  const email = document.getElementById('reg-prof-email').value.trim();
+  const pass  = document.getElementById('reg-prof-pass').value;
+  const dept  = document.getElementById('reg-prof-dept').value;
+  const phone = document.getElementById('reg-prof-phone').value.trim();
+  const errEl = document.getElementById('prof-reg-error');
+  const okEl  = document.getElementById('prof-reg-success');
+  errEl.style.display = 'none';
+  okEl.style.display  = 'none';
+  if (!name || !email || !pass || !dept) {
+    errEl.textContent = 'Veuillez remplir tous les champs obligatoires.';
+    errEl.style.display = 'block';
+    return;
+  }
+  try {
+    const res  = await fetch('http://localhost:3000/api/auth/register-professor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password: pass, department: dept, phone })
+    });
+    const data = await res.json();
+    if (!data.success) { errEl.textContent = data.message; errEl.style.display = 'block'; return; }
+    okEl.innerHTML = "Votre demande de compte professeur a été envoyée. Un administrateur doit l'approuver.";
+    okEl.style.display = 'block';
+    document.getElementById('reg-prof-name').value  = '';
+    document.getElementById('reg-prof-email').value = '';
+    document.getElementById('reg-prof-pass').value  = '';
+    document.getElementById('reg-prof-phone').value = '';
+  } catch (err) {
+    errEl.textContent = 'Impossible de contacter le serveur.';
+    errEl.style.display = 'block';
+  }
+}
+
+async function renderAdminCourses() {
+  const container = document.getElementById('admin-courses-body');
+  container.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);padding:1.5rem">Chargement...</td></tr>';
+  try {
+    const [coursesRes, profsRes] = await Promise.all([
+      fetch('http://localhost:3000/api/courses'),
+      fetch('http://localhost:3000/api/professors')
+    ]);
+    const coursesData = await coursesRes.json();
+    const profsData   = await profsRes.json();
+    const courses = coursesData.success ? coursesData.data : [];
+    const profs   = profsData.success   ? profsData.data   : [];
+    console.log('[renderAdminCourses] courses:', courses.length, 'profs:', profs.length);
+
+    const profOpts = '<option value="">— Non assigné —</option>' +
+      profs.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+    document.getElementById('new-c-prof').innerHTML = profOpts;
+
+    container.innerHTML = courses.map(c => `<tr>
+      <td style="font-family:var(--font-mono);font-size:13px;color:var(--gold);font-weight:600">${c.code}</td>
+      <td><div style="font-weight:600">${c.name}</div></td>
+      <td style="font-size:13px">
+        <select class="form-select" style="padding:4px 8px;font-size:12px;" onchange="assignProfessor(${c.id}, this.value)">
+          <option value="">— Non assigné —</option>
+          ${profs.map(p => `<option value="${p.id}" ${c.professor_id == p.id ? 'selected' : ''}>${p.name}</option>`).join('')}
+        </select>
+      </td>
+      <td style="font-size:13px">${c.faculty}</td>
+      <td><span class="badge badge-blue">${c.enrolled_count || 0}</span></td>
+      <td>${c.credits} cr.</td>
+      <td><button class="btn-danger btn-sm" onclick="deleteCourse(${c.id})">Supprimer</button></td>
+    </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);padding:2rem">Aucun cours.</td></tr>';
+  } catch (err) {
+    console.error('[renderAdminCourses] error:', err);
+    container.innerHTML = '<tr><td colspan="7" style="color:var(--red);padding:1rem">Erreur: ' + err.message + '</td></tr>';
+  }
+}
+
+async function assignProfessor(courseId, profId) {
+  try {
+    const res  = await fetch('http://localhost:3000/api/courses/' + courseId, {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ professor_id: profId || null })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    console.log('[assignProfessor] course=' + courseId + ' prof=' + (profId || 'none'));
+    toast('Professeur assigné.', 'success');
+    if (currentUser && currentUser.prof_id) loadProfCourseSelects(currentUser.prof_id);
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+async function deleteCourse(id) {
+  if (!confirm('Supprimer ce cours ? Les inscriptions associées seront perdues.')) return;
+  try {
+    const res  = await fetch('http://localhost:3000/api/courses/' + id, { method: 'DELETE' });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    toast('Cours supprimé.', 'success');
+    renderAdminCourses();
+    updateAdminBadges();
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+function showAddCourseForm() {
+  const f = document.getElementById('add-course-form-card');
+  f.style.display = f.style.display==='none'?'block':'none';
+}
+
+async function addCourse() {
+  const code    = document.getElementById('new-c-code').value.trim();
+  const name    = document.getElementById('new-c-name').value.trim();
+  const faculty = document.getElementById('new-c-faculty').value;
+  const credits = document.getElementById('new-c-credits').value;
+  const profId  = document.getElementById('new-c-prof').value;
+  if (!code || !name) { toast('Code et intitulé requis.', 'error'); return; }
+  try {
+    const res  = await fetch('http://localhost:3000/api/courses', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ code, name, faculty, credits: parseInt(credits), professor_id: profId || null, max_students: 35 })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    toast('✅ Cours ' + code + ' créé.', 'success');
+    document.getElementById('new-c-code').value = '';
+    document.getElementById('new-c-name').value = '';
+    renderAdminCourses();
+    updateAdminBadges();
+  } catch (err) {
+    toast('Erreur: ' + err.message, '');
+  }
+}
+
+async function renderAdminActivity() {
+  const el = document.getElementById('admin-full-activity');
+  el.innerHTML = '<div style="text-align:center;padding:1.5rem;color:var(--gray-500)">Chargement...</div>';
+  try {
+    const res  = await fetch('http://localhost:3000/api/admin/activity?limit=50');
+    const data = await res.json();
+    const acts = data.success ? data.data : [];
+    el.innerHTML = acts.length
+      ? acts.map(a=>`
+          <div class="activity-row">
+            <div class="activity-icon" style="background:var(--blue-light)">📌</div>
+            <div class="activity-text"><strong>${a.action}</strong><br><span class="text-sm" style="color:var(--gray-500)">${a.user_email||'Système'} · ${a.details||''}</span></div>
+            <div class="activity-time" style="white-space:nowrap">${new Date(a.logged_at).toLocaleString('fr-HT')}</div>
+          </div>`).join('')
+      : '<div style="text-align:center;padding:1.5rem;color:var(--gray-500)">Aucune activité enregistrée.</div>';
+  } catch(e) {
+    el.innerHTML = `<div style="text-align:center;color:var(--red)">Erreur: ${e.message}</div>`;
+  }
+}
+
+// ============================================================
+// APPLICATION FORM
+// ============================================================
+async function submitApplication() {
+  // Read every form field — names mapped to backend snake_case.
+  const payload = {
+    first_name: document.getElementById('app-prenom').value.trim(),
+    last_name:  document.getElementById('app-nom').value.trim(),
+    email:      document.getElementById('app-email').value.trim(),
+    phone:      document.getElementById('app-phone').value.trim(),
+    faculty:    document.getElementById('app-faculty').value,
+    level:      document.getElementById('app-level').value,
+    diploma:    document.getElementById('app-diploma').value,
+    school:     document.getElementById('app-school').value.trim(),
+    motivation: document.getElementById('app-motivation').value.trim(),
+  };
+
+  const err = document.getElementById('app-error');
+
+  // Required fields per backend validation
+  if (!payload.first_name || !payload.last_name || !payload.email || !payload.phone || !payload.faculty) {
+    err.style.display = 'block';
+    err.textContent = '⚠️ Veuillez remplir tous les champs obligatoires (*)';
+    return;
+  }
+
+  if (!payload.email.includes('@')) {
+    err.style.display = 'block';
+    err.textContent = '⚠️ Email invalide.';
+    return;
+  }
+
+  err.style.display = 'none';
+
+  try {
+    const response = await fetch('http://localhost:3000/api/applications', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || data.message || 'Erreur serveur');
+    }
+
+    toast('🎉 Candidature enregistrée dans la base de données!', 'success');
+    showView('home');
+
+  } catch (error) {
+    console.error('submitApplication error:', error);
+    err.style.display = 'block';
+    err.textContent = '❌ ' + (error.message || "Impossible d'envoyer la candidature.");
+  }
+}
+// ============================================================
+// HELPERS
+// ============================================================
+function logActivity(action, user, details) {
+  fetch('http://localhost:3000/api/admin/activity', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action, user_email: user || (currentUser && currentUser.email) || null, details: details || null })
+  }).catch(() => {});
+}
+
+function toast(msg, type='') {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  const icons = { success:'✅', error:'❌', gold:'⭐', '':'ℹ️' };
+  el.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ️'}</span>${msg}`;
+  container.appendChild(el);
+  setTimeout(() => { el.style.animation='toastOut 0.3s ease forwards'; setTimeout(()=>el.remove(), 300); }, 3500);
+}
+
+// CSS var helper
+function var_blue_light() { return 'var(--blue-light)'; }
+
+// ============================================================
+// INIT
+// ============================================================
+seedData();
+
+// Close modal on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) closeModal(); });
+});
+
+// Keyboard: Esc to close modal
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
+
+// Check if already "logged in" (session storage)
+window.addEventListener('load', () => {
+  toast('Bienvenue à l\'Université Polyvalente d\'Haïti! 🎓', 'gold');
+});
+</script>
+</body>
+</html>
