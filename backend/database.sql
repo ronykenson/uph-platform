@@ -1,7 +1,14 @@
 -- ============================================================
---  database.sql  —  UPH Database Schema
---  Run this file once to create all tables.
---  Command: mysql -u root -p < database.sql
+--  database.sql  —  UPH Database Schema  (v1.0 — production)
+--  Safe to run on a fresh database OR an existing one.
+--  All tables use CREATE TABLE IF NOT EXISTS.
+--  All inserts use INSERT IGNORE.
+--
+--  First-time setup:
+--    mysql -u root -p < database.sql
+--
+--  On VPS:
+--    mysql -u uph_user -p uph_database < database.sql
 -- ============================================================
 
 -- Create the database
@@ -209,4 +216,38 @@ INSERT IGNORE INTO courses (code, name, faculty, credits, max_students, status) 
 ('MED-101',  'Anatomie Générale',                        'Sciences de la Santé',      4, 25, 'active'),
 ('MED-201',  'Physiologie Humaine',                      'Sciences de la Santé',      4, 25, 'active'),
 ('EDU-101',  'Psychologie de l\'Éducation',              'Sciences de l\'Éducation',  3, 45, 'active');
+
+-- ============================================================
+--  SAFE MIGRATION — adds columns that may be missing on older
+--  installs. Each block runs only if the column is absent.
+--  Safe to re-run at any time.
+-- ============================================================
+
+-- students: extended profile columns (added in v1.0)
+SET @col = (SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'students' AND COLUMN_NAME = 'level');
+SET @sql = IF(@col = 0, 'ALTER TABLE students ADD COLUMN level VARCHAR(50) DEFAULT NULL AFTER faculty', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @col = (SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'students' AND COLUMN_NAME = 'diploma');
+SET @sql = IF(@col = 0, 'ALTER TABLE students ADD COLUMN diploma VARCHAR(100) DEFAULT NULL AFTER level', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @col = (SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'students' AND COLUMN_NAME = 'school');
+SET @sql = IF(@col = 0, 'ALTER TABLE students ADD COLUMN school VARCHAR(150) DEFAULT NULL AFTER diploma', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @col = (SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'students' AND COLUMN_NAME = 'motivation');
+SET @sql = IF(@col = 0, 'ALTER TABLE students ADD COLUMN motivation TEXT DEFAULT NULL AFTER school', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @col = (SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'students' AND COLUMN_NAME = 'photo');
+SET @sql = IF(@col = 0, 'ALTER TABLE students ADD COLUMN photo VARCHAR(500) DEFAULT NULL', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SELECT 'Schema up to date.' AS status;
 -- ============================================================

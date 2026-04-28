@@ -1366,6 +1366,13 @@ tr:hover td { background:var(--gray-50); }
 
 <script>
 // ============================================================
+// API BASE URL
+// Relative path when served by Express (dev + production).
+// Falls back to absolute localhost only when opened via file://.
+// ============================================================
+const API_BASE = window.location.protocol === 'file:' ? ['http://localhost', '3000'].join(':') : '';
+
+// ============================================================
 // DATABASE (LocalStorage-based)
 // ============================================================
 const DB = {
@@ -1421,7 +1428,7 @@ async function doLogin() {
   }
 
   try {
-    const res  = await fetch('http://localhost:3000/api/auth/login', {
+    const res  = await fetch(API_BASE + '/api/auth/login', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ email, password: pass })
@@ -1585,7 +1592,7 @@ function updateStudentAvatars(std) {
 async function reloadStudentData() {
   if (!currentUser || !currentUser.id) return;
   try {
-    const res  = await fetch('http://localhost:3000/api/students/me?user_id=' + currentUser.id);
+    const res  = await fetch(API_BASE + '/api/students/me?user_id=' + currentUser.id);
     const data = await res.json();
     console.log('[reloadStudentData]:', data);
     if (data.success) {
@@ -1729,7 +1736,7 @@ async function saveStudentProfile() {
   const phone   = document.getElementById('edit-std-phone').value.trim();
   const address = document.getElementById('edit-std-address').value.trim();
   try {
-    const res  = await fetch('http://localhost:3000/api/students/me', {
+    const res  = await fetch(API_BASE + '/api/students/me', {
       method:  'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ user_id: currentUser.id, phone, address })
@@ -1773,7 +1780,7 @@ async function uploadPhoto() {
   formData.append('user_id', currentUser.id);
 
   try {
-    const res  = await fetch('http://localhost:3000/api/students/upload-photo', {
+    const res  = await fetch(API_BASE + '/api/students/upload-photo', {
       method: 'POST',
       body:   formData          // do NOT set Content-Type — browser sets it with boundary
     });
@@ -1841,7 +1848,7 @@ async function renderEnroll(std) {
   const container = document.getElementById('available-courses');
   container.innerHTML = '<p style="color:var(--gray-500);padding:1rem;">Chargement des cours...</p>';
   try {
-    const res  = await fetch('http://localhost:3000/api/courses');
+    const res  = await fetch(API_BASE + '/api/courses');
     const data = await res.json();
     console.log('[renderEnroll] courses:', data);
     if (!data.success) throw new Error(data.message);
@@ -1878,7 +1885,7 @@ async function enrollCourse(courseId, studentId, btn) {
   if (btn) { btn.disabled = true; btn.textContent = '...'; }
   const semester = (studentData.semester || currentUser.semester || 'S1') + '-' + new Date().getFullYear();
   try {
-    const res  = await fetch('http://localhost:3000/api/enrollments', {
+    const res  = await fetch(API_BASE + '/api/enrollments', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ student_id: studentId, course_id: courseId, semester })
@@ -1937,7 +1944,7 @@ async function unenrollCourse(enrollmentId, btn) {
   if (!confirm('Confirmer la désinscription de ce cours?')) return;
   if (btn) { btn.disabled = true; btn.textContent = '...'; }
   try {
-    const res  = await fetch('http://localhost:3000/api/enrollments/' + enrollmentId, { method: 'DELETE' });
+    const res  = await fetch(API_BASE + '/api/enrollments/' + enrollmentId, { method: 'DELETE' });
     const data = await res.json();
     if (!data.success) { toast('❌ ' + data.message, 'error'); if (btn) { btn.disabled = false; btn.textContent = 'Se désinscrire'; } return; }
     toast('Désinscription effectuée.', 'success');
@@ -2014,7 +2021,7 @@ async function renderProfProfile() {
 
   if (!currentUser.prof_id) return;
   try {
-    const res  = await fetch('http://localhost:3000/api/professors/' + currentUser.prof_id);
+    const res  = await fetch(API_BASE + '/api/professors/' + currentUser.prof_id);
     const data = await res.json();
     if (!data.success) return;
     const p = data.data;
@@ -2054,7 +2061,7 @@ async function initProfessor(user) {
 
 async function loadProfCourseSelects(profId) {
   try {
-    const res  = await fetch('http://localhost:3000/api/professors/' + profId + '/courses');
+    const res  = await fetch(API_BASE + '/api/professors/' + profId + '/courses');
     const data = await res.json();
     console.log('[loadProfCourseSelects]:', data);
     if (!data.success) return;
@@ -2088,8 +2095,8 @@ async function renderProfDashboard() {
   }
   try {
     const [statsRes, coursesRes] = await Promise.all([
-      fetch('http://localhost:3000/api/professors/' + currentUser.prof_id + '/stats'),
-      fetch('http://localhost:3000/api/professors/' + currentUser.prof_id + '/courses')
+      fetch(API_BASE + '/api/professors/' + currentUser.prof_id + '/stats'),
+      fetch(API_BASE + '/api/professors/' + currentUser.prof_id + '/courses')
     ]);
     const statsData   = await statsRes.json();
     const coursesData = await coursesRes.json();
@@ -2124,7 +2131,7 @@ async function renderProfCourses() {
   const container = document.getElementById('prof-courses-list');
   container.innerHTML = '<p style="color:var(--gray-500);padding:1rem">Chargement...</p>';
   try {
-    const res  = await fetch('http://localhost:3000/api/professors/' + currentUser.prof_id + '/courses');
+    const res  = await fetch(API_BASE + '/api/professors/' + currentUser.prof_id + '/courses');
     const data = await res.json();
     const courses = data.success ? data.data : [];
     container.innerHTML = courses.map(c => `
@@ -2145,7 +2152,7 @@ async function renderProfStudents() {
   const filterCourse = document.getElementById('prof-filter-course')?.value || '';
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:1.5rem">Chargement...</td></tr>';
   try {
-    const res  = await fetch('http://localhost:3000/api/professors/' + currentUser.prof_id + '/students');
+    const res  = await fetch(API_BASE + '/api/professors/' + currentUser.prof_id + '/students');
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     let rows = data.data;
@@ -2172,7 +2179,7 @@ async function renderGradeInput() {
   }
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:1rem">Chargement...</td></tr>';
   try {
-    const res  = await fetch('http://localhost:3000/api/grades?course_id=' + courseId);
+    const res  = await fetch(API_BASE + '/api/grades?course_id=' + courseId);
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     const students = data.data;
@@ -2199,7 +2206,7 @@ async function saveGrade(studentId, courseId, btn) {
   if (isNaN(val) || val < 0 || val > 20) { toast('Note invalide (0-20).', 'error'); return; }
   if (btn) { btn.disabled = true; btn.textContent = '...'; }
   try {
-    const res  = await fetch('http://localhost:3000/api/grades', {
+    const res  = await fetch(API_BASE + '/api/grades', {
       method:  'PUT',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ student_id: studentId, course_id: courseId, grade: val, comment, professor_id: currentUser?.prof_id || null })
@@ -2244,7 +2251,7 @@ function initAdmin() {
 
 async function updateAdminBadges() {
   try {
-    const res  = await fetch('http://localhost:3000/api/applications?status=pending');
+    const res  = await fetch(API_BASE + '/api/applications?status=pending');
     const data = await res.json();
     const pending = data.success ? data.data.length : 0;
     document.getElementById('admin-app-badge').textContent = pending;
@@ -2253,7 +2260,7 @@ async function updateAdminBadges() {
     document.getElementById('admin-app-badge').textContent = '?';
   }
   try {
-    const res2  = await fetch('http://localhost:3000/api/professors/pending');
+    const res2  = await fetch(API_BASE + '/api/professors/pending');
     const data2 = await res2.json();
     const pendingProfs = data2.success ? data2.data.length : 0;
     const badge = document.getElementById('admin-prof-badge');
@@ -2264,9 +2271,9 @@ async function updateAdminBadges() {
   } catch { /* ignore */ }
   try {
     const [studRes, profRes, courseRes] = await Promise.all([
-      fetch('http://localhost:3000/api/students'),
-      fetch('http://localhost:3000/api/professors'),
-      fetch('http://localhost:3000/api/courses')
+      fetch(API_BASE + '/api/students'),
+      fetch(API_BASE + '/api/professors'),
+      fetch(API_BASE + '/api/courses')
     ]);
     const [studData, profData, courseData] = await Promise.all([studRes.json(), profRes.json(), courseRes.json()]);
     document.getElementById('admin-stat-students').textContent = studData.success  ? studData.data.length  : '—';
@@ -2300,7 +2307,7 @@ async function renderAdminDashboard() {
   // Recent pending applications from MySQL
   const appsEl = document.getElementById('admin-recent-apps');
   try {
-    const res  = await fetch('http://localhost:3000/api/applications?status=pending');
+    const res  = await fetch(API_BASE + '/api/applications?status=pending');
     const data = await res.json();
     const apps = (data.success ? data.data : []).slice(0, 4);
     appsEl.innerHTML = apps.length
@@ -2318,7 +2325,7 @@ async function renderAdminDashboard() {
   // Recent activity from MySQL
   const actEl = document.getElementById('admin-activity-feed');
   try {
-    const res  = await fetch('http://localhost:3000/api/admin/activity?limit=5');
+    const res  = await fetch(API_BASE + '/api/admin/activity?limit=5');
     const data = await res.json();
     const acts = data.success ? data.data : [];
     actEl.innerHTML = acts.length
@@ -2336,7 +2343,7 @@ async function renderAdminDashboard() {
 
 async function renderApplications() {
   const filter = document.getElementById('app-filter')?.value || '';
-  const url = 'http://localhost:3000/api/applications' + (filter ? '?status=' + filter : '');
+  const url = API_BASE + '/api/applications' + (filter ? '?status=' + filter : '');
 
   document.getElementById('applications-body').innerHTML =
     '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray-500)">Chargement...</td></tr>';
@@ -2379,7 +2386,7 @@ function getBadge(status) {
 async function approveApp(appId) {
   console.log('Approving application id:', appId);
   try {
-    const res  = await fetch(`http://localhost:3000/api/applications/${appId}/approve`, {
+    const res  = await fetch(`${API_BASE}/api/applications/${appId}/approve`, {
       method:  'PATCH',
       headers: { 'Content-Type': 'application/json' }
     });
@@ -2409,7 +2416,7 @@ async function approveApp(appId) {
 
 async function rejectApp(appId) {
   try {
-    const res  = await fetch(`http://localhost:3000/api/applications/${appId}/reject`, {
+    const res  = await fetch(`${API_BASE}/api/applications/${appId}/reject`, {
       method:  'PATCH',
       headers: { 'Content-Type': 'application/json' }
     });
@@ -2429,7 +2436,7 @@ async function renderAdminStudents() {
   const tbody = document.getElementById('admin-students-body');
   tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--gray-500)">Chargement...</td></tr>';
   try {
-    const res  = await fetch('http://localhost:3000/api/students');
+    const res  = await fetch(API_BASE + '/api/students');
     const data = await res.json();
     console.log('Fetched students:', data);
     if (!data.success) throw new Error(data.message);
@@ -2454,7 +2461,7 @@ async function renderAdminStudents() {
 async function deleteStudent(id) {
   if (!confirm('Supprimer cet étudiant ? Son compte et toutes ses données seront perdus.')) return;
   try {
-    const res  = await fetch('http://localhost:3000/api/students/' + id, { method: 'DELETE' });
+    const res  = await fetch(API_BASE + '/api/students/' + id, { method: 'DELETE' });
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     toast('Étudiant supprimé.', 'success');
@@ -2478,7 +2485,7 @@ async function addStudent() {
   const faculty = document.getElementById('new-std-faculty').value;
   if (!prenom || !nom || !email || !pass) { toast('Remplissez tous les champs.', 'error'); return; }
   try {
-    const res  = await fetch('http://localhost:3000/api/admin/users', {
+    const res  = await fetch(API_BASE + '/api/admin/users', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ name: prenom + ' ' + nom, email, password: pass, role: 'student', department: faculty })
@@ -2502,7 +2509,7 @@ async function renderAdminProfessors() {
   document.getElementById('admin-profs-body').innerHTML =
     '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--gray-500)">Chargement...</td></tr>';
   try {
-    const res  = await fetch('http://localhost:3000/api/professors');
+    const res  = await fetch(API_BASE + '/api/professors');
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     const profs = data.data;
@@ -2525,7 +2532,7 @@ async function renderAdminProfessors() {
 async function deleteProf(id) {
   if (!confirm('Supprimer ce professeur?')) return;
   try {
-    const res  = await fetch(`http://localhost:3000/api/professors/${id}`, { method: 'DELETE' });
+    const res  = await fetch(`${API_BASE}/api/professors/${id}`, { method: 'DELETE' });
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     toast('Professeur supprime.', '');
@@ -2558,7 +2565,7 @@ async function addProfessor() {
   try {
     const body = { name: prenom + ' ' + nom, email, password: pass, role };
     if (role === 'professor') body.department = dept;
-    const res  = await fetch('http://localhost:3000/api/admin/users', {
+    const res  = await fetch(API_BASE + '/api/admin/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
@@ -2584,7 +2591,7 @@ async function renderPendingProfessors() {
   if (!tbody) return;
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1rem;color:var(--gray-500)">Chargement...</td></tr>';
   try {
-    const res  = await fetch('http://localhost:3000/api/professors/pending');
+    const res  = await fetch(API_BASE + '/api/professors/pending');
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     const profs = data.data;
@@ -2614,7 +2621,7 @@ async function renderPendingProfessors() {
 
 async function approveProfessor(id) {
   try {
-    const res  = await fetch(`http://localhost:3000/api/professors/${id}/approve`, { method: 'PATCH' });
+    const res  = await fetch(`${API_BASE}/api/professors/${id}/approve`, { method: 'PATCH' });
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     toast('Compte professeur approuve.', 'success');
@@ -2628,7 +2635,7 @@ async function approveProfessor(id) {
 async function rejectProfessor(id) {
   if (!confirm('Refuser cette demande?')) return;
   try {
-    const res  = await fetch(`http://localhost:3000/api/professors/${id}/reject`, { method: 'PATCH' });
+    const res  = await fetch(`${API_BASE}/api/professors/${id}/reject`, { method: 'PATCH' });
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     toast('Demande refusee.', '');
@@ -2667,7 +2674,7 @@ async function submitProfRegistration() {
     return;
   }
   try {
-    const res  = await fetch('http://localhost:3000/api/auth/register-professor', {
+    const res  = await fetch(API_BASE + '/api/auth/register-professor', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password: pass, department: dept, phone })
@@ -2691,8 +2698,8 @@ async function renderAdminCourses() {
   container.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);padding:1.5rem">Chargement...</td></tr>';
   try {
     const [coursesRes, profsRes] = await Promise.all([
-      fetch('http://localhost:3000/api/courses'),
-      fetch('http://localhost:3000/api/professors')
+      fetch(API_BASE + '/api/courses'),
+      fetch(API_BASE + '/api/professors')
     ]);
     const coursesData = await coursesRes.json();
     const profsData   = await profsRes.json();
@@ -2726,7 +2733,7 @@ async function renderAdminCourses() {
 
 async function assignProfessor(courseId, profId) {
   try {
-    const res  = await fetch('http://localhost:3000/api/courses/' + courseId, {
+    const res  = await fetch(API_BASE + '/api/courses/' + courseId, {
       method:  'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ professor_id: profId || null })
@@ -2744,7 +2751,7 @@ async function assignProfessor(courseId, profId) {
 async function deleteCourse(id) {
   if (!confirm('Supprimer ce cours ? Les inscriptions associées seront perdues.')) return;
   try {
-    const res  = await fetch('http://localhost:3000/api/courses/' + id, { method: 'DELETE' });
+    const res  = await fetch(API_BASE + '/api/courses/' + id, { method: 'DELETE' });
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     toast('Cours supprimé.', 'success');
@@ -2768,7 +2775,7 @@ async function addCourse() {
   const profId  = document.getElementById('new-c-prof').value;
   if (!code || !name) { toast('Code et intitulé requis.', 'error'); return; }
   try {
-    const res  = await fetch('http://localhost:3000/api/courses', {
+    const res  = await fetch(API_BASE + '/api/courses', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ code, name, faculty, credits: parseInt(credits), professor_id: profId || null, max_students: 35 })
@@ -2789,7 +2796,7 @@ async function renderAdminActivity() {
   const el = document.getElementById('admin-full-activity');
   el.innerHTML = '<div style="text-align:center;padding:1.5rem;color:var(--gray-500)">Chargement...</div>';
   try {
-    const res  = await fetch('http://localhost:3000/api/admin/activity?limit=50');
+    const res  = await fetch(API_BASE + '/api/admin/activity?limit=50');
     const data = await res.json();
     const acts = data.success ? data.data : [];
     el.innerHTML = acts.length
@@ -2840,7 +2847,7 @@ async function submitApplication() {
   err.style.display = 'none';
 
   try {
-    const response = await fetch('http://localhost:3000/api/applications', {
+    const response = await fetch(API_BASE + '/api/applications', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -2865,7 +2872,7 @@ async function submitApplication() {
 // HELPERS
 // ============================================================
 function logActivity(action, user, details) {
-  fetch('http://localhost:3000/api/admin/activity', {
+  fetch(API_BASE + '/api/admin/activity', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action, user_email: user || (currentUser && currentUser.email) || null, details: details || null })

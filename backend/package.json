@@ -1,11 +1,14 @@
 {
-  "name": "backend",
+  "name": "uph-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "UPH — Université Polyvalente d'Haïti — Backend API",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "keywords": [],
   "author": "",
