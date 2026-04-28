@@ -461,6 +461,49 @@ tr:hover td { background:var(--gray-50); }
 .course-card-info { display:flex; gap:12px; margin-top:1rem; flex-wrap:wrap; }
 .course-card-info span { font-size:12px; background:var(--gray-100); padding:4px 10px; border-radius:100px; color:var(--gray-600); }
 .courses-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:20px; margin-top:1.5rem; }
+
+/* ===== MOBILE SIDEBAR TOGGLE ===== */
+.dash-mobile-toggle {
+  display: none; background: none; border: none; cursor: pointer;
+  font-size: 22px; padding: 6px 10px; color: var(--gray-700);
+  line-height: 1; border-radius: 6px; transition: var(--transition);
+}
+.dash-mobile-toggle:hover { background: var(--gray-100); }
+.dash-sidebar-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45); z-index: 498;
+}
+.dash-sidebar-overlay.visible { display: block; }
+
+/* ===== BUTTONS ===== */
+.btn-icon { background:none; border:1px solid var(--gray-300); border-radius:6px; padding:6px 12px; font-size:13px; cursor:pointer; color:var(--gray-700); transition:var(--transition); }
+.btn-icon:hover { background:var(--gray-50); border-color:var(--gray-400); }
+
+/* ===== OFFLINE / ERROR BANNER ===== */
+.offline-banner { background:var(--red-light); border:1px solid var(--red); color:var(--red); border-radius:8px; padding:12px 16px; font-size:14px; display:flex; align-items:center; gap:10px; margin-bottom:1rem; }
+
+/* ===== ENHANCED RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .dash-mobile-toggle { display: flex; align-items: center; }
+  .dash-content { padding: 1rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-value { font-size: 24px; }
+  .stat-card { padding: 1rem; }
+  .stat-card-icon { width: 36px; height: 36px; font-size: 16px; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .grade-bar-wrap { display: none; }
+  .courses-grid { grid-template-columns: 1fr; }
+  table { font-size: 13px; }
+  td, th { padding: 10px 10px; }
+}
+@media (max-width: 480px) {
+  .modal { width: calc(100vw - 24px); max-height: calc(100vh - 40px); overflow-y: auto; border-radius: 12px; margin: 12px; }
+  .hero-title { font-size: 38px; }
+  .nav-brand-text .brand-name { font-size: 15px; }
+  .profile-info { padding: 2.5rem 1rem 1.5rem; }
+  .card-body { padding: 1rem; }
+  .activity-row { flex-wrap: wrap; gap: 6px; }
+}
 </style>
 </head>
 <body>
@@ -669,8 +712,9 @@ tr:hover td { background:var(--gray-50); }
 
 <!-- ===== STUDENT DASHBOARD ===== -->
 <div id="view-student" class="view">
+  <div class="dash-sidebar-overlay" id="student-sidebar-overlay" onclick="closeSidebar('student')"></div>
   <div class="dash-layout">
-    <aside class="dash-sidebar">
+    <aside class="dash-sidebar" id="student-sidebar">
       <div class="dash-sidebar-header">
         <div class="logo">
           <div class="logo-circle">UPH</div>
@@ -693,8 +737,8 @@ tr:hover td { background:var(--gray-50); }
         <button class="dash-nav-item" onclick="showPanel('student','enroll')"><span class="dash-nav-icon">📚</span> S'inscrire aux Cours</button>
         <button class="dash-nav-item" onclick="showPanel('student','mycourses')"><span class="dash-nav-icon">✅</span> Mes Cours</button>
         <div class="dash-nav-section">Communication</div>
-        <button class="dash-nav-item" onclick="showPanel('student','messages')"><span class="dash-nav-icon">✉️</span> Messages <span class="nav-badge" id="std-msg-badge">2</span></button>
-        <button class="dash-nav-item" onclick="showPanel('student','notifications')"><span class="dash-nav-icon">🔔</span> Notifications <span class="nav-badge" id="std-notif-badge">3</span></button>
+        <button class="dash-nav-item" onclick="showPanel('student','messages')"><span class="dash-nav-icon">✉️</span> Messages <span class="nav-badge" id="std-msg-badge">0</span></button>
+        <button class="dash-nav-item" onclick="showPanel('student','notifications')"><span class="dash-nav-icon">🔔</span> Notifications <span class="nav-badge" id="std-notif-badge">0</span></button>
       </nav>
       <div class="dash-sidebar-footer">
         <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
@@ -702,7 +746,10 @@ tr:hover td { background:var(--gray-50); }
     </aside>
     <main class="dash-main">
       <div class="dash-topbar">
-        <div class="dash-topbar-title" id="std-panel-title">Tableau de Bord</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="dash-mobile-toggle" onclick="toggleSidebar('student')" title="Menu">☰</button>
+          <div class="dash-topbar-title" id="std-panel-title">Tableau de Bord</div>
+        </div>
         <div class="dash-topbar-actions">
           <button class="dash-notif-btn" onclick="showPanel('student','notifications')">🔔<span class="notif-dot"></span></button>
           <span style="font-size:14px;color:var(--gray-500)" id="std-topbar-user">—</span>
@@ -713,14 +760,14 @@ tr:hover td { background:var(--gray-50); }
         <!-- STUDENT: DASHBOARD -->
         <div class="dash-panel active" id="student-dashboard">
           <div class="stats-grid">
-            <div class="stat-card"><div class="stat-card-icon blue">📚</div><div class="stat-value" id="std-stat-courses">5</div><div class="stat-label">Cours Inscrits</div></div>
-            <div class="stat-card"><div class="stat-card-icon green">📊</div><div class="stat-value" id="std-stat-avg">15.8</div><div class="stat-label">Moyenne Générale</div></div>
-            <div class="stat-card"><div class="stat-card-icon gold">🏅</div><div class="stat-value">2ème</div><div class="stat-label">Rang de Promotion</div></div>
+            <div class="stat-card"><div class="stat-card-icon blue">📚</div><div class="stat-value" id="std-stat-courses">—</div><div class="stat-label">Cours Inscrits</div></div>
+            <div class="stat-card"><div class="stat-card-icon green">📊</div><div class="stat-value" id="std-stat-avg">—</div><div class="stat-label">Moyenne Générale</div></div>
+            <div class="stat-card"><div class="stat-card-icon gold">🏅</div><div class="stat-value" id="std-stat-rank">—</div><div class="stat-label">Crédits Validés</div></div>
             <div class="stat-card"><div class="stat-card-icon orange">⏱️</div><div class="stat-value" id="std-stat-semester">—</div><div class="stat-label">Semestre Actuel</div></div>
           </div>
           <div class="grid-2 mt-3">
             <div class="card">
-              <div class="card-header"><span class="card-title">Résultats Récents</span><span class="badge badge-green">S3 2025</span></div>
+              <div class="card-header"><span class="card-title">Résultats Récents</span><span class="badge badge-blue" id="std-semester-badge">—</span></div>
               <div class="card-body">
                 <div id="std-recent-grades"></div>
               </div>
@@ -866,8 +913,9 @@ tr:hover td { background:var(--gray-50); }
 
 <!-- ===== PROFESSOR DASHBOARD ===== -->
 <div id="view-prof" class="view">
+  <div class="dash-sidebar-overlay" id="prof-sidebar-overlay" onclick="closeSidebar('prof')"></div>
   <div class="dash-layout">
-    <aside class="dash-sidebar">
+    <aside class="dash-sidebar" id="prof-sidebar">
       <div class="dash-sidebar-header">
         <div class="logo">
           <div class="logo-circle">UPH</div>
@@ -875,8 +923,8 @@ tr:hover td { background:var(--gray-50); }
         </div>
       </div>
       <div class="dash-user-card">
-        <div class="dash-user-avatar" id="prof-avatar">MP</div>
-        <div class="dash-user-name" id="prof-name">Prof. Marie Paul</div>
+        <div class="dash-user-avatar" id="prof-avatar">—</div>
+        <div class="dash-user-name" id="prof-name">—</div>
         <div class="dash-user-role" id="prof-dept">Sciences et Technologies</div>
         <div class="dash-user-badge" style="background:rgba(21,101,192,0.15);color:#90caf9;border-color:rgba(21,101,192,0.3);">Professeur</div>
       </div>
@@ -898,9 +946,12 @@ tr:hover td { background:var(--gray-50); }
     </aside>
     <main class="dash-main">
       <div class="dash-topbar">
-        <div class="dash-topbar-title" id="prof-panel-title">Tableau de Bord</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="dash-mobile-toggle" onclick="toggleSidebar('prof')" title="Menu">☰</button>
+          <div class="dash-topbar-title" id="prof-panel-title">Tableau de Bord</div>
+        </div>
         <div class="dash-topbar-actions">
-          <span style="font-size:14px;color:var(--gray-500)" id="prof-topbar-user">Prof. Marie</span>
+          <span style="font-size:14px;color:var(--gray-500)" id="prof-topbar-user">—</span>
         </div>
       </div>
       <div class="dash-content">
@@ -1014,8 +1065,9 @@ tr:hover td { background:var(--gray-50); }
 
 <!-- ===== ADMIN DASHBOARD ===== -->
 <div id="view-admin" class="view">
+  <div class="dash-sidebar-overlay" id="admin-sidebar-overlay" onclick="closeSidebar('admin')"></div>
   <div class="dash-layout">
-    <aside class="dash-sidebar">
+    <aside class="dash-sidebar" id="admin-sidebar">
       <div class="dash-sidebar-header">
         <div class="logo">
           <div class="logo-circle">UPH</div>
@@ -1047,9 +1099,12 @@ tr:hover td { background:var(--gray-50); }
     </aside>
     <main class="dash-main">
       <div class="dash-topbar">
-        <div class="dash-topbar-title" id="admin-panel-title">Tableau de Bord</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="dash-mobile-toggle" onclick="toggleSidebar('admin')" title="Menu">☰</button>
+          <div class="dash-topbar-title" id="admin-panel-title">Tableau de Bord</div>
+        </div>
         <div class="dash-topbar-actions">
-          <span style="font-size:14px;color:var(--gray-500)">Super Admin</span>
+          <span style="font-size:14px;color:var(--gray-500)" id="admin-user-name">—</span>
         </div>
       </div>
       <div class="dash-content">
@@ -1266,7 +1321,7 @@ tr:hover td { background:var(--gray-50); }
           <button class="modal-tab" onclick="setLoginType('professor')">👨‍🏫 Professeur</button>
           <button class="modal-tab" onclick="setLoginType('admin')">🛠️ Admin</button>
         </div>
-        <div class="form-group"><label class="form-label">Email / Identifiant</label><input class="form-input" id="login-email" placeholder="votre@email.com" /></div>
+        <div class="form-group"><label class="form-label">Email / Identifiant</label><input class="form-input" id="login-email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()" /></div>
         <div class="form-group"><label class="form-label">Mot de Passe</label><input class="form-input" id="login-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" /></div>
         <div id="login-error" class="form-error" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;"></div>
         <div style="background:var(--blue-light);border-radius:8px;padding:12px;font-size:13px;color:var(--blue);margin-bottom:1rem;">
@@ -1286,8 +1341,8 @@ tr:hover td { background:var(--gray-50); }
         <div style="background:var(--gold-light,#fff8e1);border-radius:8px;padding:12px;margin-bottom:1rem;font-size:13px;color:var(--gray-700,#444);">
           Votre demande sera examinée par un administrateur avant activation de votre compte.
         </div>
-        <div class="form-group"><label class="form-label">Nom Complet *</label><input class="form-input" id="reg-prof-name" placeholder="Prof. Marie Pierre" /></div>
-        <div class="form-group"><label class="form-label">Email *</label><input class="form-input" id="reg-prof-email" type="email" placeholder="m.pierre@email.com" /></div>
+        <div class="form-group"><label class="form-label">Nom Complet *</label><input class="form-input" id="reg-prof-name" placeholder="Prénom Nom" /></div>
+        <div class="form-group"><label class="form-label">Email *</label><input class="form-input" id="reg-prof-email" type="email" placeholder="votre@email.com" /></div>
         <div class="form-group"><label class="form-label">Mot de Passe * <span style="font-weight:400;font-size:12px;color:var(--gray-500)">(min. 6 caractères)</span></label><input class="form-input" id="reg-prof-pass" type="password" placeholder="••••••••" /></div>
         <div class="form-group"><label class="form-label">Département *</label>
           <select class="form-select" id="reg-prof-dept">
@@ -1398,9 +1453,37 @@ async function doLogin() {
 
 function logout() {
   currentUser = null;
+  studentData = null;
   showView('home');
   toast('Déconnexion réussie.', '');
 }
+
+// ============================================================
+// MOBILE SIDEBAR TOGGLE
+// ============================================================
+function toggleSidebar(portal) {
+  const sidebar = document.getElementById(portal + '-sidebar');
+  const overlay = document.getElementById(portal + '-sidebar-overlay');
+  if (!sidebar) return;
+  sidebar.classList.toggle('open');
+  if (overlay) overlay.classList.toggle('visible');
+}
+function closeSidebar(portal) {
+  const sidebar = document.getElementById(portal + '-sidebar');
+  const overlay = document.getElementById(portal + '-sidebar-overlay');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('visible');
+}
+// Close sidebar when a nav item is clicked on mobile
+document.addEventListener('click', function(e) {
+  const navItem = e.target.closest('.dash-nav-item');
+  if (navItem) {
+    ['student', 'prof', 'admin'].forEach(p => {
+      const sb = document.getElementById(p + '-sidebar');
+      if (sb && sb.classList.contains('open')) closeSidebar(p);
+    });
+  }
+});
 
 // ============================================================
 // VIEW SYSTEM
@@ -1519,7 +1602,13 @@ async function reloadStudentData() {
 
 function renderStudentPanel(panel) {
   const std = studentData;
-  if (!std) { console.warn('[renderStudentPanel] no studentData yet'); return; }
+  if (!std) {
+    console.warn('[renderStudentPanel] studentData not ready — showing loading state');
+    const panelEl = document.getElementById('student-' + panel) || document.getElementById('student-dashboard');
+    if (panelEl) panelEl.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--gray-500)"><div style="font-size:36px;margin-bottom:1rem">⏳</div><div>Chargement de votre profil...</div></div>';
+    setTimeout(() => { if (studentData) renderStudentPanel(panel); }, 800);
+    return;
+  }
   if (panel === 'dashboard')     renderStudentDashboard(std);
   if (panel === 'profile')       renderStudentProfile(std);
   if (panel === 'grades')        renderGrades(std);
@@ -1534,12 +1623,22 @@ function renderStudentDashboard(std) {
   const grades      = std.grades      || [];
   const enrollments = std.enrollments || [];
 
-  document.getElementById('std-stat-courses').textContent  = enrollments.length;
+  // Real stats from MySQL data
+  const avg = grades.length > 0
+    ? (grades.reduce((s, g) => s + Number(g.grade), 0) / grades.length).toFixed(1)
+    : '—';
+  const passedCourses  = grades.filter(g => Number(g.grade) >= 10);
+  const creditsEarned  = passedCourses.length * 3; // assume 3 credits avg
+
+  document.getElementById('std-stat-courses').textContent  = enrollments.length || '—';
   document.getElementById('std-stat-semester').textContent = std.semester || '—';
-  document.getElementById('std-stat-avg').textContent =
-    grades.length > 0
-      ? (grades.reduce((s, g) => s + Number(g.grade), 0) / grades.length).toFixed(1)
-      : '—';
+  document.getElementById('std-stat-avg').textContent      = avg;
+  const rankEl = document.getElementById('std-stat-rank');
+  if (rankEl) rankEl.textContent = creditsEarned > 0 ? creditsEarned + ' cr.' : '—';
+
+  // Semester badge on recent grades card
+  const semBadge = document.getElementById('std-semester-badge');
+  if (semBadge) semBadge.textContent = std.semester ? std.semester + ' ' + new Date().getFullYear() : '—';
 
   // Recent grades
   let rg = '';
@@ -1552,16 +1651,22 @@ function renderStudentDashboard(std) {
       <div class="activity-time"><span class="${cls}" style="font-family:var(--font-display);font-size:22px;font-weight:700">${g.grade}/20</span></div>
     </div>`;
   });
-  document.getElementById('std-recent-grades').innerHTML = rg || '<p class="text-muted">Aucune note disponible.</p>';
+  document.getElementById('std-recent-grades').innerHTML = rg
+    || '<div class="empty-state" style="padding:1.5rem"><div class="empty-icon">📊</div><h3>Aucune note disponible</h3><p>Les notes apparaîtront ici une fois saisies par vos professeurs.</p></div>';
 
-  document.getElementById('std-upcoming').innerHTML = '<p class="text-muted">Aucun cours planifié.</p>';
+  document.getElementById('std-upcoming').innerHTML =
+    '<div style="text-align:center;padding:1.5rem;color:var(--gray-500)"><div style="font-size:32px;margin-bottom:0.5rem">📅</div><div style="font-size:14px">Emploi du temps à configurer.</div></div>';
 
-  const acts = [
-    {icon:'🎓', txt:'Bienvenue à l\'<strong>UPH</strong>! Votre compte est actif.', time:'', bg:'var(--green-light)'},
-    {icon:'📚', txt:'Inscrivez-vous à des cours via <strong>S\'inscrire aux Cours</strong>.', time:'', bg:'var(--blue-light)'},
-  ];
+  // Activity tips — only shown once, contextual
+  const hasGrades    = grades.length > 0;
+  const hasCourses   = enrollments.length > 0;
+  const acts = [];
+  if (!hasCourses) acts.push({icon:'📚', txt:'<strong>Inscrivez-vous à des cours</strong> via l\'onglet <em>S\'inscrire aux Cours</em>.', bg:'var(--blue-light)'});
+  if (hasCourses && !hasGrades) acts.push({icon:'⏳', txt:'Vous êtes inscrit à <strong>' + enrollments.length + ' cours</strong>. Les notes apparaîtront ici.', bg:'var(--orange-light)'});
+  if (hasGrades) acts.push({icon:'🎉', txt:'<strong>Félicitations!</strong> Vous avez ' + grades.length + ' note(s) disponible(s).', bg:'var(--green-light)'});
+  acts.push({icon:'👤', txt:'Complétez votre <strong>profil</strong> avec votre photo et vos informations personnelles.', bg:'var(--gold-pale)'});
   document.getElementById('std-activity').innerHTML = acts.map(a =>
-    `<div class="activity-row"><div class="activity-icon" style="background:${a.bg}">${a.icon}</div><div class="activity-text">${a.txt}</div><div class="activity-time">${a.time}</div></div>`
+    `<div class="activity-row"><div class="activity-icon" style="background:${a.bg}">${a.icon}</div><div class="activity-text">${a.txt}</div></div>`
   ).join('');
 }
 
@@ -1638,7 +1743,7 @@ async function saveStudentProfile() {
     renderStudentProfile(studentData);
   } catch (err) {
     console.error('[saveStudentProfile] error:', err);
-    toast('Erreur: ' + err.message, '');
+    toast(err.message.includes('fetch') ? 'Serveur inaccessible — vérifiez que le backend tourne sur le port 3000.' : 'Erreur: ' + err.message, 'error');
   }
 }
 
@@ -1688,7 +1793,7 @@ async function uploadPhoto() {
     reloadStudentData().then(() => renderStudentProfile(studentData));
   } catch (err) {
     console.error('[uploadPhoto] error:', err);
-    toast('Erreur: ' + err.message, '');
+    toast(err.message.includes('fetch') ? 'Serveur inaccessible — vérifiez que le backend tourne sur le port 3000.' : 'Erreur: ' + err.message, 'error');
     btn.style.display  = 'inline-block';
     prog.style.display = 'none';
   }
@@ -1765,7 +1870,7 @@ async function renderEnroll(std) {
     }).join('');
   } catch (err) {
     console.error('[renderEnroll] error:', err);
-    container.innerHTML = `<p style="color:var(--red);padding:1rem">Erreur: ${err.message}</p>`;
+    container.innerHTML = `<div class="offline-banner">⚠️ Impossible de charger les cours. ${err.message.includes('fetch') ? 'Vérifiez que le backend tourne sur le port 3000.' : err.message}</div>`;
   }
 }
 
@@ -1781,7 +1886,7 @@ async function enrollCourse(courseId, studentId, btn) {
     const data = await res.json();
     console.log('[enrollCourse]:', data);
     if (!data.success) {
-      toast('Erreur: ' + data.message, '');
+      toast('❌ ' + data.message, 'error');
       if (btn) { btn.disabled = false; btn.textContent = "S'inscrire"; }
       return;
     }
@@ -1790,7 +1895,7 @@ async function enrollCourse(courseId, studentId, btn) {
     renderEnroll(studentData);
   } catch (err) {
     console.error('[enrollCourse] error:', err);
-    toast('Impossible de contacter le serveur.', '');
+    toast('Serveur inaccessible — vérifiez que le backend tourne sur le port 3000.', 'error');
     if (btn) { btn.disabled = false; btn.textContent = "S'inscrire"; }
   }
 }
@@ -1834,13 +1939,13 @@ async function unenrollCourse(enrollmentId, btn) {
   try {
     const res  = await fetch('http://localhost:3000/api/enrollments/' + enrollmentId, { method: 'DELETE' });
     const data = await res.json();
-    if (!data.success) { toast('Erreur: ' + data.message, ''); if (btn) { btn.disabled = false; btn.textContent = 'Se désinscrire'; } return; }
+    if (!data.success) { toast('❌ ' + data.message, 'error'); if (btn) { btn.disabled = false; btn.textContent = 'Se désinscrire'; } return; }
     toast('Désinscription effectuée.', 'success');
     await reloadStudentData();
     renderMyCourses(studentData);
   } catch (err) {
     console.error('[unenrollCourse] error:', err);
-    toast('Impossible de contacter le serveur.', '');
+    toast('Serveur inaccessible — vérifiez que le backend tourne sur le port 3000.', 'error');
     if (btn) { btn.disabled = false; btn.textContent = 'Se désinscrire'; }
   }
 }
@@ -2261,8 +2366,9 @@ async function renderApplications() {
 
   } catch (err) {
     console.error('[renderApplications] error:', err);
+    const msg = err.message.includes('fetch') ? 'Backend inaccessible — vérifiez le port 3000.' : err.message;
     document.getElementById('applications-body').innerHTML =
-      `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">Erreur de chargement: ${err.message}</td></tr>`;
+      `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">⚠️ ${msg}</td></tr>`;
   }
 }
 
@@ -2355,7 +2461,7 @@ async function deleteStudent(id) {
     renderAdminStudents();
     updateAdminBadges();
   } catch (err) {
-    toast('Erreur: ' + err.message, '');
+    toast('Erreur: ' + err.message, 'error');
   }
 }
 
