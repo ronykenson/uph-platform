@@ -75,7 +75,8 @@ app.use('/api', (req, res) => {
 });
 
 // Catch-all: serve frontend for any non-API route (SPA support)
-app.get('*', (req, res) => {
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api')) return next();
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
