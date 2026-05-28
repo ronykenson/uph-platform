@@ -15,6 +15,7 @@ const pool = mysql.createPool({
   user:     process.env.DB_USER     || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME     || 'uph_database',
+  charset:  'utf8mb4',              // ensure accented characters store correctly
 
   // Pool settings
   waitForConnections: true,   // queue requests when pool is full
