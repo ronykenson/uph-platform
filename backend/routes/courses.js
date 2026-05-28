@@ -29,16 +29,22 @@ router.get('/', async (req, res) => {
 // POST /api/courses  —  create a new course
 router.post('/', async (req, res) => {
   try {
-    const { code, name, faculty, professor_id, credits, max_students } = req.body;
+    const { code, name, faculty, professor_id, credits, max_students, status } = req.body;
     if (!code || !name || !faculty) {
       return res.status(400).json({ success: false, message: 'code, name et faculty sont requis.' });
     }
+    if (code.length > 20) {
+      return res.status(400).json({ success: false, message: 'Le code ne peut pas dépasser 20 caractères.' });
+    }
     const [result] = await db.query(
-      'INSERT INTO courses (code, name, faculty, professor_id, credits, max_students) VALUES (?, ?, ?, ?, ?, ?)',
-      [code, name, faculty, professor_id || null, credits || 3, max_students || 35]
+      'INSERT INTO courses (code, name, faculty, professor_id, credits, max_students, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [code.toUpperCase(), name, faculty, professor_id || null, credits || 3, max_students || 35, status || 'active']
     );
     res.status(201).json({ success: true, message: 'Cours créé.', courseId: result.insertId });
   } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ success: false, message: 'Un cours avec ce code existe déjà.' });
+    }
     res.status(500).json({ success: false, message: err.message });
   }
 });

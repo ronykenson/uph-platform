@@ -868,7 +868,18 @@ tr:hover td { background:var(--gray-50); }
           <div class="card">
             <div class="card-header"><span class="card-title">📚 Inscription aux Cours Disponibles</span></div>
             <div class="card-body">
-              <p style="font-size:14px;color:var(--gray-500);margin-bottom:1.5rem;">Cliquez sur "S'inscrire" pour vous inscrire à un cours. Consultez votre conseiller pédagogique en cas de doute.</p>
+              <p style="font-size:14px;color:var(--gray-500);margin-bottom:1rem;">Cliquez sur "S'inscrire" pour vous inscrire à un cours. Consultez votre conseiller pédagogique en cas de doute.</p>
+              <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+                <label style="font-size:14px;font-weight:600;color:var(--gray-700);">Programme :</label>
+                <select class="form-select" style="width:auto;min-width:240px;" id="enroll-prog-filter" onchange="filterEnroll()">
+                  <option value="">Tous les programmes</option>
+                  <option value="Faculté des Sciences Infirmières">Sciences Infirmières (DSI)</option>
+                  <option value="Faculté des Sciences de l'Éducation">Sciences de l'Éducation (DSE)</option>
+                  <option value="Faculté des Sciences Agronomiques">Sciences Agronomiques (DSA)</option>
+                  <option value="Faculté de l'Ingénierie et de l'Architecture">Ingénierie &amp; Architecture (GC)</option>
+                  <option value="Faculté des Sciences Administratives">Sciences Administratives (ADM)</option>
+                </select>
+              </div>
               <div class="courses-grid" id="available-courses"></div>
             </div>
           </div>
@@ -1256,29 +1267,52 @@ tr:hover td { background:var(--gray-50); }
           <div class="card">
             <div class="card-header"><span class="card-title">📚 Gestion des Cours</span><button class="btn-gold btn-sm" onclick="showAddCourseForm()">+ Nouveau Cours</button></div>
             <div class="card-body" style="padding:0;"><div class="table-wrap"><table>
-              <thead><tr><th>Code</th><th>Cours</th><th>Professeur</th><th>Faculté</th><th>Étudiants</th><th>Crédits</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Code</th><th>Cours / Faculté</th><th>Professeur</th><th>Inscrits/Max</th><th>Crédits</th><th>Max Étud.</th><th>Actions</th></tr></thead>
               <tbody id="admin-courses-body"></tbody>
             </table></div></div>
           </div>
           <div class="card mt-3" id="add-course-form-card" style="display:none;">
-            <div class="card-header"><span class="card-title">Créer un Nouveau Cours</span></div>
+            <div class="card-header"><span class="card-title">Créer un Nouveau Cours</span><button class="btn-danger btn-sm" onclick="showAddCourseForm()">✕ Fermer</button></div>
             <div class="card-body">
               <div class="form-row">
-                <div class="form-group"><label class="form-label">Code du Cours</label><input class="form-input" id="new-c-code" placeholder="INFO-301"/></div>
-                <div class="form-group"><label class="form-label">Intitulé du Cours</label><input class="form-input" id="new-c-name" placeholder="Algorithmique Avancée"/></div>
+                <div class="form-group"><label class="form-label">Code du Cours *</label><input class="form-input" id="new-c-code" placeholder="DSI2-NOUVEAU" /></div>
+                <div class="form-group"><label class="form-label">Intitulé du Cours *</label><input class="form-input" id="new-c-name" placeholder="Nom complet du cours" /></div>
               </div>
               <div class="form-row">
-                <div class="form-group"><label class="form-label">Faculté</label>
-                  <select class="form-select" id="new-c-faculty"><option>Sciences et Technologies</option><option>Médecine & Santé</option><option>Sciences Économiques</option><option>Droit & Sciences Politiques</option></select>
+                <div class="form-group"><label class="form-label">Faculté *</label>
+                  <select class="form-select" id="new-c-faculty">
+                    <option value="Faculté des Sciences Agronomiques">Sciences Agronomiques (DSA)</option>
+                    <option value="Faculté des Sciences Infirmières">Sciences Infirmières (DSI)</option>
+                    <option value="Faculté des Sciences Administratives">Sciences Administratives (ADM)</option>
+                    <option value="Faculté de l'Ingénierie et de l'Architecture">Ingénierie &amp; Architecture (GC)</option>
+                    <option value="Faculté des Sciences Juridiques">Sciences Juridiques</option>
+                    <option value="Faculté de Théologie">Théologie</option>
+                    <option value="Faculté des Sciences de l'Éducation">Sciences de l'Éducation (DSE)</option>
+                  </select>
                 </div>
                 <div class="form-group"><label class="form-label">Crédits</label>
-                  <select class="form-select" id="new-c-credits"><option>2</option><option>3</option><option>4</option><option>6</option></select>
+                  <select class="form-select" id="new-c-credits">
+                    <option value="1">1 crédit</option>
+                    <option value="2">2 crédits</option>
+                    <option value="3" selected>3 crédits</option>
+                    <option value="4">4 crédits</option>
+                    <option value="6">6 crédits</option>
+                  </select>
                 </div>
               </div>
-              <div class="form-group"><label class="form-label">Assigner un Professeur</label>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Max Étudiants</label><input class="form-input" id="new-c-maxstd" type="number" min="1" max="200" value="35" /></div>
+                <div class="form-group"><label class="form-label">Statut</label>
+                  <select class="form-select" id="new-c-status">
+                    <option value="active">Actif</option>
+                    <option value="inactive">Inactif</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group"><label class="form-label">Assigner un Professeur (optionnel)</label>
                 <select class="form-select" id="new-c-prof"><option value="">— Non assigné —</option></select>
               </div>
-              <button class="btn-gold" onclick="addCourse()">Créer le Cours</button>
+              <button class="btn-gold" onclick="addCourse()">✅ Créer le Cours</button>
             </div>
           </div>
         </div>
@@ -1413,9 +1447,10 @@ function seedData() {
 // ============================================================
 // AUTH STATE
 // ============================================================
-let currentUser  = null;
-let studentData  = null;   // full profile from GET /api/students/:id
+let currentUser      = null;
+let studentData      = null;   // full profile from GET /api/students/:id
 let currentLoginType = 'student';
+let allCoursesCache  = [];     // cached for client-side faculty filter
 
 function setLoginType(type) {
   currentLoginType = type;
@@ -1894,33 +1929,45 @@ async function renderEnroll(std) {
     const data = await res.json();
     console.log('[renderEnroll] courses:', data);
     if (!data.success) throw new Error(data.message);
-    const courses     = data.data;
-    const enrolledIds = (std.enrollments || []).map(e => e.course_id);
-    if (!courses.length) {
-      container.innerHTML = '<div class="empty-state"><div class="empty-icon">📚</div><h3>Aucun cours disponible.</h3></div>';
-      return;
-    }
-    container.innerHTML = courses.map(c => {
-      const enrolled = enrolledIds.includes(c.id);
-      const full     = Number(c.enrolled_count) >= Number(c.max_students);
-      return `<div class="course-card">
-        <div class="course-card-code">${c.code}</div>
-        <div class="course-card-name">${c.name}</div>
-        <div class="course-card-prof">👨‍🏫 ${c.professor_name || '—'}</div>
-        <div class="course-card-info"><span>📚 ${c.credits} cr.</span><span>👥 ${c.enrolled_count}/${c.max_students}</span></div>
-        <div style="margin-top:1rem">
-          ${enrolled
-            ? '<span class="badge badge-green">✓ Inscrit</span>'
-            : full
-              ? '<span class="badge" style="background:var(--gray-200);color:var(--gray-700)">Complet</span>'
-              : `<button class="btn-gold btn-sm" onclick="enrollCourse(${c.id}, ${std.id}, this)">S&#39;inscrire</button>`}
-        </div>
-      </div>`;
-    }).join('');
+    allCoursesCache = data.data;
+    filterEnroll();
   } catch (err) {
     console.error('[renderEnroll] error:', err);
     container.innerHTML = `<div class="offline-banner">⚠️ Impossible de charger les cours. ${err.message.includes('fetch') ? 'Vérifiez que le backend tourne sur le port 3000.' : err.message}</div>`;
   }
+}
+
+function filterEnroll() {
+  const container   = document.getElementById('available-courses');
+  const filterEl    = document.getElementById('enroll-prog-filter');
+  const selectedFac = filterEl ? filterEl.value : '';
+  const std         = studentData;
+  const enrolledIds = std ? (std.enrollments || []).map(e => e.course_id) : [];
+
+  let courses = allCoursesCache;
+  if (selectedFac) courses = courses.filter(c => c.faculty === selectedFac);
+
+  if (!courses.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📚</div><h3>Aucun cours disponible pour ce programme.</h3></div>';
+    return;
+  }
+  container.innerHTML = courses.map(c => {
+    const enrolled = enrolledIds.includes(c.id);
+    const full     = Number(c.enrolled_count) >= Number(c.max_students);
+    return `<div class="course-card">
+      <div class="course-card-code">${c.code}</div>
+      <div class="course-card-name">${c.name}</div>
+      <div class="course-card-prof">👨‍🏫 ${c.professor_name || '—'}</div>
+      <div class="course-card-info"><span>📚 ${c.credits} cr.</span><span>👥 ${c.enrolled_count}/${c.max_students}</span></div>
+      <div style="margin-top:1rem">
+        ${enrolled
+          ? '<span class="badge badge-green">✓ Inscrit</span>'
+          : full
+            ? '<span class="badge" style="background:var(--gray-200);color:var(--gray-700)">Complet</span>'
+            : `<button class="btn-gold btn-sm" onclick="enrollCourse(${c.id}, ${std ? std.id : 0}, this)">S&#39;inscrire</button>`}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 async function enrollCourse(courseId, studentId, btn) {
@@ -2755,18 +2802,28 @@ async function renderAdminCourses() {
 
     container.innerHTML = courses.map(c => `<tr>
       <td style="font-family:var(--font-mono);font-size:13px;color:var(--gold);font-weight:600">${c.code}</td>
-      <td><div style="font-weight:600">${c.name}</div></td>
+      <td><div style="font-weight:600">${c.name}</div><div style="font-size:11px;color:var(--gray-400);margin-top:2px" title="${c.faculty}">${c.faculty.replace("Faculté des ","").replace("Faculté de ","").replace("Faculté d'","")}</div></td>
       <td style="font-size:13px">
         <select class="form-select" style="padding:4px 8px;font-size:12px;" onchange="assignProfessor(${c.id}, this.value)">
           <option value="">— Non assigné —</option>
           ${profs.map(p => `<option value="${p.id}" ${c.professor_id == p.id ? 'selected' : ''}>${p.name}</option>`).join('')}
         </select>
       </td>
-      <td style="font-size:13px">${c.faculty}</td>
-      <td><span class="badge badge-blue">${c.enrolled_count || 0}</span></td>
-      <td>${c.credits} cr.</td>
+      <td><span class="badge badge-blue" title="Étudiants inscrits">${c.enrolled_count || 0}/${c.max_students}</span></td>
+      <td>
+        <input type="number" min="1" max="9" value="${c.credits}"
+          style="width:54px;padding:4px 6px;border:1px solid var(--gray-200);border-radius:6px;font-size:13px;text-align:center;background:white;"
+          onchange="saveCourseField(${c.id}, 'credits', this.value, this)"
+          title="Modifier les crédits" />
+      </td>
+      <td>
+        <input type="number" min="1" max="200" value="${c.max_students}"
+          style="width:60px;padding:4px 6px;border:1px solid var(--gray-200);border-radius:6px;font-size:13px;text-align:center;background:white;"
+          onchange="saveCourseField(${c.id}, 'max_students', this.value, this)"
+          title="Modifier le max étudiants" />
+      </td>
       <td><button class="btn-danger btn-sm" onclick="deleteCourse(${c.id})">Supprimer</button></td>
-    </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);padding:2rem">Aucun cours.</td></tr>';
+    </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:2rem">Aucun cours.</td></tr>';
   } catch (err) {
     console.error('[renderAdminCourses] error:', err);
     container.innerHTML = '<tr><td colspan="7" style="color:var(--red);padding:1rem">Erreur: ' + err.message + '</td></tr>';
@@ -2790,6 +2847,25 @@ async function assignProfessor(courseId, profId) {
   }
 }
 
+async function saveCourseField(courseId, field, value, el) {
+  const body = {};
+  body[field] = field === 'credits' || field === 'max_students' ? Number(value) : value;
+  try {
+    const res  = await fetch(API_BASE + '/api/courses/' + courseId, {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    if (el) { el.style.borderColor = 'var(--green)'; setTimeout(() => { el.style.borderColor = 'var(--gray-200)'; }, 1800); }
+    toast('Cours mis à jour.', 'success');
+  } catch (err) {
+    if (el) { el.style.borderColor = 'var(--red)'; }
+    toast('Erreur: ' + err.message, 'error');
+  }
+}
+
 async function deleteCourse(id) {
   if (!confirm('Supprimer ce cours ? Les inscriptions associées seront perdues.')) return;
   try {
@@ -2810,27 +2886,31 @@ function showAddCourseForm() {
 }
 
 async function addCourse() {
-  const code    = document.getElementById('new-c-code').value.trim();
-  const name    = document.getElementById('new-c-name').value.trim();
-  const faculty = document.getElementById('new-c-faculty').value;
-  const credits = document.getElementById('new-c-credits').value;
-  const profId  = document.getElementById('new-c-prof').value;
+  const code       = document.getElementById('new-c-code').value.trim();
+  const name       = document.getElementById('new-c-name').value.trim();
+  const faculty    = document.getElementById('new-c-faculty').value;
+  const credits    = parseInt(document.getElementById('new-c-credits').value) || 3;
+  const maxStd     = parseInt(document.getElementById('new-c-maxstd').value) || 35;
+  const status     = document.getElementById('new-c-status').value;
+  const profId     = document.getElementById('new-c-prof').value;
   if (!code || !name) { toast('Code et intitulé requis.', 'error'); return; }
+  if (code.length > 20) { toast('Code trop long (max 20 caractères).', 'error'); return; }
   try {
     const res  = await fetch(API_BASE + '/api/courses', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ code, name, faculty, credits: parseInt(credits), professor_id: profId || null, max_students: 35 })
+      body:    JSON.stringify({ code, name, faculty, credits, max_students: maxStd, status, professor_id: profId || null })
     });
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     toast('✅ Cours ' + code + ' créé.', 'success');
-    document.getElementById('new-c-code').value = '';
-    document.getElementById('new-c-name').value = '';
+    document.getElementById('new-c-code').value  = '';
+    document.getElementById('new-c-name').value  = '';
+    showAddCourseForm();
     renderAdminCourses();
     updateAdminBadges();
   } catch (err) {
-    toast('Erreur: ' + err.message, '');
+    toast('Erreur: ' + err.message, 'error');
   }
 }
 
