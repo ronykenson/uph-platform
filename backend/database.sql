@@ -183,16 +183,15 @@ CREATE TABLE IF NOT EXISTS activity_log (
 );
 
 -- ============================================================
---  SAMPLE ADMIN ACCOUNT
---  Password is "admin123" hashed with SHA-256.
---  SHA2('admin123', 256) = 0716d9708d321ffb6a00818614779e779925d7e4b1a04e458338b44c
---  Change this in production!
+--  DEFAULT ADMIN ACCOUNT
+--  Email:    admin@uph
+--  Password: UPH@2026  (SHA-256)
 -- ============================================================
 INSERT IGNORE INTO users (name, email, password, role, status)
 VALUES (
   'Administrateur Principal',
-  'admin@uph.ht',
-  SHA2('admin123', 256),
+  'admin@uph',
+  'e9b50b5919643a4f871f7f3b7e813665fded980f65bf6cd4e858440d8b5f0725',
   'admin',
   'active'
 );

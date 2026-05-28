@@ -57,16 +57,21 @@ nav.main-nav {
   padding:0 2rem; height:68px;
   display:flex; align-items:center; justify-content:space-between;
 }
-.nav-brand { display:flex; align-items:center; gap:12px; cursor:pointer; }
+.nav-brand { display:flex; align-items:center; gap:14px; cursor:pointer; min-width:0; }
 .nav-logo-circle {
   width:40px; height:40px; border-radius:50%;
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
   display:flex; align-items:center; justify-content:center;
   font-family: var(--font-display); font-size:14px; font-weight:700; color:var(--navy);
+  flex-shrink:0;
 }
-.nav-brand-text { color:white; }
-.nav-brand-text .brand-name { font-family: var(--font-display); font-size:18px; font-weight:600; color:var(--gold-light); line-height:1.1; }
-.nav-brand-text .brand-sub { font-size:10px; color:rgba(255,255,255,0.5); letter-spacing:2px; text-transform:uppercase; }
+.nav-logo-img { height:56px; width:56px; object-fit:contain; border-radius:6px; flex-shrink:0; }
+.nav-brand-text { color:white; min-width:0; }
+.nav-brand-text .brand-name {
+  font-family: var(--font-display); font-size:22px; font-weight:700;
+  color:var(--gold-light); line-height:1.2; letter-spacing:0.2px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
 .nav-links { display:flex; gap:8px; align-items:center; }
 .nav-link { color:rgba(255,255,255,0.7); text-decoration:none; padding:8px 14px; border-radius:6px; font-size:14px; font-weight:500; cursor:pointer; transition:var(--transition); border:none; background:none; }
 .nav-link:hover { color:white; background:rgba(255,255,255,0.08); }
@@ -99,7 +104,7 @@ nav.main-nav {
 }
 .hero-badge-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.hero-title { font-family: var(--font-display); font-size:clamp(36px,5vw,68px); font-weight:700; color:white; line-height:1.05; margin-bottom:1.5rem; }
+.hero-title { font-family: var(--font-display); font-size:clamp(28px,4vw,54px); font-weight:700; color:white; line-height:1.05; margin-bottom:1.5rem; }
 .hero-title span { color:var(--gold-light); }
 .hero-desc { font-size:18px; color:rgba(255,255,255,0.65); max-width:560px; line-height:1.75; margin-bottom:2.5rem; font-weight:300; }
 .hero-actions { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:5rem; }
@@ -402,6 +407,8 @@ tr:hover td { background:var(--gray-50); }
   .dash-sidebar { position:fixed; left:-260px; z-index:500; transition:var(--transition); }
   .dash-sidebar.open { left:0; }
   .dash-main { margin-left:0; }
+  .nav-brand-text .brand-name { font-size: 16px; }
+  .nav-logo-img { height: 44px; width: 44px; }
 }
 
 /* ===== CHARTS (pure CSS) ===== */
@@ -498,8 +505,9 @@ tr:hover td { background:var(--gray-50); }
 }
 @media (max-width: 480px) {
   .modal { width: calc(100vw - 24px); max-height: calc(100vh - 40px); overflow-y: auto; border-radius: 12px; margin: 12px; }
-  .hero-title { font-size: 38px; }
-  .nav-brand-text .brand-name { font-size: 15px; }
+  .hero-title { font-size: 28px; }
+  .nav-brand-text .brand-name { font-size: 13px; }
+  .nav-logo-img { height: 38px; width: 38px; }
   .profile-info { padding: 2.5rem 1rem 1.5rem; }
   .card-body { padding: 1rem; }
   .activity-row { flex-wrap: wrap; gap: 6px; }
@@ -512,10 +520,9 @@ tr:hover td { background:var(--gray-50); }
 <div id="view-home" class="view active">
   <nav class="main-nav">
     <div class="nav-brand" onclick="showView('home')">
-      <div class="nav-logo-circle">UPH</div>
+      <img src="uph-logo.png" alt="Logo UPH" class="nav-logo-img" />
       <div class="nav-brand-text">
-        <div class="brand-name">UPH</div>
-        <div class="brand-sub">Université Polyvalente d'Haïti</div>
+        <div class="brand-name">Université Polyvalente d'Haïti</div>
       </div>
     </div>
     <div class="nav-links">
@@ -540,7 +547,7 @@ tr:hover td { background:var(--gray-50); }
       </div>
       <div class="hero-stats">
         <div class="hero-stat"><div class="num">4,800+</div><div class="lbl">Étudiants</div></div>
-        <div class="hero-stat"><div class="num">12</div><div class="lbl">Facultés</div></div>
+        <div class="hero-stat"><div class="num">7</div><div class="lbl">Facultés</div></div>
         <div class="hero-stat"><div class="num">320</div><div class="lbl">Professeurs</div></div>
         <div class="hero-stat"><div class="num">25 ans</div><div class="lbl">d'Excellence</div></div>
       </div>
@@ -553,12 +560,13 @@ tr:hover td { background:var(--gray-50); }
       <h2 class="section-title">Facultés & Départements</h2>
       <p class="section-desc">Des formations d'excellence dans les domaines les plus porteurs pour le développement d'Haïti.</p>
       <div class="faculties-grid">
-        <div class="faculty-card"><div class="faculty-icon" style="background:#e3f0ff">💻</div><h3>Sciences et Technologies</h3><p>Informatique, Génie Logiciel, Télécommunications, Intelligence Artificielle.</p><div class="faculty-count">↗ 1,200 étudiants</div></div>
-        <div class="faculty-card"><div class="faculty-icon" style="background:#d4edda">🏥</div><h3>Médecine & Santé</h3><p>Médecine Générale, Pharmacie, Soins Infirmiers, Santé Publique.</p><div class="faculty-count">↗ 850 étudiants</div></div>
-        <div class="faculty-card"><div class="faculty-icon" style="background:#fff0e1">📊</div><h3>Sciences Économiques</h3><p>Économie, Finance, Comptabilité, Gestion des Entreprises.</p><div class="faculty-count">↗ 980 étudiants</div></div>
-        <div class="faculty-card"><div class="faculty-icon" style="background:#fde8e8">⚖️</div><h3>Droit & Sciences Politiques</h3><p>Droit Civil, Droit International, Science Politique, Relations Internationales.</p><div class="faculty-count">↗ 650 étudiants</div></div>
-        <div class="faculty-card"><div class="faculty-icon" style="background:#f0e6ff">🏗️</div><h3>Architecture & Génie Civil</h3><p>Architecture, Génie Civil, Urbanisme, Construction Parasismique.</p><div class="faculty-count">↗ 520 étudiants</div></div>
-        <div class="faculty-card"><div class="faculty-icon" style="background:#e1f5ee">🌱</div><h3>Agronomie & Environnement</h3><p>Agronomie, Sciences de l'Environnement, Développement Rural.</p><div class="faculty-count">↗ 420 étudiants</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#e1f5ee">🌾</div><h3>Faculté des Sciences Agronomiques</h3><p>Agronomie, Sciences du Sol, Développement Rural, Environnement et Ressources Naturelles.</p><div class="faculty-count">↗ Inscriptions ouvertes</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#d4edda">🏥</div><h3>Faculté des Sciences Infirmières</h3><p>Soins Infirmiers, Santé Communautaire, Urgences Médicales et Santé Publique.</p><div class="faculty-count">↗ Inscriptions ouvertes</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#fff0e1">📊</div><h3>Faculté des Sciences Administratives</h3><p>Gestion d'Entreprises, Finance, Comptabilité, Marketing et Management.</p><div class="faculty-count">↗ Inscriptions ouvertes</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#f0e6ff">🏗️</div><h3>Faculté de l'Ingénierie et de l'Architecture</h3><p>Génie Civil, Architecture, Urbanisme, Construction Parasismique et Infrastructures.</p><div class="faculty-count">↗ Inscriptions ouvertes</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#fde8e8">⚖️</div><h3>Faculté des Sciences Juridiques</h3><p>Droit Civil, Droit Commercial, Droit International et Sciences Politiques.</p><div class="faculty-count">↗ Inscriptions ouvertes</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#fef9e7">📖</div><h3>Faculté de Théologie</h3><p>Théologie Biblique, Éthique Chrétienne, Pastorale et Sciences des Religions.</p><div class="faculty-count">↗ Inscriptions ouvertes</div></div>
+        <div class="faculty-card"><div class="faculty-icon" style="background:#e3f0ff">📚</div><h3>Faculté des Sciences de l'Éducation</h3><p>Pédagogie, Psychologie de l'Éducation, Didactique et Administration Scolaire.</p><div class="faculty-count">↗ Inscriptions ouvertes</div></div>
       </div>
     </div>
   </section>
@@ -576,7 +584,7 @@ tr:hover td { background:var(--gray-50); }
             <li>Laboratoires modernes et bibliothèque numérique</li>
             <li>Programme de bourses pour étudiants méritants</li>
             <li>Insertion professionnelle accompagnée</li>
-            <li>Campus sécurisé à Port-au-Prince</li>
+            <li>Campus sécurisés à Port-au-Prince, Ouanaminthe, Cap-Haïtien et aux Cayes</li>
           </ul>
         </div>
         <div class="about-visual">
@@ -586,7 +594,7 @@ tr:hover td { background:var(--gray-50); }
             <div class="about-numbers">
               <div class="about-number"><div class="n">4,800</div><div class="l">Étudiants inscrits</div></div>
               <div class="about-number"><div class="n">320</div><div class="l">Professeurs</div></div>
-              <div class="about-number"><div class="n">12</div><div class="l">Facultés</div></div>
+              <div class="about-number"><div class="n">7</div><div class="l">Facultés</div></div>
               <div class="about-number"><div class="n">94%</div><div class="l">Taux d'emploi</div></div>
             </div>
           </div>
@@ -613,9 +621,9 @@ tr:hover td { background:var(--gray-50); }
         <div class="footer-brand">
           <div class="brand-name">Université Polyvalente d'Haïti</div>
           <p>Former les leaders de demain pour bâtir une Haïti prospère, équitable et souveraine.</p>
-          <p style="margin-top:1rem;">📍 Route de Delmas 60, Port-au-Prince, Haïti<br>📞 +509 2940-0000<br>✉️ contact@uph.edu.ht</p>
+          <p style="margin-top:1rem;">📍 UPH, Cayes, Charpentier, Sud/Haïti, WI<br>📞 32852385 / 31592948<br>✉️ registraire@uphhaitionline.com</p>
         </div>
-        <div class="footer-col"><h5>Facultés</h5><a>Sciences & Technologies</a><a>Médecine</a><a>Économie</a><a>Droit</a><a>Architecture</a><a>Agronomie</a></div>
+        <div class="footer-col"><h5>Facultés</h5><a>Sciences Agronomiques</a><a>Sciences Infirmières</a><a>Sciences Administratives</a><a>Ingénierie &amp; Architecture</a><a>Sciences Juridiques</a><a>Théologie</a><a>Sciences de l'Éducation</a></div>
         <div class="footer-col"><h5>Université</h5><a>À Propos</a><a onclick="showView('apply')">Candidature</a><a>Bourses</a><a>Recherche</a><a>International</a></div>
         <div class="footer-col"><h5>Portails</h5><a onclick="openModal('login')">Espace Étudiant</a><a onclick="openModal('login')">Espace Professeur</a><a onclick="openModal('login')">Administration</a><a>Bibliothèque</a></div>
       </div>
@@ -631,10 +639,9 @@ tr:hover td { background:var(--gray-50); }
 <div id="view-apply" class="view">
   <nav class="main-nav">
     <div class="nav-brand" onclick="showView('home')">
-      <div class="nav-logo-circle">UPH</div>
+      <img src="uph-logo.png" alt="Logo UPH" class="nav-logo-img" />
       <div class="nav-brand-text">
-        <div class="brand-name">UPH</div>
-        <div class="brand-sub">Université Polyvalente d'Haïti</div>
+        <div class="brand-name">Université Polyvalente d'Haïti</div>
       </div>
     </div>
     <div class="nav-links">
@@ -674,12 +681,13 @@ tr:hover td { background:var(--gray-50); }
           <div class="form-group"><label class="form-label">Faculté *</label>
             <select class="form-select" id="app-faculty">
               <option value="">— Choisir —</option>
-              <option>Sciences et Technologies</option>
-              <option>Médecine & Santé</option>
-              <option>Sciences Économiques</option>
-              <option>Droit & Sciences Politiques</option>
-              <option>Architecture & Génie Civil</option>
-              <option>Agronomie & Environnement</option>
+              <option>Faculté des Sciences Agronomiques</option>
+              <option>Faculté des Sciences Infirmières</option>
+              <option>Faculté des Sciences Administratives</option>
+              <option>Faculté de l'Ingénierie et de l'Architecture</option>
+              <option>Faculté des Sciences Juridiques</option>
+              <option>Faculté de Théologie</option>
+              <option>Faculté des Sciences de l'Éducation</option>
             </select>
           </div>
           <div class="form-group"><label class="form-label">Niveau</label>
@@ -1176,7 +1184,7 @@ tr:hover td { background:var(--gray-50); }
               <div class="form-row">
                 <div class="form-group"><label class="form-label">Faculté</label>
                   <select class="form-select" id="new-std-faculty">
-                    <option>Sciences et Technologies</option><option>Médecine & Santé</option><option>Sciences Économiques</option><option>Droit & Sciences Politiques</option><option>Architecture & Génie Civil</option><option>Agronomie & Environnement</option>
+                    <option>Faculté des Sciences Agronomiques</option><option>Faculté des Sciences Infirmières</option><option>Faculté des Sciences Administratives</option><option>Faculté de l'Ingénierie et de l'Architecture</option><option>Faculté des Sciences Juridiques</option><option>Faculté de Théologie</option><option>Faculté des Sciences de l'Éducation</option>
                   </select>
                 </div>
                 <div class="form-group"><label class="form-label">Semestre</label>
@@ -1235,7 +1243,7 @@ tr:hover td { background:var(--gray-50); }
               </div>
               <div class="form-group" id="new-prof-dept-group"><label class="form-label">Département</label>
                 <select class="form-select" id="new-prof-dept">
-                  <option>Sciences et Technologies</option><option>Médecine &amp; Santé</option><option>Sciences Économiques</option><option>Droit &amp; Sciences Politiques</option>
+                  <option>Faculté des Sciences Agronomiques</option><option>Faculté des Sciences Infirmières</option><option>Faculté des Sciences Administratives</option><option>Faculté de l'Ingénierie et de l'Architecture</option><option>Faculté des Sciences Juridiques</option><option>Faculté de Théologie</option><option>Faculté des Sciences de l'Éducation</option>
                 </select>
               </div>
               <button class="btn-gold" onclick="addProfessor()">Créer le Compte</button>
@@ -1322,7 +1330,8 @@ tr:hover td { background:var(--gray-50); }
           <button class="modal-tab" onclick="setLoginType('admin')">🛠️ Admin</button>
         </div>
         <div class="form-group"><label class="form-label">Email / Identifiant</label><input class="form-input" id="login-email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()" /></div>
-        <div class="form-group"><label class="form-label">Mot de Passe</label><input class="form-input" id="login-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" /></div>
+        <div class="form-group"><label class="form-label">Mot de Passe</label><div style="position:relative;"><input class="form-input" id="login-pass" type="password" placeholder="••••••••" style="padding-right:42px;" onkeydown="if(event.key==='Enter')doLogin()" /><button type="button" id="pass-toggle-btn" onclick="togglePassVisibility()" title="Afficher/masquer le mot de passe" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:17px;padding:0;line-height:1;color:var(--gray-500);">👁️</button></div></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem;"><input type="checkbox" id="login-remember" style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);" /><label for="login-remember" style="font-size:14px;color:var(--gray-600,#555);cursor:pointer;user-select:none;">Se souvenir de moi</label></div>
         <div id="login-error" class="form-error" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;"></div>
         <div style="background:var(--blue-light);border-radius:8px;padding:12px;font-size:13px;color:var(--blue);margin-bottom:1rem;">
           ℹ️ Utilisez vos identifiants UPH. Les étudiants reçoivent leurs accès après approbation de leur candidature.
@@ -1346,7 +1355,7 @@ tr:hover td { background:var(--gray-50); }
         <div class="form-group"><label class="form-label">Mot de Passe * <span style="font-weight:400;font-size:12px;color:var(--gray-500)">(min. 6 caractères)</span></label><input class="form-input" id="reg-prof-pass" type="password" placeholder="••••••••" /></div>
         <div class="form-group"><label class="form-label">Département *</label>
           <select class="form-select" id="reg-prof-dept">
-            <option>Sciences et Technologies</option><option>Médecine &amp; Santé</option><option>Sciences Économiques</option><option>Droit &amp; Sciences Politiques</option><option>Architecture &amp; Génie Civil</option><option>Agronomie &amp; Environnement</option>
+            <option>Faculté des Sciences Agronomiques</option><option>Faculté des Sciences Infirmières</option><option>Faculté des Sciences Administratives</option><option>Faculté de l'Ingénierie et de l'Architecture</option><option>Faculté des Sciences Juridiques</option><option>Faculté de Théologie</option><option>Faculté des Sciences de l'Éducation</option>
           </select>
         </div>
         <div class="form-group"><label class="form-label">Téléphone</label><input class="form-input" id="reg-prof-phone" placeholder="+509 ..." /></div>
@@ -1415,6 +1424,15 @@ function setLoginType(type) {
   });
 }
 
+function togglePassVisibility() {
+  const passEl = document.getElementById('login-pass');
+  const btn    = document.getElementById('pass-toggle-btn');
+  const show   = passEl.type === 'password';
+  passEl.type     = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁️';
+  passEl.focus();
+}
+
 async function doLogin() {
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-pass').value;
@@ -1445,6 +1463,13 @@ async function doLogin() {
     // Success — set global user and route to the right dashboard
     currentUser = data.user;
     logActivity('Connexion', data.user.email, 'Connexion ' + data.user.role);
+    if (document.getElementById('login-remember').checked) {
+      localStorage.setItem('uph_remember_email', data.user.email);
+      localStorage.setItem('uph_remember_role',  data.user.role);
+    } else {
+      localStorage.removeItem('uph_remember_email');
+      localStorage.removeItem('uph_remember_role');
+    }
     closeModal();
     if (data.user.role === 'admin')      { showView('admin');     initAdmin(); }
     else if (data.user.role === 'professor') { showView('prof'); initProfessor(data.user); }
@@ -1461,6 +1486,10 @@ async function doLogin() {
 function logout() {
   currentUser = null;
   studentData = null;
+  const passEl = document.getElementById('login-pass');
+  if (passEl) { passEl.value = ''; passEl.type = 'password'; }
+  const btn = document.getElementById('pass-toggle-btn');
+  if (btn) btn.textContent = '👁️';
   showView('home');
   toast('Déconnexion réussie.', '');
 }
@@ -1503,10 +1532,23 @@ function showView(name) {
 
 function openModal(name) {
   document.getElementById(name+'-modal').classList.add('active');
-  if (name === 'login') setLoginType('student');
+  if (name === 'login') {
+    const remEmail = localStorage.getItem('uph_remember_email');
+    const remRole  = localStorage.getItem('uph_remember_role');
+    document.getElementById('login-email').value          = remEmail || '';
+    document.getElementById('login-pass').value           = '';
+    document.getElementById('login-pass').type            = 'password';
+    document.getElementById('pass-toggle-btn').textContent = '👁️';
+    document.getElementById('login-remember').checked     = !!remEmail;
+    setLoginType(remRole || 'student');
+  }
 }
 function closeModal() {
   document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+  const passEl = document.getElementById('login-pass');
+  if (passEl) { passEl.value = ''; passEl.type = 'password'; }
+  const btn = document.getElementById('pass-toggle-btn');
+  if (btn) btn.textContent = '👁️';
 }
 
 // ============================================================
