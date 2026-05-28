@@ -2140,9 +2140,30 @@ async function initProfessor(user) {
   document.getElementById('prof-dept').textContent        = dept;
   document.getElementById('prof-topbar-user').textContent = name.split(' ')[0];
 
-  // Load courses assigned to this professor from MySQL
-  if (user.prof_id) {
-    await loadProfCourseSelects(user.prof_id);
+  // Resolve prof_id: use login response or fallback to by-user lookup
+  if (!user.prof_id && user.id) {
+    console.log('[initProfessor] prof_id missing — resolving by user_id:', user.id);
+    try {
+      const res  = await fetch(API_BASE + '/api/professors/by-user/' + user.id);
+      const data = await res.json();
+      console.log('[initProfessor] by-user lookup:', data);
+      if (data.success && data.data) {
+        user.prof_id    = data.data.id;
+        user.department = user.department || data.data.department;
+        currentUser.prof_id    = data.data.id;
+        currentUser.department = currentUser.department || data.data.department;
+        document.getElementById('prof-dept').textContent = currentUser.department || '';
+      }
+    } catch (e) {
+      console.error('[initProfessor] by-user lookup failed:', e);
+    }
+  }
+
+  if (currentUser.prof_id) {
+    console.log('[initProfessor] prof_id resolved:', currentUser.prof_id);
+    await loadProfCourseSelects(currentUser.prof_id);
+  } else {
+    console.warn('[initProfessor] no prof_id — compte non approuvé ou profil manquant.');
   }
 
   renderProfPanel('dashboard');
@@ -2165,12 +2186,12 @@ async function loadProfCourseSelects(profId) {
 
 function renderProfPanel(panel) {
   if (!currentUser) return;
-  console.log('[renderProfPanel] panel:', panel);
+  console.log('[renderProfPanel] panel:', panel, '| prof_id:', currentUser.prof_id);
   if (panel === 'dashboard') renderProfDashboard();
   if (panel === 'profile')   renderProfProfile();
   if (panel === 'courses')   renderProfCourses();
-  if (panel === 'students')  renderProfStudents();
-  if (panel === 'grades')    renderGradeInput();
+  if (panel === 'students')  { if (currentUser.prof_id) loadProfCourseSelects(currentUser.prof_id); renderProfStudents(); }
+  if (panel === 'grades')    { if (currentUser.prof_id) loadProfCourseSelects(currentUser.prof_id).then(renderGradeInput); else renderGradeInput(); }
   if (panel === 'schedule')  renderSchedule('prof-schedule-grid', null);
   if (panel === 'messages')  renderMessages('prof');
 }
@@ -2178,8 +2199,12 @@ function renderProfPanel(panel) {
 async function renderProfDashboard() {
   if (!currentUser || !currentUser.prof_id) {
     ['prof-stat-courses','prof-stat-students','prof-stat-grades','prof-stat-ungraded'].forEach(id => {
-      const el = document.getElementById(id); if (el) el.textContent = '—';
+      const el = document.getElementById(id); if (el) el.textContent = '0';
     });
+    const ov = document.getElementById('prof-courses-overview');
+    if (ov) ov.innerHTML = '<div class="offline-banner" style="background:var(--gold-pale,#fdf5e1);border-color:var(--gold);color:#7a5c00;">⚠️ Votre profil professeur n\'est pas encore lié. Contactez l\'administration.</div>';
+    const act = document.getElementById('prof-activity');
+    if (act) act.innerHTML = '<p class="text-muted" style="padding:1rem">En attente d\'activation du compte.</p>';
     return;
   }
   try {
@@ -2218,41 +2243,51 @@ async function renderProfDashboard() {
 async function renderProfCourses() {
   if (!currentUser || !currentUser.prof_id) return;
   const container = document.getElementById('prof-courses-list');
-  container.innerHTML = '<p style="color:var(--gray-500);padding:1rem">Chargement...</p>';
+  container.innerHTML = '<p style="color:var(--gray-500);padding:1rem">Chargement des cours MySQL...</p>';
   try {
     const res  = await fetch(API_BASE + '/api/professors/' + currentUser.prof_id + '/courses');
     const data = await res.json();
+    console.log('[renderProfCourses] prof_id:', currentUser.prof_id, 'courses:', data);
     const courses = data.success ? data.data : [];
     container.innerHTML = courses.map(c => `
       <div class="course-card">
         <div class="course-card-code">${c.code}</div>
         <div class="course-card-name">${c.name}</div>
-        <div class="course-card-info"><span>📚 ${c.credits} crédits</span><span>👥 ${c.enrolled_count} étudiants</span><span style="font-size:12px">${c.faculty.substring(0,18)}</span></div>
-        <div style="margin-top:1rem"><span class="badge badge-green">Actif</span></div>
-      </div>`).join('') || '<div class="empty-state"><div class="empty-icon">📚</div><h3>Aucun cours assigné.</h3></div>';
+        <div class="course-card-info">
+          <span>📚 ${c.credits} cr.</span>
+          <span>👥 ${c.enrolled_count || 0} inscrits</span>
+          <span style="font-size:11px;color:var(--gray-400)">${c.faculty.replace('Faculté des ','').replace('Faculté de ','').replace("Faculté d'",'')}</span>
+        </div>
+        <div style="margin-top:1rem"><span class="badge badge-green">✓ Actif</span></div>
+      </div>`).join('') ||
+      '<div class="empty-state"><div class="empty-icon">📚</div><h3>Aucun cours assigné pour le moment.</h3><p style="color:var(--gray-500);font-size:14px">Un administrateur doit vous assigner des cours via Admin → Cours.</p></div>';
   } catch (err) {
-    container.innerHTML = '<p style="color:var(--red);padding:1rem">Erreur de chargement.</p>';
+    console.error('[renderProfCourses] error:', err);
+    container.innerHTML = '<div class="offline-banner">Erreur de chargement des cours: ' + err.message + '</div>';
   }
 }
 
 async function renderProfStudents() {
   if (!currentUser || !currentUser.prof_id) return;
-  const tbody       = document.getElementById('prof-students-body');
+  const tbody        = document.getElementById('prof-students-body');
   const filterCourse = document.getElementById('prof-filter-course')?.value || '';
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:1.5rem">Chargement...</td></tr>';
   try {
     const res  = await fetch(API_BASE + '/api/professors/' + currentUser.prof_id + '/students');
     const data = await res.json();
+    console.log('[renderProfStudents] prof_id:', currentUser.prof_id, 'data:', data);
     if (!data.success) throw new Error(data.message);
     let rows = data.data;
     if (filterCourse) rows = rows.filter(r => String(r.course_id) === String(filterCourse));
-    tbody.innerHTML = rows.map(s => `<tr>
-      <td><div style="font-weight:600">${s.name}</div><div class="text-sm" style="color:var(--gray-500)">${s.email}</div></td>
-      <td style="font-family:var(--font-mono);font-size:13px">${s.student_code}</td>
-      <td>${s.course_name}</td>
-      <td>${s.grade != null ? '<span style="font-weight:700;color:' + (Number(s.grade)>=14?'var(--blue)':'var(--orange)') + '">' + s.grade + '/20</span>' : '—'}</td>
-      <td><span class="badge badge-green">Actif</span></td>
-    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">Aucun étudiant inscrit.</td></tr>';
+    tbody.innerHTML = rows.length
+      ? rows.map(s => `<tr>
+          <td><div style="font-weight:600">${s.name}</div><div class="text-sm" style="color:var(--gray-500)">${s.email}</div></td>
+          <td style="font-family:var(--font-mono);font-size:13px;color:var(--gold)">${s.student_code}</td>
+          <td style="font-size:13px">${s.course_name}</td>
+          <td>${s.grade != null ? '<span style="font-weight:700;color:' + (Number(s.grade)>=14?'var(--blue)':'var(--orange)') + '">' + s.grade + '/20</span>' : '<span class="text-muted">—</span>'}</td>
+          <td><span class="badge badge-green">Actif</span></td>
+        </tr>`).join('')
+      : '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">Aucun étudiant inscrit dans vos cours.</td></tr>';
   } catch (err) {
     console.error('[renderProfStudents] error:', err);
     tbody.innerHTML = '<tr><td colspan="5" style="color:var(--red);padding:1rem">Erreur: ' + err.message + '</td></tr>';
@@ -2262,8 +2297,9 @@ async function renderProfStudents() {
 async function renderGradeInput() {
   const courseId = document.getElementById('grade-course-select')?.value || '';
   const tbody    = document.getElementById('grade-input-body');
+  console.log('[renderGradeInput] prof_id:', currentUser?.prof_id, 'course_id:', courseId);
   if (!courseId) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">Sélectionnez un cours.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">Sélectionnez un cours pour voir les étudiants.</td></tr>';
     return;
   }
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:1rem">Chargement...</td></tr>';
@@ -2303,7 +2339,10 @@ async function saveGrade(studentId, courseId, btn) {
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     toast('Note ' + val + '/20 sauvegardée! ✅', 'success');
+    console.log('[saveGrade] saved — refreshing grade input and student list');
     renderGradeInput();
+    // Also refresh students panel so grade column updates there too
+    if (document.getElementById('prof-students')?.classList.contains('active')) renderProfStudents();
   } catch (err) {
     console.error('[saveGrade] error:', err);
     toast('Erreur: ' + err.message, '');

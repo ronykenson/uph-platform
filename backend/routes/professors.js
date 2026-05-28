@@ -44,6 +44,26 @@ router.get('/pending', async (req, res) => {
   }
 });
 
+// GET /api/professors/by-user/:user_id  —  resolve professor record by users.id
+// Must be declared BEFORE /:id so Express does not treat "by-user" as a numeric id.
+router.get('/by-user/:user_id', async (req, res) => {
+  try {
+    const [[prof]] = await db.query(`
+      SELECT p.*, u.name, u.email
+      FROM   professors p
+      JOIN   users u ON u.id = p.user_id
+      WHERE  p.user_id = ?
+    `, [req.params.user_id]);
+    if (!prof) {
+      return res.status(404).json({ success: false, message: 'Aucun profil professeur pour cet utilisateur.' });
+    }
+    console.log(`[professors/by-user] user_id=${req.params.user_id} → prof_id=${prof.id}, status=${prof.status}`);
+    res.json({ success: true, data: prof });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // GET /api/professors/:id  —  single professor profile
 router.get('/:id', async (req, res) => {
   try {
