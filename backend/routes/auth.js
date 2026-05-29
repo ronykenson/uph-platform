@@ -159,4 +159,96 @@ router.post('/register-professor', async (req, res) => {
   }
 });
 
+// ------------------------------------------------------------
+//  POST /api/auth/change-password
+//  Body: { user_id, current_password, new_password }
+//  Verifies current password, then updates to new SHA-256 hash.
+// ------------------------------------------------------------
+router.post('/change-password', async (req, res) => {
+  const { user_id, current_password, new_password } = req.body;
+  if (!user_id || !current_password || !new_password) {
+    return res.status(400).json({ success: false, message: 'Tous les champs sont requis.' });
+  }
+  if (new_password.length < 8) {
+    return res.status(400).json({ success: false, message: 'Le nouveau mot de passe doit comporter au moins 8 caractères.' });
+  }
+  try {
+    const [[user]] = await db.query('SELECT id, password FROM users WHERE id = ?', [user_id]);
+    if (!user) return res.status(404).json({ success: false, message: 'Utilisateur introuvable.' });
+    if (sha256(current_password) !== user.password) {
+      return res.status(401).json({ success: false, message: 'Mot de passe actuel incorrect.' });
+    }
+    await db.query('UPDATE users SET password = ? WHERE id = ?', [sha256(new_password), user_id]);
+    console.log(`[change-password] user=${user_id} → password updated`);
+    res.json({ success: true, message: 'Mot de passe modifié avec succès.' });
+  } catch (err) {
+    console.error('[change-password] error:', err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ------------------------------------------------------------
+//  POST /api/auth/forgot-password
+//  Body: { email }
+//  Generates a 6-digit reset code (10-min TTL), logs it to console.
+//  Returns dev_code in response for testing (remove when SMTP is configured).
+// ------------------------------------------------------------
+router.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ success: false, message: 'Email requis.' });
+  try {
+    const [[user]] = await db.query('SELECT id, name, email FROM users WHERE email = ?', [email]);
+    if (!user) {
+      // Don't reveal whether email exists in production
+      return res.json({ success: true, message: 'Si cet email est enregistré, un code a été envoyé.' });
+    }
+    const code      = String(Math.floor(100000 + Math.random() * 900000));
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    // Invalidate any prior unused codes for this user
+    await db.query('UPDATE password_resets SET used = 1 WHERE user_id = ? AND used = 0', [user.id]);
+    await db.query(
+      'INSERT INTO password_resets (user_id, email, code, expires_at) VALUES (?, ?, ?, ?)',
+      [user.id, user.email, code, expiresAt]
+    );
+    console.log(`[forgot-password] user=${user.id} email=${user.email} → code=${code} (valid 10 min)`);
+    res.json({ success: true, message: 'Code de réinitialisation généré.', dev_code: code });
+  } catch (err) {
+    console.error('[forgot-password] error:', err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ------------------------------------------------------------
+//  POST /api/auth/reset-password
+//  Body: { email, code, new_password }
+//  Validates code, updates password, marks code as used.
+// ------------------------------------------------------------
+router.post('/reset-password', async (req, res) => {
+  const { email, code, new_password } = req.body;
+  if (!email || !code || !new_password) {
+    return res.status(400).json({ success: false, message: 'Email, code et nouveau mot de passe requis.' });
+  }
+  if (new_password.length < 8) {
+    return res.status(400).json({ success: false, message: 'Le mot de passe doit comporter au moins 8 caractères.' });
+  }
+  try {
+    const [[reset]] = await db.query(
+      `SELECT r.id, r.user_id FROM password_resets r
+       WHERE  r.email = ? AND r.code = ? AND r.used = 0 AND r.expires_at > NOW()
+       ORDER  BY r.created_at DESC LIMIT 1`,
+      [email, code]
+    );
+    if (!reset) {
+      return res.status(400).json({ success: false, message: 'Code invalide ou expiré. Faites une nouvelle demande.' });
+    }
+    await db.query('UPDATE users          SET password = ? WHERE id = ?', [sha256(new_password), reset.user_id]);
+    await db.query('UPDATE password_resets SET used = 1   WHERE id = ?', [reset.id]);
+    console.log(`[reset-password] user=${reset.user_id} → password reset successfully`);
+    res.json({ success: true, message: 'Mot de passe réinitialisé avec succès.' });
+  } catch (err) {
+    console.error('[reset-password] error:', err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 module.exports = router;

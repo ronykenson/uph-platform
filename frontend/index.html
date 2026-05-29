@@ -407,8 +407,10 @@ tr:hover td { background:var(--gray-50); }
   .dash-sidebar { position:fixed; left:-260px; z-index:500; transition:var(--transition); }
   .dash-sidebar.open { left:0; }
   .dash-main { margin-left:0; }
-  .nav-brand-text .brand-name { font-size: 16px; }
-  .nav-logo-img { height: 44px; width: 44px; }
+  .nav-brand-text .brand-name { font-size:17px; }
+  .nav-logo-img { height:46px; width:46px; }
+  .nav-brand { flex:1; min-width:0; }
+  .nav-links { flex-shrink:0; }
 }
 
 /* ===== CHARTS (pure CSS) ===== */
@@ -506,8 +508,12 @@ tr:hover td { background:var(--gray-50); }
 @media (max-width: 480px) {
   .modal { width: calc(100vw - 24px); max-height: calc(100vh - 40px); overflow-y: auto; border-radius: 12px; margin: 12px; }
   .hero-title { font-size: 28px; }
-  .nav-brand-text .brand-name { font-size: 13px; }
-  .nav-logo-img { height: 38px; width: 38px; }
+  .hero-desc { font-size: 16px; }
+  nav.main-nav { padding: 0 1rem; }
+  .nav-brand-text .brand-name { font-size: 15px; }
+  .nav-logo-img { height: 40px; width: 40px; }
+  .nav-btn { padding: 8px 14px; font-size: 13px; }
+  .section { padding: 70px 1.25rem; }
   .profile-info { padding: 2.5rem 1rem 1.5rem; }
   .card-body { padding: 1rem; }
   .activity-row { flex-wrap: wrap; gap: 6px; }
@@ -520,7 +526,7 @@ tr:hover td { background:var(--gray-50); }
 <div id="view-home" class="view active">
   <nav class="main-nav">
     <div class="nav-brand" onclick="showView('home')">
-      <img src="uph-logo.png" alt="Logo UPH" class="nav-logo-img" />
+      <img src="uph-logo.svg" alt="Logo UPH" class="nav-logo-img" />
       <div class="nav-brand-text">
         <div class="brand-name">Université Polyvalente d'Haïti</div>
       </div>
@@ -580,7 +586,7 @@ tr:hover td { background:var(--gray-50); }
           <p class="section-desc" style="max-width:100%;">Depuis 2000, l'UPH s'engage à offrir une éducation de qualité, accessible et tournée vers l'avenir d'Haïti. Nos diplômés occupent des postes clés dans les secteurs public et privé.</p>
           <ul class="about-features" style="margin-top:1.5rem;">
             <li>Corps professoral hautement qualifié (PhDs internationaux)</li>
-            <li>Partenariats avec des universités en France et aux États-Unis</li>
+            <li>Partenariats avec des universités en France, au Canada et aux États-Unis</li>
             <li>Laboratoires modernes et bibliothèque numérique</li>
             <li>Programme de bourses pour étudiants méritants</li>
             <li>Insertion professionnelle accompagnée</li>
@@ -607,10 +613,11 @@ tr:hover td { background:var(--gray-50); }
     <div class="section-inner">
       <div class="section-label">Actualités</div>
       <h2 class="section-title">Vie du Campus</h2>
-      <div class="news-grid">
-        <div class="news-card"><div class="news-img" style="background:rgba(201,168,76,0.1)">🎓</div><div class="news-body"><div class="news-tag">Académique</div><h4>Remise des diplômes — Promotion 2024</h4><p>Plus de 600 diplômés ont reçu leurs parchemins lors d'une cérémonie grandiose.</p><div class="news-date">15 Janvier 2025</div></div></div>
-        <div class="news-card"><div class="news-img" style="background:rgba(30,58,95,0.2)">🔬</div><div class="news-body"><div class="news-tag">Recherche</div><h4>Nouveau Laboratoire de Biotechnologie Inauguré</h4><p>Un investissement de 2M$ pour renforcer la recherche scientifique à l'UPH.</p><div class="news-date">8 Février 2025</div></div></div>
-        <div class="news-card"><div class="news-img" style="background:rgba(26,122,74,0.1)">🌍</div><div class="news-body"><div class="news-tag">Partenariat</div><h4>Accord de Coopération avec l'Université de Paris</h4><p>Échanges d'étudiants et de professeurs pour renforcer l'excellence académique.</p><div class="news-date">20 Mars 2025</div></div></div>
+      <div style="margin-top:3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 2rem;border:1px solid rgba(201,168,76,0.2);border-radius:16px;background:rgba(255,255,255,0.02);text-align:center;">
+        <div style="font-size:48px;margin-bottom:1.25rem;opacity:0.6;">📰</div>
+        <h3 style="font-family:var(--font-display);font-size:22px;color:var(--gold-light);font-weight:600;margin-bottom:0.75rem;">Contenu bientôt disponible</h3>
+        <p style="font-size:15px;color:rgba(255,255,255,0.4);max-width:420px;line-height:1.7;">Les actualités et informations sur la vie du campus de l'UPH seront publiées prochainement. Revenez bientôt.</p>
+        <div style="margin-top:1.5rem;width:40px;height:2px;background:var(--gold);border-radius:1px;opacity:0.5;"></div>
       </div>
     </div>
   </section>
@@ -639,7 +646,7 @@ tr:hover td { background:var(--gray-50); }
 <div id="view-apply" class="view">
   <nav class="main-nav">
     <div class="nav-brand" onclick="showView('home')">
-      <img src="uph-logo.png" alt="Logo UPH" class="nav-logo-img" />
+      <img src="uph-logo.svg" alt="Logo UPH" class="nav-logo-img" />
       <div class="nav-brand-text">
         <div class="brand-name">Université Polyvalente d'Haïti</div>
       </div>
@@ -808,6 +815,26 @@ tr:hover td { background:var(--gray-50); }
               </div>
             </div>
           </div>
+          <!-- Change Password Card — Student -->
+          <div class="card mt-3">
+            <div class="card-header">
+              <span class="card-title">🔐 Sécurité</span>
+              <button class="btn-sm" onclick="toggleChangePass('std')" style="background:none;border:1px solid var(--gray-300);border-radius:6px;padding:5px 12px;cursor:pointer;font-size:13px;font-family:var(--font-body);">Changer le mot de passe</button>
+            </div>
+            <div id="std-change-pass-form" style="display:none;">
+              <div class="card-body">
+                <div class="form-group"><label class="form-label">Mot de passe actuel</label><div style="position:relative;"><input class="form-input" type="password" id="std-curr-pass" placeholder="••••••••" style="padding-right:40px;" /><button type="button" onclick="toggleFieldPass('std-curr-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-500);">👁️</button></div></div>
+                <div class="form-group"><label class="form-label">Nouveau mot de passe <span style="font-size:12px;color:var(--gray-500)">(min. 8 caractères)</span></label><div style="position:relative;"><input class="form-input" type="password" id="std-new-pass" placeholder="••••••••" style="padding-right:40px;" /><button type="button" onclick="toggleFieldPass('std-new-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-500);">👁️</button></div></div>
+                <div class="form-group"><label class="form-label">Confirmer le nouveau mot de passe</label><input class="form-input" type="password" id="std-confirm-pass" placeholder="••••••••" /></div>
+                <div id="std-pass-err" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;font-size:13px;color:var(--red,#c0392b);"></div>
+                <div style="display:flex;gap:1rem;">
+                  <button class="btn-gold" onclick="changePassword('std')">🔐 Modifier</button>
+                  <button onclick="toggleChangePass('std')" style="background:none;border:1px solid var(--gray-300);border-radius:6px;padding:8px 16px;cursor:pointer;font-size:14px;">Annuler</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Inline edit form -->
           <div class="card mt-3" id="std-edit-card" style="display:none;">
             <div class="card-header"><span class="card-title">✏️ Modifier mon Profil</span></div>
@@ -1009,6 +1036,25 @@ tr:hover td { background:var(--gray-50); }
               <div class="profile-details" id="prof-profile-details"></div>
             </div>
           </div>
+          <!-- Change Password Card — Professor -->
+          <div class="card mt-3">
+            <div class="card-header">
+              <span class="card-title">🔐 Sécurité</span>
+              <button class="btn-sm" onclick="toggleChangePass('prof')" style="background:none;border:1px solid var(--gray-300);border-radius:6px;padding:5px 12px;cursor:pointer;font-size:13px;font-family:var(--font-body);">Changer le mot de passe</button>
+            </div>
+            <div id="prof-change-pass-form" style="display:none;">
+              <div class="card-body">
+                <div class="form-group"><label class="form-label">Mot de passe actuel</label><div style="position:relative;"><input class="form-input" type="password" id="prof-curr-pass" placeholder="••••••••" style="padding-right:40px;" /><button type="button" onclick="toggleFieldPass('prof-curr-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-500);">👁️</button></div></div>
+                <div class="form-group"><label class="form-label">Nouveau mot de passe <span style="font-size:12px;color:var(--gray-500)">(min. 8 caractères)</span></label><div style="position:relative;"><input class="form-input" type="password" id="prof-new-pass" placeholder="••••••••" style="padding-right:40px;" /><button type="button" onclick="toggleFieldPass('prof-new-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-500);">👁️</button></div></div>
+                <div class="form-group"><label class="form-label">Confirmer le nouveau mot de passe</label><input class="form-input" type="password" id="prof-confirm-pass" placeholder="••••••••" /></div>
+                <div id="prof-pass-err" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;font-size:13px;color:var(--red,#c0392b);"></div>
+                <div style="display:flex;gap:1rem;">
+                  <button class="btn-gold" onclick="changePassword('prof')">🔐 Modifier</button>
+                  <button onclick="toggleChangePass('prof')" style="background:none;border:1px solid var(--gray-300);border-radius:6px;padding:8px 16px;cursor:pointer;font-size:14px;">Annuler</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- PROF: COURSES -->
@@ -1111,6 +1157,7 @@ tr:hover td { background:var(--gray-50); }
         <div class="dash-nav-section">Système</div>
         <button class="dash-nav-item" onclick="showPanel('admin','messages')"><span class="dash-nav-icon">✉️</span> Messages</button>
         <button class="dash-nav-item" onclick="showPanel('admin','activity')"><span class="dash-nav-icon">📈</span> Activité</button>
+        <button class="dash-nav-item" onclick="showPanel('admin','account')"><span class="dash-nav-icon">🔐</span> Mon Compte</button>
       </nav>
       <div class="dash-sidebar-footer">
         <button class="btn-logout" onclick="logout()">🚪 Déconnexion</button>
@@ -1341,6 +1388,20 @@ tr:hover td { background:var(--gray-50); }
           </div>
         </div>
 
+        <!-- ADMIN: ACCOUNT / SECURITY -->
+        <div class="dash-panel" id="admin-account">
+          <div class="card" style="max-width:520px;">
+            <div class="card-header"><span class="card-title">🔐 Sécurité — Changer le Mot de Passe</span></div>
+            <div class="card-body">
+              <div class="form-group"><label class="form-label">Mot de passe actuel</label><div style="position:relative;"><input class="form-input" type="password" id="adm-curr-pass" placeholder="••••••••" style="padding-right:40px;" /><button type="button" onclick="toggleFieldPass('adm-curr-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-500);">👁️</button></div></div>
+              <div class="form-group"><label class="form-label">Nouveau mot de passe <span style="font-size:12px;color:var(--gray-500)">(min. 8 caractères)</span></label><div style="position:relative;"><input class="form-input" type="password" id="adm-new-pass" placeholder="••••••••" style="padding-right:40px;" /><button type="button" onclick="toggleFieldPass('adm-new-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-500);">👁️</button></div></div>
+              <div class="form-group"><label class="form-label">Confirmer le nouveau mot de passe</label><input class="form-input" type="password" id="adm-confirm-pass" placeholder="••••••••" /></div>
+              <div id="adm-pass-err" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;font-size:13px;color:var(--red,#c0392b);"></div>
+              <button class="btn-gold" onclick="changePassword('adm')">🔐 Modifier le mot de passe</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
@@ -1365,7 +1426,10 @@ tr:hover td { background:var(--gray-50); }
         </div>
         <div class="form-group"><label class="form-label">Email / Identifiant</label><input class="form-input" id="login-email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()" /></div>
         <div class="form-group"><label class="form-label">Mot de Passe</label><div style="position:relative;"><input class="form-input" id="login-pass" type="password" placeholder="••••••••" style="padding-right:42px;" onkeydown="if(event.key==='Enter')doLogin()" /><button type="button" id="pass-toggle-btn" onclick="togglePassVisibility()" title="Afficher/masquer le mot de passe" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:17px;padding:0;line-height:1;color:var(--gray-500);">👁️</button></div></div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem;"><input type="checkbox" id="login-remember" style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);" /><label for="login-remember" style="font-size:14px;color:var(--gray-600,#555);cursor:pointer;user-select:none;">Se souvenir de moi</label></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+          <div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="login-remember" style="width:16px;height:16px;cursor:pointer;accent-color:var(--navy);" /><label for="login-remember" style="font-size:14px;color:var(--gray-600,#555);cursor:pointer;user-select:none;">Se souvenir de moi</label></div>
+          <a href="#" onclick="showForgotPassword()" style="font-size:13px;color:var(--navy);text-decoration:none;font-weight:500;">Mot de passe oublié ?</a>
+        </div>
         <div id="login-error" class="form-error" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;"></div>
         <div style="background:var(--blue-light);border-radius:8px;padding:12px;font-size:13px;color:var(--blue);margin-bottom:1rem;">
           ℹ️ Utilisez vos identifiants UPH. Les étudiants reçoivent leurs accès après approbation de leur candidature.
@@ -1398,6 +1462,30 @@ tr:hover td { background:var(--gray-50); }
         <button class="btn-gold" onclick="submitProfRegistration()">📤 Envoyer la Demande</button>
         <div class="form-divider"></div>
         <p style="text-align:center;font-size:13px;"><a href="#" onclick="hideProfRegistration()" style="color:var(--navy);font-weight:600;">← Retour à la connexion</a></p>
+      </div>
+
+      <!-- ── Forgot password panel ── -->
+      <div id="forgot-pass-panel" style="display:none;">
+        <h3 style="margin-bottom:0.5rem;font-size:17px;font-weight:700;color:var(--navy);">🔑 Mot de passe oublié</h3>
+        <p style="font-size:14px;color:var(--gray-500);margin-bottom:1.5rem;">Entrez votre email UPH pour recevoir un code de réinitialisation.</p>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="forgot-email" type="email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')submitForgotPassword()" /></div>
+        <div id="forgot-error" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;font-size:13px;color:var(--red,#c0392b);"></div>
+        <button class="btn-primary" onclick="submitForgotPassword()">📤 Envoyer le code</button>
+        <div class="form-divider"></div>
+        <p style="text-align:center;font-size:13px;"><a href="#" onclick="hideForgotPassword()" style="color:var(--navy);font-weight:600;">← Retour à la connexion</a></p>
+      </div>
+
+      <!-- ── Reset password panel ── -->
+      <div id="reset-pass-panel" style="display:none;">
+        <h3 style="margin-bottom:0.5rem;font-size:17px;font-weight:700;color:var(--navy);">🔐 Nouveau mot de passe</h3>
+        <div id="reset-dev-code" style="display:none;background:var(--gold-pale,#fdf5e1);border:1px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:15px;font-weight:700;text-align:center;margin-bottom:1rem;color:var(--navy);letter-spacing:2px;"></div>
+        <div class="form-group"><label class="form-label">Code reçu (6 chiffres)</label><input class="form-input" id="reset-code" type="text" maxlength="6" placeholder="123456" style="letter-spacing:4px;font-size:20px;text-align:center;" /></div>
+        <div class="form-group"><label class="form-label">Nouveau mot de passe <span style="font-size:12px;color:var(--gray-500)">(min. 8 caractères)</span></label><div style="position:relative;"><input class="form-input" type="password" id="reset-new-pass" placeholder="••••••••" style="padding-right:40px;" /><button type="button" onclick="toggleFieldPass('reset-new-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-500);">👁️</button></div></div>
+        <div class="form-group"><label class="form-label">Confirmer le nouveau mot de passe</label><input class="form-input" type="password" id="reset-confirm-pass" placeholder="••••••••" /></div>
+        <div id="reset-error" style="display:none;margin-bottom:1rem;padding:10px 12px;background:var(--red-light);border-radius:8px;font-size:13px;color:var(--red,#c0392b);"></div>
+        <button class="btn-primary" onclick="submitResetPassword()">✅ Réinitialiser le mot de passe</button>
+        <div class="form-divider"></div>
+        <p style="text-align:center;font-size:13px;"><a href="#" onclick="hideForgotPassword()" style="color:var(--navy);font-weight:600;">← Retour à la connexion</a></p>
       </div>
 
     </div>
@@ -1466,6 +1554,142 @@ function togglePassVisibility() {
   passEl.type     = show ? 'text' : 'password';
   btn.textContent = show ? '🙈' : '👁️';
   passEl.focus();
+}
+
+// Toggle visibility for any password field (inline eye buttons)
+function toggleFieldPass(inputId, btn) {
+  const el = document.getElementById(inputId);
+  const show = el.type === 'password';
+  el.type = show ? 'text' : 'password';
+  btn.textContent = show ? '🙈' : '👁️';
+}
+
+// Show/hide change-password form per portal prefix (std / prof / adm)
+function toggleChangePass(prefix) {
+  const form = document.getElementById(prefix + '-change-pass-form');
+  if (!form) return;
+  const open = form.style.display === 'none';
+  form.style.display = open ? 'block' : 'none';
+  if (!open) {
+    // Clear fields when closing
+    ['curr-pass','new-pass','confirm-pass'].forEach(f => {
+      const el = document.getElementById(prefix + '-' + f); if (el) el.value = '';
+    });
+    const err = document.getElementById(prefix + '-pass-err'); if (err) err.style.display = 'none';
+  }
+}
+
+// Change password — shared by student (std), professor (prof), admin (adm)
+async function changePassword(prefix) {
+  const curr    = document.getElementById(prefix + '-curr-pass')?.value    || '';
+  const newPass = document.getElementById(prefix + '-new-pass')?.value     || '';
+  const confirm = document.getElementById(prefix + '-confirm-pass')?.value || '';
+  const errEl   = document.getElementById(prefix + '-pass-err');
+  errEl.style.display = 'none';
+
+  if (!curr || !newPass || !confirm) {
+    errEl.textContent = 'Veuillez remplir tous les champs.'; errEl.style.display = 'block'; return;
+  }
+  if (newPass.length < 8) {
+    errEl.textContent = 'Le nouveau mot de passe doit comporter au moins 8 caractères.'; errEl.style.display = 'block'; return;
+  }
+  if (newPass !== confirm) {
+    errEl.textContent = 'Les mots de passe ne correspondent pas.'; errEl.style.display = 'block'; return;
+  }
+  try {
+    const res  = await fetch(API_BASE + '/api/auth/change-password', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ user_id: currentUser.id, current_password: curr, new_password: newPass })
+    });
+    const data = await res.json();
+    if (!data.success) { errEl.textContent = data.message; errEl.style.display = 'block'; return; }
+    // Clear fields on success
+    ['curr-pass','new-pass','confirm-pass'].forEach(f => {
+      const el = document.getElementById(prefix + '-' + f); if (el) { el.value = ''; el.type = 'password'; }
+    });
+    toggleChangePass(prefix);
+    toast('✅ Mot de passe modifié avec succès!', 'success');
+  } catch (err) {
+    errEl.textContent = 'Erreur réseau: ' + err.message; errEl.style.display = 'block';
+  }
+}
+
+// ── Forgot / Reset password flow ──
+function showForgotPassword() {
+  document.getElementById('login-main-content').style.display = 'none';
+  document.getElementById('prof-reg-panel').style.display     = 'none';
+  document.getElementById('forgot-pass-panel').style.display  = 'block';
+  document.getElementById('reset-pass-panel').style.display   = 'none';
+  document.getElementById('forgot-email').value               = '';
+  const err = document.getElementById('forgot-error'); if (err) err.style.display = 'none';
+}
+
+function hideForgotPassword() {
+  document.getElementById('login-main-content').style.display = 'block';
+  document.getElementById('forgot-pass-panel').style.display  = 'none';
+  document.getElementById('reset-pass-panel').style.display   = 'none';
+  ['forgot-email','reset-code','reset-new-pass','reset-confirm-pass'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  const devEl = document.getElementById('reset-dev-code'); if (devEl) devEl.style.display = 'none';
+}
+
+async function submitForgotPassword() {
+  const email = document.getElementById('forgot-email').value.trim();
+  const errEl = document.getElementById('forgot-error');
+  errEl.style.display = 'none';
+  if (!email) { errEl.textContent = 'Entrez votre email.'; errEl.style.display = 'block'; return; }
+  try {
+    const res  = await fetch(API_BASE + '/api/auth/forgot-password', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (!data.success) { errEl.textContent = data.message; errEl.style.display = 'block'; return; }
+    window._resetEmail = email;
+    document.getElementById('forgot-pass-panel').style.display = 'none';
+    document.getElementById('reset-pass-panel').style.display  = 'block';
+    const devEl = document.getElementById('reset-dev-code');
+    if (data.dev_code) {
+      devEl.textContent   = '🔑 Code: ' + data.dev_code;
+      devEl.style.display = 'block';
+    }
+    const codeEl = document.getElementById('reset-error'); if (codeEl) codeEl.style.display = 'none';
+  } catch (err) {
+    errEl.textContent = 'Erreur réseau: ' + err.message; errEl.style.display = 'block';
+  }
+}
+
+async function submitResetPassword() {
+  const code    = document.getElementById('reset-code').value.trim();
+  const newPass = document.getElementById('reset-new-pass').value;
+  const confirm = document.getElementById('reset-confirm-pass').value;
+  const errEl   = document.getElementById('reset-error');
+  errEl.style.display = 'none';
+  if (!code || !newPass || !confirm) {
+    errEl.textContent = 'Veuillez remplir tous les champs.'; errEl.style.display = 'block'; return;
+  }
+  if (newPass.length < 8) {
+    errEl.textContent = 'Le mot de passe doit comporter au moins 8 caractères.'; errEl.style.display = 'block'; return;
+  }
+  if (newPass !== confirm) {
+    errEl.textContent = 'Les mots de passe ne correspondent pas.'; errEl.style.display = 'block'; return;
+  }
+  try {
+    const res  = await fetch(API_BASE + '/api/auth/reset-password', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email: window._resetEmail, code, new_password: newPass })
+    });
+    const data = await res.json();
+    if (!data.success) { errEl.textContent = data.message; errEl.style.display = 'block'; return; }
+    toast('✅ Mot de passe réinitialisé! Connectez-vous avec votre nouveau mot de passe.', 'success');
+    hideForgotPassword();
+  } catch (err) {
+    errEl.textContent = 'Erreur réseau: ' + err.message; errEl.style.display = 'block';
+  }
 }
 
 async function doLogin() {
@@ -1584,6 +1808,8 @@ function closeModal() {
   if (passEl) { passEl.value = ''; passEl.type = 'password'; }
   const btn = document.getElementById('pass-toggle-btn');
   if (btn) btn.textContent = '👁️';
+  // Reset forgot/reset password panels back to login view
+  hideForgotPassword();
 }
 
 // ============================================================
@@ -2420,6 +2646,7 @@ function renderAdminPanel(panel) {
   if (panel === 'schedules') renderSchedule('admin-schedule-grid', null);
   if (panel === 'messages') renderMessages('admin');
   if (panel === 'activity') renderAdminActivity();
+  if (panel === 'account') { /* static form, nothing to load */ }
   updateAdminBadges();
 }
 

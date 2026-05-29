@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="shieldFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#112240"/>
+      <stop offset="100%" stop-color="#081420"/>
+    </linearGradient>
+    <linearGradient id="goldShine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f0d070"/>
+      <stop offset="50%" stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#a8882a"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ═══ SHIELD BODY ═══ -->
+  <!-- Outer shield shadow/depth layer -->
+  <path d="M60,4 L108,18 L108,65 Q108,99 60,118 Q12,99 12,65 L12,18 Z"
+        fill="#050e1a" opacity="0.6" transform="translate(1,2)"/>
+  <!-- Main shield fill -->
+  <path d="M60,4 L108,18 L108,65 Q108,99 60,118 Q12,99 12,65 L12,18 Z"
+        fill="url(#shieldFill)"/>
+  <!-- Main shield border (gold) -->
+  <path d="M60,4 L108,18 L108,65 Q108,99 60,118 Q12,99 12,65 L12,18 Z"
+        fill="none" stroke="url(#goldShine)" stroke-width="2.5"/>
+
+  <!-- ═══ INNER DECORATIVE BORDER ═══ -->
+  <path d="M60,12 L100,24 L100,65 Q100,94 60,110 Q20,94 20,65 L20,24 Z"
+        fill="none" stroke="rgba(201,168,76,0.28)" stroke-width="1"/>
+
+  <!-- ═══ TOP SECTION: Heraldic cross ═══ -->
+  <!-- Horizontal crossbar -->
+  <line x1="20" y1="60" x2="100" y2="60"
+        stroke="rgba(201,168,76,0.38)" stroke-width="1.8"/>
+  <!-- Top-center decorative diamond -->
+  <polygon points="60,13 64,17 60,21 56,17"
+           fill="rgba(201,168,76,0.55)" stroke="none"/>
+
+  <!-- ═══ OPEN BOOK (upper quadrant) ═══ -->
+  <!-- Left page -->
+  <path d="M37,28 L58,23 L58,52 L37,54 Z"
+        fill="rgba(201,168,76,0.07)" stroke="#c9a84c" stroke-width="1.3" opacity="0.7"/>
+  <!-- Right page -->
+  <path d="M58,23 L83,28 L83,54 L58,52 Z"
+        fill="rgba(201,168,76,0.07)" stroke="#c9a84c" stroke-width="1.3" opacity="0.7"/>
+  <!-- Book spine center line -->
+  <line x1="58" y1="23" x2="58" y2="52"
+        stroke="#c9a84c" stroke-width="1.8" opacity="0.75"/>
+  <!-- Text lines — left page -->
+  <line x1="40" y1="33" x2="55" y2="30" stroke="#c9a84c" stroke-width="0.85" opacity="0.42"/>
+  <line x1="40" y1="38" x2="55" y2="36" stroke="#c9a84c" stroke-width="0.85" opacity="0.42"/>
+  <line x1="40" y1="43" x2="55" y2="41" stroke="#c9a84c" stroke-width="0.85" opacity="0.42"/>
+  <!-- Text lines — right page -->
+  <line x1="61" y1="30" x2="80" y2="33" stroke="#c9a84c" stroke-width="0.85" opacity="0.42"/>
+  <line x1="61" y1="36" x2="80" y2="38" stroke="#c9a84c" stroke-width="0.85" opacity="0.42"/>
+  <line x1="61" y1="41" x2="80" y2="43" stroke="#c9a84c" stroke-width="0.85" opacity="0.42"/>
+
+  <!-- ═══ LOWER SECTION: UPH Monogram ═══ -->
+  <!-- UPH bold serif text -->
+  <text x="60" y="93"
+        text-anchor="middle"
+        font-family="Georgia,'Times New Roman',serif"
+        font-size="29" font-weight="700"
+        fill="url(#goldShine)" letter-spacing="3.5">UPH</text>
+
+  <!-- Thin separator line -->
+  <line x1="27" y1="100" x2="93" y2="100"
+        stroke="rgba(201,168,76,0.45)" stroke-width="1"/>
+
+  <!-- HAÏTI label -->
+  <text x="60" y="111"
+        text-anchor="middle"
+        font-family="Arial,Helvetica,sans-serif"
+        font-size="7.5" font-weight="600"
+        fill="#c9a84c" letter-spacing="3.5" opacity="0.75">HAÏTI</text>
+
+  <!-- ═══ CORNER ORNAMENTS ═══ -->
+  <!-- Top-left small diamond -->
+  <polygon points="24,20 27,23 24,26 21,23" fill="#c9a84c" opacity="0.35"/>
+  <!-- Top-right small diamond -->
+  <polygon points="96,20 99,23 96,26 93,23" fill="#c9a84c" opacity="0.35"/>
+</svg>

@@ -158,6 +158,20 @@ CREATE TABLE IF NOT EXISTS messages (
 );
 
 -- ------------------------------------------------------------
+-- PASSWORD RESETS
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS password_resets (
+  id         INT AUTO_INCREMENT PRIMARY KEY,
+  user_id    INT          NOT NULL,
+  email      VARCHAR(150) NOT NULL,
+  code       VARCHAR(10)  NOT NULL,
+  expires_at TIMESTAMP    NOT NULL,
+  used       BOOLEAN      DEFAULT FALSE,
+  created_at TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- ------------------------------------------------------------
 -- NOTIFICATIONS
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS notifications (
